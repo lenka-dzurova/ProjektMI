@@ -1,0 +1,360 @@
+html, body{
+    width: 100%;
+    overflow-x:hidden; 
+    }
+
+#navigacia {
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    border-color: rgba(0, 0, 0, 0.5);
+    background-color: #2b3a64;
+    width: 100%;
+}
+
+
+
+/* Média query pre menšie obrazovky */
+@media screen and (max-width: 768px) {
+
+
+
+    li:last-child {
+        margin-left: 0; /* Zrušenie automatického posúvania doprava pre užívateľa */
+    }
+
+    li a {
+        padding: 10px 0; /* Zmenšenie paddingu pre menšie obrazovky */
+        font-size: 16px; /* Zmenšenie veľkosti textu */
+    }
+
+    li img {
+        width: 50px; /* Zmenšenie veľkosti loga */
+    }
+
+    li a img {
+        width: 200px; /* Zmenšenie veľkosti ikony používateľa */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    li {
+        margin-bottom: 10px; /* Medzery medzi prvkami */
+        width: 100%; /* Prvky sa natiahnu na celú šírku */
+        justify-content: center; /* Zarovnanie textu na stred */
+    }
+
+    li a {
+        font-size: 14px; /* Ešte menšie texty pre mobilné zariadenia */
+    }
+
+    li img {
+        width: 30px; /* Ďalšie zmenšenie loga */
+    }
+
+    li a img {
+        width: 150px; /* Menšia ikona pre užívateľa */
+    }
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2b3a64;
+    width: 100%;
+}
+
+.logoUniza {
+    margin-left: 2%;
+}
+
+li {
+    display: flex;
+    align-items: center;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.custom-btn-container button {
+    background-color: white;
+    border-color: white;
+}
+
+.custom-btn-container button:hover {
+    background-color: #d3cfcf;
+    border-color: #d3cfcf;
+}
+
+li img {
+    vertical-align: middle;
+}
+
+.dropdown {
+    margin-left: auto; /* Posunie dropdown na pravú stranu */
+    position: relative; /* Nastavenie pozície pre obsah dropdownu */
+    display: inline-block;
+    margin-right: 5%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; /* Zarovná obsah dropdownu na ľavú stranu ikony používateľa */
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block; /* Zobrazenie obsahu pri hover */
+}
+
+
+
+    .nav-link{
+    color: #fff;
+    }
+    
+    
+    h1 {
+    color: #fff;
+    font-size: 40px;
+    position: relative;
+    }
+    
+    h1::before{
+    content: "";
+    border: 1px solid #fff;
+    height: 2px;
+    width: 40px;
+    position: absolute;
+    bottom: -10px; 
+    }
+
+.checkbox-container {
+    position: absolute;
+    top: 10px; /* Umiestni checkbox 10px od vrcholu kontajnera */
+    left: 10px; /* Umiestni checkbox 10px od ľavého okraja kontajnera */
+    z-index: 10; /* Zabezpečí, že checkbox bude nad ostatnými prvkami */
+}
+
+.product-btn {
+    background-color: #f5f5f5; /* Zmena farby pozadia */
+    padding: 10px; /* Priestor okolo tlačidiel */
+    border-radius: 8px; /* Zaoblené rohy */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Jemný tieň */
+    border-color: #f5f5f5;
+}
+
+.product-btn:hover {
+    background-color: #afabab; /* Zmena farby pozadia */
+
+}
+
+.product-btn:active {
+    background-color: #afabab; /* Zmena farby pozadia */
+
+}
+
+.product-btn:disabled {
+    background-color: #afabab; /* Zmena farby pozadia */
+
+}
+
+
+.custom-icon {
+    color: #ffffff; /* Zmení farbu ikon na bielu */
+    font-size: 1.5rem; /* Ak chceš zväčšiť veľkosť ikon */
+}
+
+.custom-btn-container i {
+    color: black;
+    font-size: 1.5rem;
+}
+
+/*#addProductBtn .custom-icon {*/
+/*    color: black; !* Farba ikony pre pridať produkt (zelená) *!*/
+/*}*/
+
+#deleteSelectedBtn {
+    margin-left: 10px;
+}
+
+
+    
+    .product-container {
+        border: none;
+        transition: border 0.3s ease;
+    }
+    
+    /* Pri hover nad divom sa zobrazí border */
+    .product-container:hover {
+        height: calc(100% - 35px);
+        margin: 5px 0;
+        display: flex;
+        padding: 10px 10px 15px;
+        position: relative;
+        background: #ffffff;
+        align-items: center;
+        border-radius: 4px;
+        border: 1px solid #696767;  /*Čierny rámček, môžeš zmeniť farbu podľa potreby */
+    }
+    
+    /* Štandardný vzhľad všetkých odkazov bez podčiarknutia */
+    a:hover {
+        text-decoration: none;
+    }
+    
+    /* Pri hover nad odkazom sa aplikuje podčiarknutie iba na H4 */
+    a:hover h4 {
+        text-decoration: underline;
+    }
+    
+    
+    
+    .napis{
+    color: black;
+    font-size: 40px;
+    position: relative;
+    }
+    
+    .napis::before{
+    content: "";
+    border: 1px solid gray;
+    height: 2px;
+    width: 40px;
+    position: absolute;
+    bottom: -20px; 
+    text-decoration: underline;
+    }
+    
+    h4{
+        color: #080000; 
+    }
+    
+    h6{
+    position: relative;
+    left: 70px; 
+    }
+    
+    .obrazky{
+    border-radius: 5px;
+    }
+    
+    .nadpis{
+    margin-top: 25px;
+    }
+    
+    
+    h5{
+    color: gray;
+    font-size: 15px;
+    }
+    
+    
+    .big-img{
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    padding-top: 60%;
+    position: relative;
+    }
+    
+    .big-img img{
+    display: block;
+    width: 100%;
+    object-fit: cover !important;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border-radius: 5px;
+    }
+
+.product-container a {
+    color: #000; /* Zmeň farbu textu podľa potreby */
+    text-decoration: none; /* Odstráni podčiarknutie */
+}
+
+.product-container h5 {
+    color: gray; /* Zmeň farbu textu podľa potreby */
+    text-decoration: none; /* Odstráni podčiarknutie */
+    font-size: 16px;
+}
+
+
+#productForm {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+#imagePreview {
+    margin-top: 10px;
+}
+
+    .menu {
+        display: flex;
+        justify-content: center; /* Horizontálne vycentrovanie */
+        align-items: center; /* Vertikálne vycentrovanie */
+    }
+
+    .menu .col-md-6 {
+        text-align: center; /* Vycentrovanie textu v stĺpci */
+    }
+
+    
+    footer{
+    background-color: #2b3a64;
+    }
+    
+    .peticka-ciara h5::before{
+    content: "";
+    border: 1px solid #6c757d;
+    height: 2px;
+    width: 170px;
+    position: absolute;
+    bottom: 45px;
+    }
+    
+    .peticka h5{
+    color: #fff;
+    }
+    
+    .peticka-ciara a::before{
+    content: "";
+    border: 1px solid #6c757d;
+    height: 2px;
+    width: 170px;
+    position: absolute;
+    bottom: 42px;
+    }
+    
+    .peticka a{
+    color: #fff;
+    }
+    
+    
+    
+    

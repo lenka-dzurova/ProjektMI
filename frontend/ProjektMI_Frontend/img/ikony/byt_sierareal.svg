@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="46" height="58" viewBox="0 0 46 58">
+  <g id="_064-building" data-name="064-building" transform="translate(-9 -3)">
+    <path id="Path_67" data-name="Path 67" d="M54,3H10A1,1,0,0,0,9,4V8a1,1,0,0,0,1,1h1V60a1,1,0,0,0,1,1H52a1,1,0,0,0,1-1V9h1a1,1,0,0,0,1-1V4A1,1,0,0,0,54,3ZM31,59H25V45h6Zm2,0V45h6V59Zm18,0H41V44a1,1,0,0,0-1-1H24a1,1,0,0,0-1,1V59H13V9H51ZM53,7H11V5H53Z" fill="#fff"/>
+    <path id="Path_68" data-name="Path 68" d="M16,25h8a1,1,0,0,0,1-1V12a1,1,0,0,0-1-1H16a1,1,0,0,0-1,1V24A1,1,0,0,0,16,25Zm7-2H17V21h6Zm0-4H21V13h2Zm-6-6h2v6H17Z" fill="#fff"/>
+    <path id="Path_69" data-name="Path 69" d="M28,25h8a1,1,0,0,0,1-1V12a1,1,0,0,0-1-1H28a1,1,0,0,0-1,1V24A1,1,0,0,0,28,25Zm7-2H29V21h6Zm0-4H33V13h2Zm-6-6h2v6H29Z" fill="#fff"/>
+    <path id="Path_70" data-name="Path 70" d="M40,25h8a1,1,0,0,0,1-1V12a1,1,0,0,0-1-1H40a1,1,0,0,0-1,1V24A1,1,0,0,0,40,25Zm7-2H41V21h6Zm0-4H45V13h2Zm-6-6h2v6H41Z" fill="#fff"/>
+    <path id="Path_71" data-name="Path 71" d="M16,41h8a1,1,0,0,0,1-1V28a1,1,0,0,0-1-1H16a1,1,0,0,0-1,1V40A1,1,0,0,0,16,41Zm7-2H17V37h6Zm0-4H21V29h2Zm-6-6h2v6H17Z" fill="#fff"/>
+    <path id="Path_72" data-name="Path 72" d="M28,41h8a1,1,0,0,0,1-1V28a1,1,0,0,0-1-1H28a1,1,0,0,0-1,1V40A1,1,0,0,0,28,41Zm7-2H29V37h6Zm0-4H33V29h2Zm-6-6h2v6H29Z" fill="#fff"/>
+    <path id="Path_73" data-name="Path 73" d="M40,41h8a1,1,0,0,0,1-1V28a1,1,0,0,0-1-1H40a1,1,0,0,0-1,1V40A1,1,0,0,0,40,41Zm7-2H41V37h6Zm0-4H45V29h2Zm-6-6h2v6H41Z" fill="#fff"/>
+  </g>
+</svg>
