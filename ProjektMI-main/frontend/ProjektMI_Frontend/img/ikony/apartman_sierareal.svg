@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="58" viewBox="0 0 56 58">
+  <g id="_005-apartment" data-name="005-apartment" transform="translate(-4 -3)">
+    <path id="Path_57" data-name="Path 57" d="M59,9H46V4a1,1,0,0,0-1-1H19a1,1,0,0,0-1,1V9H5a1,1,0,0,0-1,1V60a1,1,0,0,0,1,1H59a1,1,0,0,0,1-1V10A1,1,0,0,0,59,9ZM18,59H6V11H18Zm10,0H24V49h4Zm6,0H30V49h4Zm6,0H36V49h4Zm4,0H42V48a1,1,0,0,0-1-1H23a1,1,0,0,0-1,1V59H20V5H44Zm14,0H46V11H58Z" fill="#fff"/>
+    <path id="Path_58" data-name="Path 58" d="M49,57h6a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H49a1,1,0,0,0-1,1V56A1,1,0,0,0,49,57Zm1-42h4v4H50Zm0,6h4v4H50Zm0,6h4v4H50Zm0,6h4v4H50Zm0,6h4v4H50Zm0,6h4v4H50Zm0,6h4v4H50Z" fill="#fff"/>
+    <path id="Path_59" data-name="Path 59" d="M9,57h6a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1H9a1,1,0,0,0-1,1V56A1,1,0,0,0,9,57Zm1-42h4v4H10Zm0,6h4v4H10Zm0,6h4v4H10Zm0,6h4v4H10Zm0,6h4v4H10Zm0,6h4v4H10Zm0,6h4v4H10Z" fill="#fff"/>
+    <path id="Path_60" data-name="Path 60" d="M23,15H41a1,1,0,0,0,1-1V8a1,1,0,0,0-1-1H23a1,1,0,0,0-1,1v6A1,1,0,0,0,23,15ZM36,9h4v4H36ZM30,9h4v4H30ZM24,9h4v4H24Z" fill="#fff"/>
+    <path id="Path_61" data-name="Path 61" d="M23,25H41a1,1,0,0,0,1-1V18a1,1,0,0,0-1-1H23a1,1,0,0,0-1,1v6A1,1,0,0,0,23,25Zm13-6h4v4H36Zm-6,0h4v4H30Zm-6,0h4v4H24Z" fill="#fff"/>
+    <path id="Path_62" data-name="Path 62" d="M23,35H41a1,1,0,0,0,1-1V28a1,1,0,0,0-1-1H23a1,1,0,0,0-1,1v6A1,1,0,0,0,23,35Zm13-6h4v4H36Zm-6,0h4v4H30Zm-6,0h4v4H24Z" fill="#fff"/>
+    <path id="Path_63" data-name="Path 63" d="M23,45H41a1,1,0,0,0,1-1V38a1,1,0,0,0-1-1H23a1,1,0,0,0-1,1v6A1,1,0,0,0,23,45Zm13-6h4v4H36Zm-6,0h4v4H30Zm-6,0h4v4H24Z" fill="#fff"/>
+  </g>
+</svg>

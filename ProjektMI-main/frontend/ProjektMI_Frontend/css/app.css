@@ -1,0 +1,142 @@
+html, body{
+width: 100%;
+overflow-x:hidden; 
+}
+
+.nav-link{
+color: #fff;
+}
+
+#navigacia .container {
+    display: flex;
+    justify-content: flex-start; /* Posunie logo doľava */
+    margin-left: 0px;
+}
+
+.navbar-brand {
+    margin-right: auto; /* Ak chceš, aby sa ostatné prvky posunuli doprava */
+}
+
+#button{
+background-color: #343a40;
+border-radius: 5px;
+padding: 10px;
+border-color: #343a40;
+flex-direction: column;
+}
+
+#baner{
+	position: relative;
+	min-height: 100vh;
+	background-image: url("../img/uniza.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+#baner::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4); /* Čierna farba s 50% nepriehľadnosťou */
+	z-index: 1;
+}
+
+h1 {
+color: #fff;
+font-size: 40px;
+position: relative;
+}
+
+h1::before{
+content: "";
+border: 1px solid #fff;
+height: 2px;
+width: 40px;
+position: absolute;
+bottom: -10px; 
+}
+
+#login h3, #registration h3 {
+	text-align: center;
+}
+
+#login, #registration {
+	background-color: #ffffff88;
+	border-radius: 5px;
+	padding: 10px;
+	flex-direction: column;
+}
+
+
+.inputLogin input, .inputRegistration input {
+	height: 35px;
+	border-radius: 5px;
+	min-width: 100%;
+}
+
+.box {
+	position: relative;
+	z-index: 2; /* Vyšší z-index, aby box bol nad prekrytím */
+	background-color: white; /* Jasné pozadie boxu */
+	color: black; /* Kontrastný text */
+	padding: 20px;
+	box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Jemný tieň pre zvýraznenie */
+	border-radius: 8px; /* Zaoblené okraje pre lepší vzhľad */
+}
+
+.button input {
+	background-color: #343a40;
+	border-color: #343a40;
+	color: #fff;
+	height: 35px;
+	border-radius: 5px;
+	min-width: 100%;
+}
+
+label {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+#toast-container {
+	top: 10% !important;
+	left: 61% !important;
+	transform: translate(-50%, -50%) !important; /* Na centrovanie */
+	margin: 0 auto;
+}
+
+/* CSS pre načítavací spinner */
+#loading-spinner {
+	margin-top: 10px; /* Pridaj medzeru medzi tlačidlom a spinnerom */
+	width: 30px; /* Nastav šírku spinnera */
+	height: 30px; /* Nastav výšku spinnera */
+	border: 4px solid rgba(0, 0, 0, 0.1);
+	border-top: 4px solid #3498db; /* Farba spinnera */
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+	display: none; /* Skryť spinner pred zobrazením */
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+#error-image {
+	width: 30px;
+	height: 30px;
+}
+
+.error-message {
+	color: red;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+input.invalid {
+	border-color: red;
+}
+

@@ -1,0 +1,1 @@
+git commit -m "Presunula som backend a frontend do jedného repozitára"

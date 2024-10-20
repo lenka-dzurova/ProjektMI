@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potvrdenie registrácie</title>
+    <script>
+        window.onload = function() {
+            // Získaj parameter z URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const status = urlParams.get('status');
+
+            const messageElement = document.getElementById("message");
+            if (status === "success") {
+                messageElement.innerText = "Účet bol úspešne aktivovaný!";
+            } else {
+                messageElement.innerText = "Nastala chyba pri aktivácii účtu.";
+            }
+
+            // Zatvor stránku po 5 sekundách
+            setTimeout(function() {
+                window.close(); // Toto zatvorí okno, ak je otvorené priamo
+            }, 5000);
+        };
+    </script>
+</head>
+<body>
+<h1>Overenie používateľa</h1>
+<p id="message"></p>
+</body>
+</html>
