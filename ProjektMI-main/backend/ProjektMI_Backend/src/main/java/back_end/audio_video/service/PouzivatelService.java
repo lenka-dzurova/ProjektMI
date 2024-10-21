@@ -20,6 +20,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.net.URI;
 import java.util.Optional;
@@ -46,6 +48,8 @@ public class PouzivatelService {
 
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private SpringTemplateEngine templateEngine;
 
 
     public Boolean pouzivatelExistuje(String email) {
@@ -59,8 +63,8 @@ public class PouzivatelService {
         if (pouzivatelDatabaza.isPresent() || docasnyPouzivatelDatabaza.isPresent()) {
             return false;
         } else {
-
-            if (pouzivatel.getEmail().contains("uniza.sk")) {
+                //TODO ODKOMENTUJ
+//            if (pouzivatel.getEmail().contains("uniza.sk")) {
                 DocasnyPouzivatel docasnyPouzivatel = new DocasnyPouzivatel();
                 docasnyPouzivatel.setMeno(pouzivatel.getMeno());
                 docasnyPouzivatel.setPriezvisko(pouzivatel.getPriezvisko());
@@ -80,13 +84,17 @@ public class PouzivatelService {
                 verificationTokenRepository.save(verificationToken);
 
                 String verificationURL = "http://localhost:8080/verify?token=" + token;
-                String htmlContent = this.vratObsahEmailu(docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
 
-                emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie", htmlContent);
+            System.out.println(verificationURL);
+//                String htmlContent = this.vratObsahEmailu(docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
+//
+//                emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie", htmlContent);
+                emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie",
+                        docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
                 return true;
-            } else {
-                return false;
-            }
+//            } else {
+//                return false;
+//            }
         }
     }
 
@@ -141,8 +149,11 @@ public class PouzivatelService {
             verificationTokenRepository.delete(verificationToken);
             docasnyPouzivatelRepository.delete(docasnyPouzivatel);
 
-            //TODO sem sa vrat po overeni registrovania spravit presmerovanie daj to asi ako properities
-            return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(htmlResponse());
+
+
+            String htmlContent = templateEngine.process("email-confirmation", new Context());
+            //TODO potom to asi daj ako ModelAndView
+            return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(htmlContent);
         }
 
         return ResponseEntity.badRequest().body("Neplatný overovací kód.");
@@ -209,8 +220,8 @@ public class PouzivatelService {
                 String token = verificationToken.getToken();
                 String verificationURL = "http://localhost:8080/verify?token=" + token;
                 String htmlContent = this.vratObsahEmailu(docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
-
-                emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie", htmlContent);
+                    //TODO POTOM ODKOMENTUJ
+//                emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie", htmlContent);
                 return ResponseEntity.ok("E-mail na potvrdenie bol odoslaný.");
             } else {
                 String newToken = UUID.randomUUID().toString();
@@ -219,8 +230,8 @@ public class PouzivatelService {
 
                 String verificationURL = "http://localhost:8080/verify?token=" + newToken;  // TODO toto asi zmen aby http://localhost:8080/ vedeli zmenit v properities
                 String htmlContent = this.vratObsahEmailu(docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
-
-                emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie", htmlContent);
+                //TODO POTOM ODKOMENTUJ
+//                emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie", htmlContent);
 
                 return ResponseEntity.ok("E-mail na potvrdenie bol odoslaný s novým tokenom.");
             }

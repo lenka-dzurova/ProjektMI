@@ -87,8 +87,14 @@
 			<scope>runtime</scope>
 		</dependency>
 
-	</dependencies>
 
+
+		<!-- Thymeleaf TODO potom ak tak odstran-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
