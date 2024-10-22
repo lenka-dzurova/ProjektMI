@@ -63,8 +63,7 @@ public class PouzivatelService {
         if (pouzivatelDatabaza.isPresent() || docasnyPouzivatelDatabaza.isPresent()) {
             return false;
         } else {
-                //TODO ODKOMENTUJ
-//            if (pouzivatel.getEmail().contains("uniza.sk")) {
+            if (pouzivatel.getEmail().contains("uniza.sk")) {
                 DocasnyPouzivatel docasnyPouzivatel = new DocasnyPouzivatel();
                 docasnyPouzivatel.setMeno(pouzivatel.getMeno());
                 docasnyPouzivatel.setPriezvisko(pouzivatel.getPriezvisko());
@@ -92,9 +91,9 @@ public class PouzivatelService {
                 emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie",
                         docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
                 return true;
-//            } else {
-//                return false;
-//            }
+            } else {
+                return false;
+            }
         }
     }
 
@@ -157,32 +156,6 @@ public class PouzivatelService {
         }
 
         return ResponseEntity.badRequest().body("Neplatný overovací kód.");
-    }
-
-    public String htmlResponse() {
-        return "<html>"
-                + "<head>"
-                + "<meta charset='UTF-8'>"
-                + "<title>Registrácia potvrdená</title>"
-                + "<script>"
-                + "let countdown = 5; "
-                + "function updateCountdown() { "
-                + "    document.getElementById('countdown').innerText = 'Za ' + countdown + ' sekúnd sa stránka automaticky zatvorí.'; "
-                + "    if (countdown > 0) { "
-                + "        countdown--; "
-                + "        setTimeout(updateCountdown, 1000); "
-                + "    } else { "
-                + "        window.close(); "
-                + "    } "
-                + "} "
-                + "window.onload = updateCountdown; "
-                + "</script>"
-                + "</head>"
-                + "<body>"
-                + "<h1>Registrácia bola úspešne potvrdená!</h1>"
-                + "<p id='countdown'>Za 5 sekúnd sa stránka automaticky zatvorí.</p>"
-                + "</body>"
-                + "</html>";
     }
 
     public PouzivatelDetails loginPouzivatel(LoginRequest loginRequest) {

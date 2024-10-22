@@ -1,6 +1,6 @@
 import {fetchUser} from "./helpers.js";
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
     fetchUser().then(response => {
         console.log("User outside async function (from global variable):", response);
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     // Keď kliknete na "AUDIO TECHNOLÓGIE"
     const heading = document.getElementById("section-heading");
-    document.getElementById('audioLink').addEventListener('click', function(e) {
+    document.getElementById('audioLink').addEventListener('click', function (e) {
         e.preventDefault(); // Zamedzíme default akcii odkazu
         document.getElementById('audioSection').style.display = 'block'; // Zobrazíme audio sekciu
         document.getElementById('videoSection').style.display = 'none';// Skryjeme video sekciu
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Keď kliknete na "VIDEO TECHNOLÓGIE"
-    document.getElementById('videoLink').addEventListener('click', function(e) {
+    document.getElementById('videoLink').addEventListener('click', function (e) {
         e.preventDefault();
         document.getElementById('videoSection').style.display = 'block'; // Zobrazíme video sekciu
         document.getElementById('audioSection').style.display = 'none';  // Skryjeme audio sekciu
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     document.getElementById("logout").addEventListener("click", () => {
-        axios.post('http://localhost:8080/odhlasenie', null, { withCredentials: true })
+        axios.post('http://localhost:8080/odhlasenie', null, {withCredentials: true})
             .then(res => {
                 if (res.status === 200) {
                     window.location.href = "index.html";
@@ -37,13 +37,12 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-
     // Zobrazenie náhľadu obrázka
-    document.getElementById("productImage").addEventListener("change", function(event) {
+    document.getElementById("productImage").addEventListener("change", function (event) {
         var file = event.target.files[0];
         var reader = new FileReader();
 
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             var imagePreview = document.getElementById("imagePreview");
             var clearImageBtn = document.getElementById("clearImageBtn");
 
@@ -57,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    document.getElementById("clearImageBtn").addEventListener("click", function(event) {
+    document.getElementById("clearImageBtn").addEventListener("click", function (event) {
         event.preventDefault();
         var imagePreview = document.getElementById("imagePreview");
         var productImageInput = document.getElementById("productImage");
@@ -71,8 +70,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Resetovať vstup pre obrázok
         productImageInput.value = "";
     });
-
-
 
 
     document.getElementById("saveProductBtn").addEventListener("click", function () {
@@ -192,6 +189,7 @@ function displayVideoProducts(products) {
         productRow.appendChild(col);
     });
 }
+
 // Volanie funkcie na načítanie produktov po načítaní stránky
 document.addEventListener('DOMContentLoaded', fetchProducts);
 
@@ -230,30 +228,8 @@ document.getElementById('deleteSelectedBtn').addEventListener('click', () => {
                         console.error('Chyba pri mazaní produktu s ID:', produktId);
                     }
                 }).catch(error => {
-                        console.error('Chyba pri pripojení k serveru alebo mazaní produktu:', error);
-                    });
-
-
-            //TODO Spytaj sa Lenky ci odstranit alebo nechat lebo to riesie DELETE API VYSSIE
-            /*vybraneProdukty.forEach(produktId => {
-                axios.delete(`http://localhost:8080/produkt/delete/${produktId}`, {withCredentials: true})
-                    .then(response => {
-                        console.info(response);
-                        if (response.status === 200) {
-                            //             location.reload();
-                            //         } else {
-                            //             console.error('Chyba pri mazaní produktu s ID:', produktId);
-                            //         }
-                    })
-                    .catch(error => {
-                        console.error('Chyba pri pripojení k serveru alebo mazaní produktu:', error);
-                    });
+                console.error('Chyba pri pripojení k serveru alebo mazaní produktu:', error);
             });
-            location.reload(); // Obnoví stránku po vymazaní*/
-            // vybraneProdukty = [];
-        } else {
-            // Ak používateľ klikol na "Cancel", len zatvorí okno a nič sa nestane
-            console.log('Mazanie produktov bolo zrušené.');
         }
     } else {
         alert('Nie sú vybrané žiadne produkty na vymazanie.');

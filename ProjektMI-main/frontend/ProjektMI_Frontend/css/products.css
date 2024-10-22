@@ -302,6 +302,11 @@ li img {
     font-size: 16px;
 }
 
+#productInfo {
+    resize: none;
+    height: 5rem;
+}
+
 
 #productForm {
     border: 1px solid #ccc;
