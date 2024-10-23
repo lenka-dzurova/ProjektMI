@@ -93,7 +93,7 @@ public class PouzivatelController {
     }
 
 
-    @GetMapping("/pouzivatel-udaje")
+    @GetMapping("/pouzivatel-udaje")yxyxc
     public ResponseEntity<PouzivatelResponse> vratPouzivatelUdaje(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         String token = null;
