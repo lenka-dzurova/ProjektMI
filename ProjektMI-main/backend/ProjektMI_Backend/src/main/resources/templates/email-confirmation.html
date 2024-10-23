@@ -6,7 +6,7 @@
     <script>
         let countdown = 5;
         function updateCountdown() {
-            document.getElementById('countdown').innerText = 'Za ' + countdown + ' sekúnd sa stránka automaticky zatvorí.';
+            document.getElementById('countdown').innerText = 'Táto stránka sa automaticky zatvorí za ' + countdown + ' sekúnd.';
             if (countdown > 0) {
                 countdown--;
                 setTimeout(updateCountdown, 1000);
@@ -16,9 +16,84 @@
         }
         window.onload = updateCountdown;
     </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #e3f2fd, #bbdefb)
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 450px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1976d2;
+            font-size: 26px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        #countdown {
+            font-weight: bold;
+            color: #d32f2f;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            #countdown {
+                font-size: 18px;
+            }
+        }
+
+    </style>
+
 </head>
 <body>
-<h1>Registrácia bola úspešne potvrdená!</h1>
-<p id="countdown">Za 5 sekúnd sa stránka automaticky zatvorí.</p>
+<div class="container">
+    <h1>Vaša registrácia bola úspešne potvrdená!</h1>
+    <p>Ďakujeme za potvrdenie vášho účtu. Teraz môžete plne využívať všetky naše služby.</p>
+    <p id="countdown">Táto stránka sa automaticky zatvorí za 5 sekúnd.</p>
+</div>
 </body>
 </html>
+
