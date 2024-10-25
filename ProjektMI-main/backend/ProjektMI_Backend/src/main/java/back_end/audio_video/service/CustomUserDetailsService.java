@@ -4,7 +4,6 @@ import back_end.audio_video.details.PouzivatelDetails;
 import back_end.audio_video.entity.Pouzivatel;
 import back_end.audio_video.repository.PouzivatelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

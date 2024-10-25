@@ -25,8 +25,7 @@ public class ProduktController {
 
     @PostMapping("/pridat")
     public ResponseEntity<?> pridajProdukt(@RequestParam String id, @RequestParam String nazov, @RequestParam String popis,
-                                           @RequestParam MultipartFile obrazok, @RequestParam String typTechniky,
-                                           @RequestParam Integer pocetKusov) {
+                                           @RequestParam MultipartFile obrazok, @RequestParam String typTechniky){
 
         if (!produktService.obsahujeProdukt(id)) {
             try {
@@ -35,12 +34,11 @@ public class ProduktController {
                 if (!id.isEmpty()) {
                     newProdukt.setId(id);
                 } else {
-                    newProdukt.setId(UUID.randomUUID().toString()); // ZMEN AK NEBUDU CHCIET UUID
+                    newProdukt.setId(UUID.randomUUID().toString());
                 }
                 newProdukt.setNazov(nazov);
                 newProdukt.setPopis(popis);
                 newProdukt.setTypTechniky(typTechniky);
-                newProdukt.setPocetKusov(pocetKusov);
                 newProdukt.setObrazok(obrazok.getBytes());
 
                 produktService.pridajProdukt(newProdukt);
@@ -70,7 +68,6 @@ public class ProduktController {
     }
 
 
-    //TODO spytaj sa Lenky ci to odstranime alebo nahame lebo riesi to uz iny enpoint
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> odstranProdukt(@PathVariable String id) {
         produktService.odstranProdukt(id);
@@ -86,7 +83,6 @@ public class ProduktController {
             if (pocetOdstranenych == 0) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Žiadny produkt nebol nájdený na vymazanie.");
             }
-
             return ResponseEntity.ok("Produkty boli úspešne vymazané.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Nastala chyba pri odstraňovaní produktov.");

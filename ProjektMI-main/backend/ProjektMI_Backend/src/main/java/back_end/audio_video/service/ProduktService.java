@@ -57,7 +57,6 @@ public class ProduktService {
             existujuciProdukt.setNazov(novyProdukt.getNazov());
             existujuciProdukt.setPopis(novyProdukt.getPopis());
             existujuciProdukt.setTypTechniky(novyProdukt.getTypTechniky());
-            existujuciProdukt.setPocetKusov(novyProdukt.getPocetKusov());
 
             if (novyProdukt.getObrazok() != null) {
                 existujuciProdukt.setObrazok(novyProdukt.getObrazok());

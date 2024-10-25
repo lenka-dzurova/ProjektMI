@@ -1,11 +1,11 @@
 // Získanie parametrov z URL
 const params = new URLSearchParams(window.location.search);
 const productId = params.get('id');
-
+let product;
 // Príklad pomocou Axios na načítanie dát o produkte
 axios.get(`http://localhost:8080/produkt/get-produkt/${productId}`, {withCredentials: true})
     .then(response => {
-        const product = response.data;
+        product = response.data;
         // Naplnenie HTML elementov detailmi produktu
         document.querySelector('.big-img img').src = `data:image/jpeg;base64,${product.obrazok}`;
         document.querySelector('h2').textContent = product.nazov;
@@ -21,6 +21,7 @@ const prevButton = document.getElementById("prev");
 const nextButton = document.getElementById("next");
 const confirmButton = document.getElementById("confirmButton");
 const productModal = new bootstrap.Modal(document.getElementById("productModal"));
+
 
 let selectedDays = [];
 let currentMonth = new Date().getMonth();
@@ -48,14 +49,16 @@ function generateCalendar() {
         dayElement.className = "date"; // Trieda pre dátum
         dayElement.textContent = day;
 
+        const dateValue = new Date(currentYear, currentMonth, day).toISOString().split("T")[0];
+        dayElement.setAttribute("data-date", dateValue);
+
         // Ak je deň vybraný, nastavíme ho ako selected
-        const selectedDate = new Date(currentYear, currentMonth, day);
-        if (selectedDays.includes(selectedDate.toDateString())) {
+        if (selectedDays.includes(dateValue)) {
             dayElement.classList.add("selected");
         }
 
         // Pridá event listener na kliknutie na deň
-        dayElement.addEventListener("click", () => toggleSelection(selectedDate, dayElement));
+        dayElement.addEventListener("click", () => toggleSelection(new Date(currentYear, currentMonth, day), dayElement));
 
         calendarElement.appendChild(dayElement); // Pridá deň do kalendára
     }
@@ -84,60 +87,50 @@ function updateSelectedDates() {
 // Funkcia na toggle výberu
 function toggleSelection(selectedDate, element) {
     const dateString = selectedDate.toDateString();
-    if (!startDate) {
-        // Ak nie je vybraný počiatočný dátum, nastavíme ho
+
+    if (!startDate || (startDate && endDate)) {
+        // Resetuje výber a nastaví nový počiatočný dátum
+        resetSelection();
         startDate = selectedDate;
-        selectedDays.push(dateString);
         element.classList.add("start-date");
     } else if (!endDate) {
-        // Ak je vybraný počiatočný dátum, nastavíme koncový dátum
+        // Nastaví koncový dátum a vyberie rozsah
         endDate = selectedDate;
-        selectedDays.push(dateString);
         element.classList.add("end-date");
+        // Ak je počiatočný dátum po koncovom, prehodí ich
+        if (endDate < startDate) {
+            [startDate, endDate] = [endDate, startDate];
+        }
 
-        // Vyberieme všetky dni medzi počiatočným a koncovým dňom
         selectRange(startDate, endDate);
-    } else {
-        // Resetujeme výber ak sú už vybrané oba dátumy
-        resetSelection();
-        toggleSelection(selectedDate, element); // Znovu spustíme toggle pre nový počiatočný dátum
     }
 
-    updateSelectedDates();
+    updateSelectedDates(); // Aktualizácia zobrazenia dátumov
 }
 
 
 function selectRange(startDate, endDate) {
-    // Reset predchádzajúce označenia
-    resetSelection();
 
-    // Ak sú počiatočný a koncový dátum zamenené, prehodíme ich
-    if (startDate > endDate) {
-        [startDate, endDate] = [endDate, startDate];
-    }
 
     let currentDate = new Date(startDate);
     const lastDate = new Date(endDate);
 
     // Prejdeme dni medzi počiatočným a koncovým dňom, aj cez rôzne mesiace
     while (currentDate <= lastDate) {
-        const day = currentDate.getDate();
-        const month = currentDate.getMonth();
-        const year = currentDate.getFullYear();
-        const dayString = currentDate.toDateString();
-        selectedDays.push(dayString);
+        const dateString = currentDate.toISOString().split("T")[0]; // Formátovanie dátumu na YYYY-MM-DD
+        selectedDays.push(dateString);
 
-        // Nájdeme príslušný element dňa a označíme ho
-        const dayElement = document.querySelector(`.date:nth-child(${day + (new Date(year, month, 1).getDay())})`);
+        // Vyhľadanie elementu podľa data-date a označenie
+        const dayElement = document.querySelector(`.date[data-date="${dateString}"]`);
         if (dayElement) {
             dayElement.classList.add("selected");
         }
 
-        currentDate.setDate(currentDate.getDate() + 1); // Posunieme sa na ďalší deň
+        currentDate.setDate(currentDate.getDate() + 1); // Posun na ďalší deň
     }
-
     startDateElement.textContent = startDate.toLocaleDateString();
     endDateElement.textContent = endDate.toLocaleDateString();
+
 }
 
 
@@ -171,13 +164,33 @@ nextButton.addEventListener("click", () => {
 generateCalendar();
 
 confirmButton.addEventListener("click", () => {
-    console.info(selectedDays);
-    if (startDate && endDate) {
+
+    if (selectedDays.length > 1 && (startDate && endDate)) {
+        console.info(selectedDays);
         productModal.hide();
     } else {
         toastr.error('Musíte zadať dátumy od kedy do kedy');
     }
 });
+
+document.getElementById('objednat').addEventListener('click', function() {
+    let cart = JSON.parse(atob(localStorage.getItem('cart'))) || [];
+
+    // Pridáme nový produkt s dátumami do košíka
+    cart.push({
+        id: product.id,
+        nazov: product.nazov,
+        startDate: startDateElement.textContent ? startDateElement.textContent : null,
+        endDate: endDateElement.textContent ? endDateElement.textContent : null
+    });
+
+    // Uložíme aktualizovaný zoznam do localStorage
+    localStorage.setItem('cart', btoa(JSON.stringify(cart)));
+
+    alert('Produkt s vybranými dátumami bol pridaný do košíka!');
+});
+
+
 
 document.getElementById("calendarClose").addEventListener("click", () => {
     resetSelection();

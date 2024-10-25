@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ProjektMI-main.iml" filepath="$PROJECT_DIR$/.idea/ProjektMI-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/ProjektMI_Backend/audio-video.iml" filepath="$PROJECT_DIR$/backend/ProjektMI_Backend/audio-video.iml" />
     </modules>
   </component>
 </project>

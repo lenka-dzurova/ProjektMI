@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.SignatureException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
