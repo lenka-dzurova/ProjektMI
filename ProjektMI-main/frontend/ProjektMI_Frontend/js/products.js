@@ -77,13 +77,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const name = document.getElementById('productName').value;
         const info = document.getElementById('productInfo').value;
         const type = document.getElementById('productType').value;
-        const count = document.getElementById('productCount').value;
         const image = document.getElementById('productImage').files[0]; // Use .files[0] to get the first file
 
         // Validate fields
-        if (!name || !info || !type || !count || !image) {
+        if (!name || !info || !type || !image) {
             console.error("All fields must be filled out");
-            return; // Exit if validation fails
+            return;
         }
 
         // Create a FormData object
@@ -91,14 +90,13 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append('id', id);
         formData.append('nazov', name);
         formData.append('popis', info);
-        formData.append('obrazok', image); // Add the image file
+        formData.append('obrazok', image);
         formData.append('typTechniky', type);
-        formData.append('pocetKusov', count);
 
         axios.post('http://localhost:8080/produkt/pridat', formData, {
             withCredentials: true,
             headers: {
-                'Content-Type': 'multipart/form-data', // Set the correct content type for form data
+                'Content-Type': 'multipart/form-data',
             }
 
         }).then(response => {

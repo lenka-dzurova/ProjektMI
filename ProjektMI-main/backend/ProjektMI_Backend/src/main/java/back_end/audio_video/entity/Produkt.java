@@ -18,5 +18,4 @@ public class Produkt {
     @Lob
     private byte[] obrazok;
     private String typTechniky;
-    private Integer pocetKusov;
 }

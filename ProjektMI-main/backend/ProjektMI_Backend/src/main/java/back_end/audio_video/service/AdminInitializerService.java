@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminInitializer {
+public class AdminInitializerService {
     @Value("${admin.email}")
     private String email;
     @Value("${admin.heslo}")
