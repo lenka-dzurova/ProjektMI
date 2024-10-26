@@ -4,6 +4,7 @@ package back_end.audio_video.controller;
 import back_end.audio_video.component.JwtUtil;
 import back_end.audio_video.details.PouzivatelDetails;
 import back_end.audio_video.entity.Pouzivatel;
+import back_end.audio_video.entity.Produkt;
 import back_end.audio_video.request.EmailRequest;
 import back_end.audio_video.request.LoginRequest;
 import back_end.audio_video.response.PouzivatelResponse;
@@ -20,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 public class PouzivatelController {
@@ -117,4 +119,11 @@ public class PouzivatelController {
 
         return ResponseEntity.ok().body(pouzivatelResponse);
     }
+
+    @GetMapping("/get-all-users")
+    public List<Pouzivatel> getAllUsers() {
+        return pouzivatelService.vratVsetkychPouzivatelov();
+    }
+
+
 }
