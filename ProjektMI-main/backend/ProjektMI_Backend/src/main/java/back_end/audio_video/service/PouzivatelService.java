@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -231,5 +232,15 @@ public class PouzivatelService {
     }
     public List<Pouzivatel> vratVsetkychPouzivatelov() {
         return pouzivatelRepository.findAll();
+    }
+
+    public ResponseEntity<?> updateRola(UUID id, Rola rola) {
+        Optional<Pouzivatel> pouzivatel = pouzivatelRepository.findByIdPouzivatel(id);
+        if (pouzivatel.isPresent()) {
+            pouzivatel.get().setRola(rola);
+            return ResponseEntity.ok(pouzivatelRepository.save(pouzivatel.get()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

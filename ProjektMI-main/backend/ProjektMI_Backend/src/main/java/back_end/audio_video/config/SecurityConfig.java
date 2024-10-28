@@ -35,7 +35,7 @@ public class SecurityConfig {
                     registry.requestMatchers("/register/**", "/login/**", "/verify/**", "/resend-verification-email/**").permitAll();
                     registry.requestMatchers("/produkt/pridat", "/produkt/get-all", "/produkt/get-produkt/**", "/produkt/delete/**", "/produkt/update/**", "/pouzivatel-udaje").authenticated();
                     registry.requestMatchers("/produkt/delete-produkty").permitAll();
-                    registry.requestMatchers("/get-all-users").permitAll(); //TODO nech to niekto nastavi na hasRole, ked tu bude admin user.
+                    registry.requestMatchers("/get-all-users", "/update-rola").permitAll(); //TODO nech to niekto nastavi na hasRole, ked tu bude admin user.
                     registry.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> {
