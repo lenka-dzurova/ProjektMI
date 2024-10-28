@@ -174,18 +174,19 @@ confirmButton.addEventListener("click", () => {
 });
 
 document.getElementById('objednat').addEventListener('click', function() {
-    let cart = JSON.parse(atob(localStorage.getItem('cart'))) || [];
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     // Pridáme nový produkt s dátumami do košíka
     cart.push({
         id: product.id,
         nazov: product.nazov,
+        image: product.obrazok,
         startDate: startDateElement.textContent ? startDateElement.textContent : null,
         endDate: endDateElement.textContent ? endDateElement.textContent : null
     });
-
+    console.info(cart);
     // Uložíme aktualizovaný zoznam do localStorage
-    localStorage.setItem('cart', btoa(JSON.stringify(cart)));
+    localStorage.setItem('cart', JSON.stringify(cart));
 
     alert('Produkt s vybranými dátumami bol pridaný do košíka!');
 });

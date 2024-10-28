@@ -1,5 +1,5 @@
 const cartDiv = document.getElementById('cart');
-const cart = JSON.parse(atob(localStorage.getItem('cart'))) || [];
+const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 function renderCart() {
 
@@ -9,10 +9,17 @@ function renderCart() {
         cartItemDiv.classList.add("cart-item");
 
         cartItemDiv.innerHTML = `
-        <h3>${item.nazov}</h3>
-        <p>Od: ${item.startDate}</p>
-        <p>Do: ${item.endDate}</p>
-        <button class="remove-btn" data-id="${item.id}">Odstrániť</button>
+        <div class="cart-item">
+        <img src="${item.image}" alt="${item.nazov}" class="cart-item-image">
+        <div class="cart-item-details">
+            <h3 class="cart-item-title">${item.nazov}</h3>
+            <div class="cart-item-dates">
+                <p><strong>Od:</strong> ${item.startDate || 'N/A'}</p>
+                <p><strong>Do:</strong> ${item.endDate || 'N/A'}</p>
+            </div>
+            <button class="remove-btn" data-id="${item.id}">Odstrániť</button>
+        </div>
+        </div>
     `;
 
         cartDiv.appendChild(cartItemDiv);
@@ -30,7 +37,7 @@ function renderCart() {
 
 
 function removeFromCart(id) {
-    let cart = JSON.parse(atob(localStorage.getItem('cart'))) || [];
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart = cart.filter(item => item.id !== id); // Odstrániť produkt z košíka
     localStorage.setItem('cart', JSON.stringify(cart)); // Uložiť aktualizovaný košík
     renderCart();

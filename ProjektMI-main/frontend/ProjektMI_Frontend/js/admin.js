@@ -32,12 +32,15 @@ function includeHTML() {
     }
 }
 
+const userMap = new Map();
 
 function displayUsers(users) {
     const userTab = document.getElementById('userTab');
 
     users.forEach(user => {
         const col = document.createElement('tr');
+        const currentRole = user.rola || 'STUDENT';
+
         col.className = '';
         col.innerHTML = `
 <!--            // <div class="checkbox-container">-->
@@ -48,17 +51,53 @@ function displayUsers(users) {
             <td>${user.priezvisko}</td>
             <td>${user.email}</td>
             <td>${user.telCislo}</td>
-            <td>${user.telCislo}</td>
+            <td>
+                <select class="role-select" data-current-role="${currentRole}">
+                    <option value="STUDENT" ${currentRole === 'STUDENT' ? 'selected' : ''}>Študent</option>
+                    <option value="UCITEL" ${currentRole === 'UCITEL' ? 'selected' : ''}>Učiteľ</option>
+                    <option value="ADMIN" ${currentRole === 'ADMIN' ? 'selected' : ''}>Administrator</option>
+                </select>
+            </td>
             <td>${user.ulica}</td>
             <td>${user.mesto}</td>
             <td>${user.psc}</td>
           </tr>
         `;
+
+        const selectElement = col.querySelector('.role-select');
+        selectElement.addEventListener('change', () => {
+            const previousRole = selectElement.dataset.currentRole;
+            const newRole = selectElement.value
+
+            if (newRole !== previousRole) {
+                userMap.set(user.idPouzivatel, newRole);
+            }
+        });
         userTab.appendChild(col);
     });
-
-
 }
+
+function saveAllUserRoles() {
+    const changeUser = {};
+    userMap.forEach((value, key) => {
+        changeUser[key] = value;
+    })
+
+    if (Object.keys(changeUser).length > 0) {
+        axios.put('http://localhost:8080/update-rola', changeUser, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.status === 200) {
+                window.location.reload();
+            } else {
+                alert('Nepodarilo sa zmenit rolu');
+            }
+        });
+    }
+}
+
 
 async function fetchUsers() {
     try {
@@ -78,5 +117,9 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchUsers().then(response => {
         console.log("User outside async function (from global variable):", response);
         displayUsers(response);
+    });
+
+    document.getElementById('ulozit').addEventListener('click', (event) => {
+        saveAllUserRoles();
     });
 });
