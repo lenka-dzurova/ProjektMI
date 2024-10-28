@@ -3,8 +3,8 @@ package back_end.audio_video.controller;
 
 import back_end.audio_video.component.JwtUtil;
 import back_end.audio_video.details.PouzivatelDetails;
+import back_end.audio_video.details.Rola;
 import back_end.audio_video.entity.Pouzivatel;
-import back_end.audio_video.entity.Produkt;
 import back_end.audio_video.request.EmailRequest;
 import back_end.audio_video.request.LoginRequest;
 import back_end.audio_video.response.PouzivatelResponse;
@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 public class PouzivatelController {
@@ -125,5 +127,15 @@ public class PouzivatelController {
         return pouzivatelService.vratVsetkychPouzivatelov();
     }
 
-
+    @PutMapping("/update-rola")
+    public ResponseEntity<?> update(@RequestBody Map<UUID, Rola> userRoles) {
+        if (!userRoles.isEmpty()) {
+            userRoles.forEach((k, v) -> {
+                pouzivatelService.updateRola(k, v);
+            });
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 }
