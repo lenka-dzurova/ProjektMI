@@ -10,7 +10,7 @@ function renderCart() {
 
         cartItemDiv.innerHTML = `
         <div class="cart-item">
-        <img src="${item.image}" alt="${item.nazov}" class="cart-item-image">
+        <img src="data:image/jpeg;base64,${item.image}" alt="${item.nazov}" class="cart-item-image">
         <div class="cart-item-details">
             <h3 class="cart-item-title">${item.nazov}</h3>
             <div class="cart-item-dates">
