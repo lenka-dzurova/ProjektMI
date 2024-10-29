@@ -2,20 +2,14 @@ package back_end.audio_video.controller;
 
 
 import back_end.audio_video.dto.ObjednavkaDTO;
-import back_end.audio_video.dto.ObjednavkaProduktDTO;
-import back_end.audio_video.entity.Objednavka;
 import back_end.audio_video.exception.ObjednavkaNotFoundException;
+import back_end.audio_video.request.VytvorObjednavkaRequest;
 import back_end.audio_video.service.ObjednavkaService;
-import back_end.audio_video.service.PouzivatelService;
-import jakarta.persistence.GeneratedValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -25,8 +19,8 @@ public class ObjednavkaController {
     private ObjednavkaService objednavkaService;
 
     @PostMapping("/vytvor")//TODO POTOM SKUS CI SA TO NEDA CEZ REQUEST BODY
-    public ResponseEntity<ObjednavkaDTO> vytvorObjednavku(@RequestParam UUID pouzivatelId, @RequestBody List<ObjednavkaProduktDTO> objednavkaProduktyDTO) {
-        ObjednavkaDTO objednavkaDTO = objednavkaService.vytvorObjednavku(pouzivatelId, objednavkaProduktyDTO);
+    public ResponseEntity<ObjednavkaDTO> vytvorObjednavku(@RequestBody VytvorObjednavkaRequest request) {
+        ObjednavkaDTO objednavkaDTO = objednavkaService.vytvorObjednavku(request.getPouzivatelId(), request.getObjednavkaProduktyDTO());
         return ResponseEntity.status(HttpStatus.CREATED).body(objednavkaDTO);
     }
 

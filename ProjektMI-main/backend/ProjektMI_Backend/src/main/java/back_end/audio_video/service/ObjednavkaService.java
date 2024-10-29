@@ -13,8 +13,6 @@ import back_end.audio_video.repository.ObjednavkaProduktRepository;
 import back_end.audio_video.repository.ObjednavkaRepository;
 import back_end.audio_video.repository.PouzivatelRepository;
 import back_end.audio_video.repository.ProduktRepository;
-import jakarta.transaction.Transactional;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

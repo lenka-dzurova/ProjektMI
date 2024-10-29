@@ -5,7 +5,6 @@ import back_end.audio_video.details.PouzivatelDetails;
 import back_end.audio_video.details.Rola;
 import back_end.audio_video.entity.DocasnyPouzivatel;
 import back_end.audio_video.entity.Pouzivatel;
-import back_end.audio_video.entity.Produkt;
 import back_end.audio_video.entity.VerificationToken;
 import back_end.audio_video.repository.DocasnyPouzivatelRepository;
 import back_end.audio_video.repository.PouzivatelRepository;
@@ -17,15 +16,12 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
