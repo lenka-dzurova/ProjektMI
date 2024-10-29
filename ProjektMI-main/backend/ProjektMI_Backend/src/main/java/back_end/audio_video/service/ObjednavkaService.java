@@ -73,7 +73,7 @@ public class ObjednavkaService {
 
         objednavka.setObjednavkaProdukty(objednavkaProdukty);
 
-        this.emailService.poslatEmailAdministratorovi(objednavka);
+        this.emailService.sendMailAdministrator(objednavka);
 
         return objednavkaMapper.objednavkaToDTO(objednavka);
     }
@@ -85,6 +85,7 @@ public class ObjednavkaService {
             Objednavka objednavka = najdenaObjednavka.get();
             objednavka.setStavObjednavky(StavObjednavky.SCHVALENA);
             objednavkaRepository.save(objednavka);
+            emailService.zaslanieMailuSchvalenejObjednavky(objednavka);
         } else {
             throw new RuntimeException("Objednávka nenájdená.");
         }
@@ -96,7 +97,8 @@ public class ObjednavkaService {
         if (najdenaObjednavka.isPresent()) {
             Objednavka objednavka = najdenaObjednavka.get();
             objednavka.setStavObjednavky(StavObjednavky.ZAMIETNUTA);
-            objednavkaRepository.saveAndFlush(objednavka);
+            objednavkaRepository.save(objednavka);
+            emailService.zaslanieMailuZamietnutejObjednavky(objednavka);
         } else {
             throw new RuntimeException("Objednávka nenájdená.");
         }

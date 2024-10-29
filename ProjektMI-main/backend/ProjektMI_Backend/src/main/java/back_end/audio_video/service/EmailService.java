@@ -3,6 +3,7 @@ package back_end.audio_video.service;
 
 import back_end.audio_video.entity.Objednavka;
 import back_end.audio_video.entity.ObjednavkaProdukt;
+import back_end.audio_video.entity.Pouzivatel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,6 +15,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class EmailService {
@@ -27,7 +29,7 @@ public class EmailService {
     @Autowired
     private SpringTemplateEngine templateEngine;
 
-    public void sendMail(String to, String subject,String meno, String priezvisko, String verificationURL) {
+    public void sendMailVerification(String to, String subject, String meno, String priezvisko, String verificationURL) {
         Context context = new Context();
         context.setVariable("meno", meno);
         context.setVariable("priezvisko", priezvisko);
@@ -40,9 +42,9 @@ public class EmailService {
         javaMailSender.send(messagePreparator);
     }
 
-    public void poslatEmailAdministratorovi(Objednavka objednavka) {
-        String schvalitUrl = String.format("%s/objednavka/schvalit/%s", backendUrl,objednavka.getIdObjednavka());
-        String zamietnutUrl = String.format("%s/objednavka/zamietnut/%s", backendUrl,objednavka.getIdObjednavka());
+    public void sendMailAdministrator(Objednavka objednavka) {
+        String schvalitUrl = String.format("%s/objednavka/schvalit/%s", backendUrl, objednavka.getIdObjednavka());
+        String zamietnutUrl = String.format("%s/objednavka/zamietnut/%s", backendUrl, objednavka.getIdObjednavka());
 
         Context context = new Context();
         context.setVariable("idObjednavka", objednavka.getIdObjednavka().toString());
@@ -71,7 +73,6 @@ public class EmailService {
         javaMailSender.send(messagePreparator);
     }
 
-
     private MimeMessagePreparator createMail(String from, String to, String subject, String htmlContent) {
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
@@ -80,5 +81,67 @@ public class EmailService {
             messageHelper.setSubject(subject);
             messageHelper.setText(htmlContent, true);
         };
+    }
+
+    public void zaslanieMailuSchvalenejObjednavky(Objednavka objednavka) {
+        Pouzivatel pouzivatel = objednavka.getPouzivatel();
+        String email = pouzivatel.getEmail();
+        String meno= pouzivatel.getMeno();
+        String priezviko = pouzivatel.getPriezvisko();
+        UUID id = objednavka.getIdObjednavka();
+        String subject = "Schválená objednávka";
+
+        List<String> obsahObjednavky = new ArrayList<>();
+
+        for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
+            String produkt = String.format("Produkt ID: %s\n, Dátum vypožičania: %s\n, Dátum vrátenia: %s",
+                    objednavkaProdukt.getProdukt().getNazov(),
+                    objednavkaProdukt.getDatumVypozicania(),
+                    objednavkaProdukt.getDatumVratenia());
+            obsahObjednavky.add(produkt);
+        }
+
+        Context context = new Context();
+        context.setVariable("meno", meno);
+        context.setVariable("priezvisko", priezviko);
+        context.setVariable("idObjednavky", id);
+        context.setVariable("obsahObjednavky", obsahObjednavky);
+
+        String htmlContent = templateEngine.process("objednavka-schvalena-objednavatel", context);
+
+        MimeMessagePreparator messagePreparator = this.createMail(adminMail, email, subject, htmlContent);
+
+        javaMailSender.send(messagePreparator);
+    }
+
+    public void zaslanieMailuZamietnutejObjednavky(Objednavka objednavka) {
+        Pouzivatel pouzivatel = objednavka.getPouzivatel();
+        String email = pouzivatel.getEmail();
+        String meno= pouzivatel.getMeno();
+        String priezviko = pouzivatel.getPriezvisko();
+        UUID id = objednavka.getIdObjednavka();
+        String subject = "Zamietnutá objednávka";
+
+        List<String> obsahObjednavky = new ArrayList<>();
+
+        for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
+            String produkt = String.format("Produkt ID: %s%n, Dátum vypožičania: %s%n, Dátum vrátenia: %s",
+                    objednavkaProdukt.getProdukt().getNazov(),
+                    objednavkaProdukt.getDatumVypozicania(),
+                    objednavkaProdukt.getDatumVratenia());
+            obsahObjednavky.add(produkt);
+        }
+
+        Context context = new Context();
+        context.setVariable("meno", meno);
+        context.setVariable("priezvisko", priezviko);
+        context.setVariable("idObjednavky", id);
+        context.setVariable("obsahObjednavky", obsahObjednavky);
+
+        String htmlContent = templateEngine.process("objednavka-zamietnuta-objednavatel", context);
+
+        MimeMessagePreparator messagePreparator = this.createMail(adminMail, email, subject, htmlContent);
+
+        javaMailSender.send(messagePreparator);
     }
 }

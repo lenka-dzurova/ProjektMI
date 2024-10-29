@@ -7,8 +7,11 @@ import back_end.audio_video.request.VytvorObjednavkaRequest;
 import back_end.audio_video.service.ObjednavkaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.UUID;
 
@@ -17,6 +20,8 @@ import java.util.UUID;
 public class ObjednavkaController {
     @Autowired
     private ObjednavkaService objednavkaService;
+    @Autowired
+    private SpringTemplateEngine templateEngine;
 
     @PostMapping("/vytvor")
     public ResponseEntity<ObjednavkaDTO> vytvorObjednavku(@RequestBody VytvorObjednavkaRequest request) {
@@ -26,10 +31,12 @@ public class ObjednavkaController {
 
     @GetMapping("/schvalit/{id}")
     public ResponseEntity<?> schvalit(@PathVariable UUID id) {
-        System.out.println("ID " + id);
         try {
             objednavkaService.schvalitObjednavku(id);
-            return ResponseEntity.ok("Objednávka schválená");
+            Context context = new Context();
+            context.setVariable("idObjednavka", id);
+            String htmlContent = templateEngine.process("objednavka-schvalena-admin", context);
+            return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(htmlContent);
         } catch (ObjednavkaNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Objednávka nebola nájdená: " + id);
         } catch (Exception e) {

@@ -82,7 +82,7 @@ public class PouzivatelService {
                 verificationTokenRepository.save(verificationToken);
 
                 String verificationURL = "http://localhost:8080/verify?token=" + token;
-                emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie",
+                emailService.sendMailVerification(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie",
                         docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
                 return true;
             } else {
@@ -146,7 +146,6 @@ public class PouzivatelService {
 
 
             String htmlContent = templateEngine.process("email-confirmation", new Context());
-            //TODO potom to asi daj ako ModelAndView
             return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(htmlContent);
         }
 
