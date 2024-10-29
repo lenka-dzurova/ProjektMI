@@ -18,7 +18,7 @@ public class ObjednavkaController {
     @Autowired
     private ObjednavkaService objednavkaService;
 
-    @PostMapping("/vytvor")//TODO POTOM SKUS CI SA TO NEDA CEZ REQUEST BODY
+    @PostMapping("/vytvor")
     public ResponseEntity<ObjednavkaDTO> vytvorObjednavku(@RequestBody VytvorObjednavkaRequest request) {
         ObjednavkaDTO objednavkaDTO = objednavkaService.vytvorObjednavku(request.getPouzivatelId(), request.getObjednavkaProduktyDTO());
         return ResponseEntity.status(HttpStatus.CREATED).body(objednavkaDTO);
