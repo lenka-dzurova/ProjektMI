@@ -86,11 +86,6 @@ public class PouzivatelService {
                 verificationTokenRepository.save(verificationToken);
 
                 String verificationURL = "http://localhost:8080/verify?token=" + token;
-
-            System.out.println(verificationURL);
-//                String htmlContent = this.vratObsahEmailu(docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
-//
-//                emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie", htmlContent);
                 emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie",
                         docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
                 return true;
@@ -114,8 +109,9 @@ public class PouzivatelService {
 
 
     public ResponseEntity<?> verifyUser(String token) {
-
         Optional<VerificationToken> verificationTokenOpt = verificationTokenRepository.findByToken(token);
+
+        System.out.println(verificationTokenOpt);
 
         if (verificationTokenOpt.isPresent()) {
             VerificationToken verificationToken = verificationTokenOpt.get();

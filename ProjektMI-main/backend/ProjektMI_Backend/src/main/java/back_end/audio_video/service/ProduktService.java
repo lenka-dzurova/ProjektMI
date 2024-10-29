@@ -28,7 +28,7 @@ public class ProduktService {
     }
 
     public Optional<Produkt> vratProdukt(String id) {
-        return produktRepository.getProduktById(id);
+        return produktRepository.getProduktByIdProdukt(id);
     }
 
     public List<Produkt> vratVsetkyProdukty() {
@@ -36,8 +36,8 @@ public class ProduktService {
     }
 
     public ResponseEntity<?> odstranProdukt(String id) {
-        if (produktRepository.existsById(id)) {
-            Optional<Produkt> vratenyProdukt = produktRepository.getProduktById(id);
+        if (produktRepository.existsByIdProdukt(id)) {
+            Optional<Produkt> vratenyProdukt = produktRepository.getProduktByIdProdukt(id);
             System.out.println(vratenyProdukt.get().getNazov());
              produktRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body("Produkt bol odstraneny");
@@ -48,7 +48,7 @@ public class ProduktService {
 
     @Transactional
     public Produkt aktualizujProdukt(String id, Produkt novyProdukt) {
-        Optional<Produkt> existujuciProduktOptional = produktRepository.getProduktById(id);
+        Optional<Produkt> existujuciProduktOptional = produktRepository.getProduktByIdProdukt(id);
 
 
         if (existujuciProduktOptional.isPresent()) {
@@ -70,6 +70,6 @@ public class ProduktService {
 
     @Transactional
     public int odstraProduktyPodlaID(List<String> zoznamIDProduktov) {
-       return produktRepository.deleteProduktsByIdIn(zoznamIDProduktov);
+       return produktRepository.deleteProduktsByIdProduktIn(zoznamIDProduktov);
     }
 }

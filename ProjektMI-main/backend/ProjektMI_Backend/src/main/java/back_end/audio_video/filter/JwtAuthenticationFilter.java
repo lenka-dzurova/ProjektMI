@@ -52,6 +52,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
+        // vyriesilo problem s padanim
+        if (request.getRequestURI().equals("/verify") ||
+                request.getRequestURI().equals("/register")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             PouzivatelDetails pouzivatelDetails = customUserDetailsService.loadUserByUsername(email);
 
