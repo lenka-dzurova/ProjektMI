@@ -6,6 +6,7 @@ import back_end.audio_video.entity.ObjednavkaProdukt;
 import back_end.audio_video.entity.Pouzivatel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -58,8 +60,8 @@ public class EmailService {
         for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
             String objednavkaObsah = String.format("Produkt ID: %s, Dátum vypožičania: %s, Dátum vrátenia: %s",
                     objednavkaProdukt.getProdukt().getIdProdukt(),
-                    objednavkaProdukt.getDatumVypozicania(),
-                    objednavkaProdukt.getDatumVratenia());
+                    objednavkaProdukt.getDatumVypozicania().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")),
+                    objednavkaProdukt.getDatumVratenia().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
 
             produktList.add(objednavkaObsah);
         }
@@ -96,8 +98,8 @@ public class EmailService {
         for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
             String produkt = String.format("Produkt ID: %s\n, Dátum vypožičania: %s\n, Dátum vrátenia: %s",
                     objednavkaProdukt.getProdukt().getNazov(),
-                    objednavkaProdukt.getDatumVypozicania(),
-                    objednavkaProdukt.getDatumVratenia());
+                    objednavkaProdukt.getDatumVypozicania().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")),
+                    objednavkaProdukt.getDatumVratenia().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
             obsahObjednavky.add(produkt);
         }
 
@@ -127,8 +129,8 @@ public class EmailService {
         for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
             String produkt = String.format("Produkt ID: %s%n, Dátum vypožičania: %s%n, Dátum vrátenia: %s",
                     objednavkaProdukt.getProdukt().getNazov(),
-                    objednavkaProdukt.getDatumVypozicania(),
-                    objednavkaProdukt.getDatumVratenia());
+                    objednavkaProdukt.getDatumVypozicania().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")),
+                    objednavkaProdukt.getDatumVratenia().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
             obsahObjednavky.add(produkt);
         }
 

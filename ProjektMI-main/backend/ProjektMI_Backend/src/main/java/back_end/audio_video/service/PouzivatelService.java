@@ -12,6 +12,7 @@ import back_end.audio_video.repository.VerificationTokenRepository;
 import back_end.audio_video.request.LoginRequest;
 import back_end.audio_video.response.PouzivatelResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,8 @@ import java.util.UUID;
 @Service
 public class PouzivatelService {
 
+    @Value("${backend.url}")
+    private String backendURL;
     @Autowired
     private PouzivatelRepository pouzivatelRepository;
     @Autowired
@@ -59,6 +62,8 @@ public class PouzivatelService {
         Optional<DocasnyPouzivatel> docasnyPouzivatelDatabaza = docasnyPouzivatelRepository.findByEmail(pouzivatel.getEmail());
         Optional<Pouzivatel> pouzivatelDatabaza = pouzivatelRepository.findByEmail(pouzivatel.getEmail());
 
+        //TODO toto sa spytaj Lenky ci docasnyPouzivatelDatabaza.isPresent() nedam prec pretoze som zistil
+        // ze ak nechtiac reloadne tak sa nebude 24 hodin moct registrovat aspon myslim ze to tak funguje kvoli docasnyPouzivatelDatabaza.isPresent()
         if (pouzivatelDatabaza.isPresent() || docasnyPouzivatelDatabaza.isPresent()) {
             return false;
         } else {
@@ -81,7 +86,7 @@ public class PouzivatelService {
 
                 verificationTokenRepository.save(verificationToken);
 
-                String verificationURL = "http://localhost:8080/verify?token=" + token;
+                String verificationURL = backendURL + "/verify?token=" + token;
                 emailService.sendMailVerification(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie",
                         docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
                 return true;
@@ -89,18 +94,6 @@ public class PouzivatelService {
                 return false;
             }
         }
-    }
-
-    private String vratObsahEmailu(String meno, String priezvisko, String verificationURL) {
-        return "<html>"
-                + "<body>"
-                + "<h1>Potvrdenie registrácie</h1>"
-                + "<p>Dobrý deň " + meno + " " + priezvisko + ",</p>"
-                + "<p>Prosím, potvrďte svoju registráciu kliknutím na tento odkaz:</p>"
-                + "<p><a href='" + verificationURL + "'>Potvrdiť registráciu</a></p>"
-                + "<p>Ďakujeme!</p>"
-                + "</body>"
-                + "</html>";
     }
 
 
@@ -144,7 +137,6 @@ public class PouzivatelService {
             docasnyPouzivatelRepository.delete(docasnyPouzivatel);
 
 
-
             String htmlContent = templateEngine.process("email-confirmation", new Context());
             return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(htmlContent);
         }
@@ -179,27 +171,30 @@ public class PouzivatelService {
     public ResponseEntity<?> resendVerificationEmail(String email) {
         Optional<DocasnyPouzivatel> docasnyPouzivatelDatabaza = docasnyPouzivatelRepository.findByEmail(email);
 
+
         if (docasnyPouzivatelDatabaza.isPresent()) {
             DocasnyPouzivatel docasnyPouzivatel = docasnyPouzivatelDatabaza.get();
             VerificationToken verificationToken = verificationTokenRepository.findByDocasnyPouzivatel(docasnyPouzivatel);
 
             if (verificationToken != null && !verificationToken.isExpired()) {
                 String token = verificationToken.getToken();
-                String verificationURL = "http://localhost:8080/verify?token=" + token;
-                String htmlContent = this.vratObsahEmailu(docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
-                    //TODO POTOM ODKOMENTUJ
-//                emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie", htmlContent);
+                String verificationURL = backendURL + "/verify?token=" + token;
+                emailService.sendMailVerification(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie",
+                        docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
                 return ResponseEntity.ok("E-mail na potvrdenie bol odoslaný.");
             } else {
+
+                if (verificationToken != null) {
+                    verificationTokenRepository.delete(verificationToken);
+                }
+
                 String newToken = UUID.randomUUID().toString();
                 VerificationToken newVerificationToken = new VerificationToken(docasnyPouzivatel, newToken);
                 verificationTokenRepository.save(newVerificationToken);
 
-                String verificationURL = "http://localhost:8080/verify?token=" + newToken;  // TODO toto asi zmen aby http://localhost:8080/ vedeli zmenit v properities
-                String htmlContent = this.vratObsahEmailu(docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
-                //TODO POTOM ODKOMENTUJ
-//                emailService.sendMail(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie", htmlContent);
-
+                String verificationURL = backendURL + "/verify?token=" + newToken;
+                emailService.sendMailVerification(docasnyPouzivatel.getEmail(), "Potvrdenie registrácie",
+                        docasnyPouzivatel.getMeno(), docasnyPouzivatel.getPriezvisko(), verificationURL);
                 return ResponseEntity.ok("E-mail na potvrdenie bol odoslaný s novým tokenom.");
             }
         }
@@ -218,9 +213,10 @@ public class PouzivatelService {
 
             return pouzivatelResponse;
         } catch (Exception e) {
-            return  null;
+            return null;
         }
     }
+
     public List<Pouzivatel> vratVsetkychPouzivatelov() {
         return pouzivatelRepository.findAll();
     }
