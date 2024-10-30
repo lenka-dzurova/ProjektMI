@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class Produkt {
     @Id
-    private String id;
+    private String idProdukt;
     private String nazov;
     @Lob
     private String popis;

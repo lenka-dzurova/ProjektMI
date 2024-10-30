@@ -1,0 +1,26 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Schválenie objednávky</title>
+</head>
+<body>
+    <h1>Nová objednávka</h1>
+    <p>Prišla nová s ID: <span th:text="${idObjednavka}"></span></p>
+    <p>Objednávateľ: <span th:text="${menoObjednavatela}"></span> <span th:text="${priezviskoObjednavatel}"></span></p>
+    <p>Prosím, schváľte alebo zamietnite objednávku:</p>
+
+    <h3>Zoznam produktov: </h3>
+    <ul>
+        <li th:each="produkt : ${produkty}">
+            <span th:text="${produkt}"></span>
+        </li>
+    </ul>
+
+    <a th:href="${schvalitUrl}" style="padding: 10px; background-color: green; color: white; text-decoration: none;">Schváliť</a>
+    <a th:href="${zamietnutUrl}" style="padding: 10px; background-color: red; color: white; text-decoration: none;">Zamietnuť</a>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Schválená objednávka</title>
+</head>
+<body>
+  <h1>Vážený/Vážená <span th:text="${meno}"></span> <span th:text="${priezvisko}"></span></h1>
+  <p>Mrzí ma to ale Vaša objednávka s ID <span th:text="${idObjednavky}"></span> bola zamietnutá a nebude schválená na vypožičanie.</p>
+  <p>Ak máte otázky alebo potrebujete ďalšie informácie, neváhajte nás kontaktovať</p>
+
+
+  <h3>Zoznam produktov: </h3>
+  <ul>
+    <li th:each="prudukt : ${obsahObjednavky}">
+      <span th:text="${prudukt}"></span>
+    </li>
+  </ul>
+
+  <p>S pozdravom</p>
+  <p>UNIZA</p>
+</body>
+</html>

@@ -32,9 +32,9 @@ public class ProduktController {
                 Produkt newProdukt = new Produkt();
 
                 if (!id.isEmpty()) {
-                    newProdukt.setId(id);
+                    newProdukt.setIdProdukt(id);
                 } else {
-                    newProdukt.setId(UUID.randomUUID().toString());
+                    newProdukt.setIdProdukt(UUID.randomUUID().toString());
                 }
                 newProdukt.setNazov(nazov);
                 newProdukt.setPopis(popis);
