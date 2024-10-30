@@ -1,7 +1,14 @@
 const cartDiv = document.getElementById('cart');
 const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+let pouzivatelId;
+
 function renderCart() {
+
+    axios.get("http://localhost:8080/pouzivatel-udaje", {withCredentials: true}).then(response => {
+        pouzivatelId = response.data.id;
+    });
+
 
     cartDiv.innerHTML = ""; // Vyprázdni predchádzajúci obsah
     cart.forEach(item => {
@@ -38,7 +45,6 @@ function renderCart() {
 }
 
 
-
 function removeFromCart(id) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart = cart.filter(item => item.id !== id); // Odstrániť produkt z košíka
@@ -47,7 +53,29 @@ function removeFromCart(id) {
     window.location.reload();
 }
 
-document.getElementById('button-remove')
+document.getElementById('checkout-btn').addEventListener('click', (event) => {
+    event.preventDefault();
+
+    const objednavkaData = {
+        pouzivatelId: pouzivatelId,
+        objednavkaProduktyDTO: cart.map(product => ({
+            produktId: product.id,
+            datumVypozicania: product.startDate,
+            datumVratenia: product.endDate
+        }))
+    }
+
+    console.log(objednavkaData)
+
+    axios.post('http://localhost:8080/objednavka/vytvor', objednavkaData, {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        withCredentials: true
+    }).then(response => {
+        console.log(response.status)
+    })
+})
 
 
 // Načítanie košíka pri načítaní stránky

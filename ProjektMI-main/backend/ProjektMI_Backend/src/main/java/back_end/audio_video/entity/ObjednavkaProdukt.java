@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -24,8 +25,8 @@ public class ObjednavkaProdukt {
     @JoinColumn(name = "id_produkt")
     private Produkt produkt;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
-    private LocalDateTime datumVypozicania;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
-    private LocalDateTime datumVratenia;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d. M. yyyy")
+    private LocalDate datumVypozicania;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d. M. yyyy")
+    private LocalDate datumVratenia;
 }

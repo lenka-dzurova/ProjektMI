@@ -80,7 +80,6 @@ public class ObjednavkaService {
 
     public void schvalitObjednavku(UUID id) {
         Optional<Objednavka> najdenaObjednavka = objednavkaRepository.findByIdObjednavka(id);
-
         if (najdenaObjednavka.isPresent()) {
             Objednavka objednavka = najdenaObjednavka.get();
             objednavka.setStavObjednavky(StavObjednavky.SCHVALENA);

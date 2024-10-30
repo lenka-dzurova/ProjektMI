@@ -48,7 +48,10 @@ public class ObjednavkaController {
     public ResponseEntity<?> neschvalit(@PathVariable UUID id) {
         try {
             objednavkaService.zamietnutObjednavku(id);
-            return ResponseEntity.ok("Objednávka bola zamietnutá");
+            Context context = new Context();
+            context.setVariable("idObjednavka", id);
+            String htmlContent = templateEngine.process("objednavka-zamietnuta-admin", context);
+            return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(htmlContent);
         } catch (ObjednavkaNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Objednávka nebola nájdená: " + id);
         } catch (Exception e) {
