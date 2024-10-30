@@ -175,10 +175,9 @@ confirmButton.addEventListener("click", () => {
 
 document.getElementById('objednat').addEventListener('click', function() {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
     // Pridáme nový produkt s dátumami do košíka
     cart.push({
-        id: product.id,
+        id: product.idProdukt,
         nazov: product.nazov,
         image: product.obrazok,
         startDate: startDateElement.textContent ? startDateElement.textContent : null,

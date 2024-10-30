@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fda1d4c-d091-45a6-ad44-a4912057c133" name="Changes" comment="Na FE sa dokaze upravovat role pouziatelom">
+    <list default="true" id="1fda1d4c-d091-45a6-ad44-a4912057c133" name="Changes" comment="Uoravene zobrazovanie obrazkov v kosiku">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/shopping_cart.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/shopping_cart.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/shopping_cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/shopping_cart.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/product_detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/product_detail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/products.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/shopping_cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/shopping_cart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../backend" beforeDir="false" afterPath="$PROJECT_DIR$/../../../backend" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,21 +41,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/PC/IdeaProjects/ProjektMI/ProjektMI-main/frontend/ProjektMI_Frontend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Users\\PC\\AppData\\Local\\JetBrains\\WebStorm 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC/IdeaProjects/ProjektMI/ProjektMI-main/frontend/ProjektMI_Frontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\PC\\AppData\\Local\\JetBrains\\WebStorm 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -68,7 +74,8 @@
       <workItem from="1729755764366" duration="595000" />
       <workItem from="1729926080783" duration="7920000" />
       <workItem from="1730110494858" duration="11288000" />
-      <workItem from="1730123946895" duration="271000" />
+      <workItem from="1730123946895" duration="422000" />
+      <workItem from="1730297931599" duration="12899000" />
     </task>
     <task id="LOCAL-00001" summary="Na FE sa dokaze upravovat role pouziatelom">
       <option name="closed" value="true" />
@@ -78,7 +85,23 @@
       <option name="project" value="LOCAL" />
       <updated>1730123504652</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Uoravene zobrazovanie obrazkov v kosiku">
+      <option name="closed" value="true" />
+      <created>1730124289557</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1730124289557</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Uoravene zobrazovanie obrazkov v kosiku">
+      <option name="closed" value="true" />
+      <created>1730124309395</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1730124309395</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -97,6 +120,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Na FE sa dokaze upravovat role pouziatelom" />
-    <option name="LAST_COMMIT_MESSAGE" value="Na FE sa dokaze upravovat role pouziatelom" />
+    <MESSAGE value="Uoravene zobrazovanie obrazkov v kosiku" />
+    <option name="LAST_COMMIT_MESSAGE" value="Uoravene zobrazovanie obrazkov v kosiku" />
   </component>
 </project>

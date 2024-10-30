@@ -6,20 +6,23 @@ function renderCart() {
     cartDiv.innerHTML = ""; // Vyprázdni predchádzajúci obsah
     cart.forEach(item => {
         const cartItemDiv = document.createElement("div");
-        cartItemDiv.classList.add("cart-item");
-
+        cartItemDiv.classList.add("cart-box");
+        console.info(item.id);
         cartItemDiv.innerHTML = `
         <div class="cart-item">
-        <img src="data:image/jpeg;base64,${item.image}" alt="${item.nazov}" class="cart-item-image">
-        <div class="cart-item-details">
-            <h3 class="cart-item-title">${item.nazov}</h3>
-            <div class="cart-item-dates">
-                <p><strong>Od:</strong> ${item.startDate || 'N/A'}</p>
-                <p><strong>Do:</strong> ${item.endDate || 'N/A'}</p>
+            <img src="data:image/jpeg;base64,${item.image}" alt="${item.nazov}" class="cart-item-image">
+            <div class="cart-item-details">
+                <h3 class="cart-item-title">${item.nazov}</h3>
+                <div class="cart-item-dates">
+                    <p><strong>Od:</strong> ${item.startDate || 'N/A'}</p>
+                    <p><strong>Do:</strong> ${item.endDate || 'N/A'}</p>
+                </div>
             </div>
-            <button class="remove-btn" data-id="${item.id}">Odstrániť</button>
+            <button class="remove-btn" data-id="${item.id}" aria-label="Odstrániť položku">
+                &times;
+            </button>
         </div>
-        </div>
+
     `;
 
         cartDiv.appendChild(cartItemDiv);

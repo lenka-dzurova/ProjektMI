@@ -142,9 +142,9 @@ function displayAudioProducts(products) {
         col.className = 'col-md-4 mt-3 product-container';
         col.innerHTML = `
             <div class="checkbox-container">
-                <input type="checkbox" class="product-checkbox" value="${product.id}">
+                <input type="checkbox" class="product-checkbox" value="${product.idProdukt}">
             </div>
-            <a href="product_detail.html?id=${product.id}">
+            <a href="product_detail.html?id=${product.idProdukt}">
                 <div class="big-img">
                     <img src="data:image/jpeg;base64,${product.obrazok}" class="obrazky" alt="${product.nazov}">
                 </div>
@@ -168,11 +168,12 @@ function displayVideoProducts(products) {
     products.forEach(product => {
         const col = document.createElement('div');
         col.className = 'col-md-4 mt-3 product-container';
+        console.info(product.idProdukt);
         col.innerHTML = `
             <div class="checkbox-container">
-                <input type="checkbox" class="product-checkbox" value="${product.id}">
+                <input type="checkbox" class="product-checkbox" value="${product.idProdukt}">
             </div>
-            <a href="product_detail.html?id=${product.id}">
+            <a href="product_detail.html?id=${product.idProdukt}">
                 <div class="big-img">
                     <img src="data:image/jpeg;base64,${product.obrazok}" class="obrazky" alt="${product.nazov}">
                 </div>
