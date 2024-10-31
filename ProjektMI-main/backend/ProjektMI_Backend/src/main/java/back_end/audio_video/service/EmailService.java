@@ -4,6 +4,7 @@ package back_end.audio_video.service;
 import back_end.audio_video.entity.Objednavka;
 import back_end.audio_video.entity.ObjednavkaProdukt;
 import back_end.audio_video.entity.Pouzivatel;
+import back_end.audio_video.entity.Produkt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,9 +15,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class EmailService {
@@ -54,18 +53,32 @@ public class EmailService {
         context.setVariable("menoObjednavatela", objednavka.getPouzivatel().getMeno());
         context.setVariable("priezviskoObjednavatel", objednavka.getPouzivatel().getPriezvisko());
 
-        List<String> produktList = new ArrayList<>();
+        List<ObjednavkaProdukt> produktList = new ArrayList<>();
 
         for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
-            String objednavkaObsah = String.format("Produkt ID: %s, Dátum vypožičania: %s, Dátum vrátenia: %s",
-                    objednavkaProdukt.getProdukt().getIdProdukt(),
-                    objednavkaProdukt.getDatumVypozicania().format(DateTimeFormatter.ofPattern("d. M. yyyy")),
-                    objednavkaProdukt.getDatumVratenia().format(DateTimeFormatter.ofPattern("d. M. yyyy")));
+            ObjednavkaProdukt produktDetail = new ObjednavkaProdukt();
+            produktDetail.setProdukt(objednavkaProdukt.getProdukt());
+            produktDetail.setDatumVypozicania(objednavkaProdukt.getDatumVypozicania());
+            produktDetail.setDatumVratenia(objednavkaProdukt.getDatumVratenia());
 
-            produktList.add(objednavkaObsah);
+            produktList.add(produktDetail);
         }
 
         context.setVariable("produkty", produktList);
+
+
+//        List<String> produktList = new ArrayList<>();
+//
+//        for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
+//            String objednavkaObsah = String.format("Produkt ID: %s, Dátum vypožičania: %s, Dátum vrátenia: %s",
+//                    objednavkaProdukt.getProdukt().getIdProdukt(),
+//                    objednavkaProdukt.getDatumVypozicania().format(DateTimeFormatter.ofPattern("d. M. yyyy")),
+//                    objednavkaProdukt.getDatumVratenia().format(DateTimeFormatter.ofPattern("d. M. yyyy")));
+//
+//            produktList.add(objednavkaObsah);
+//        }
+//
+//        context.setVariable("produkty", produktList);
 
 
         String htmlContext = templateEngine.process("objednavka-schvalenie", context);
@@ -92,15 +105,26 @@ public class EmailService {
         UUID id = objednavka.getIdObjednavka();
         String subject = "Schválená objednávka";
 
-        List<String> obsahObjednavky = new ArrayList<>();
+//        List<String> obsahObjednavky = new ArrayList<>();
+//
+//
+//        for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
+//            String produkt = String.format("Produkt ID: %s\n, Dátum vypožičania: %s\n, Dátum vrátenia: %s",
+//                    objednavkaProdukt.getProdukt().getNazov(),
+//                    objednavkaProdukt.getDatumVypozicania().format(DateTimeFormatter.ofPattern("d. M. yyyy")),
+//                    objednavkaProdukt.getDatumVratenia().format(DateTimeFormatter.ofPattern("d. M. yyyy")));
+//            obsahObjednavky.add(produkt);
+//        }
 
+        List<ObjednavkaProdukt> obsahObjednavky = new ArrayList<>();
 
         for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
-            String produkt = String.format("Produkt ID: %s\n, Dátum vypožičania: %s\n, Dátum vrátenia: %s",
-                    objednavkaProdukt.getProdukt().getNazov(),
-                    objednavkaProdukt.getDatumVypozicania().format(DateTimeFormatter.ofPattern("d. M. yyyy")),
-                    objednavkaProdukt.getDatumVratenia().format(DateTimeFormatter.ofPattern("d. M. yyyy")));
-            obsahObjednavky.add(produkt);
+            ObjednavkaProdukt produktDetail = new ObjednavkaProdukt();
+            produktDetail.setProdukt(objednavkaProdukt.getProdukt());
+            produktDetail.setDatumVypozicania(objednavkaProdukt.getDatumVypozicania());
+            produktDetail.setDatumVratenia(objednavkaProdukt.getDatumVratenia());
+
+            obsahObjednavky.add(produktDetail);
         }
 
         Context context = new Context();
@@ -125,14 +149,15 @@ public class EmailService {
         UUID id = objednavka.getIdObjednavka();
         String subject = "Zamietnutá objednávka";
 
-        List<String> obsahObjednavky = new ArrayList<>();
+        List<ObjednavkaProdukt> obsahObjednavky = new ArrayList<>();
 
         for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
-            String produkt = String.format("Produkt ID: %s%n, Dátum vypožičania: %s%n, Dátum vrátenia: %s",
-                    objednavkaProdukt.getProdukt().getNazov(),
-                    objednavkaProdukt.getDatumVypozicania().format(DateTimeFormatter.ofPattern("d. M. yyyy")),
-                    objednavkaProdukt.getDatumVratenia().format(DateTimeFormatter.ofPattern("d. M. yyyy")));
-            obsahObjednavky.add(produkt);
+            ObjednavkaProdukt produktDetail = new ObjednavkaProdukt();
+            produktDetail.setProdukt(objednavkaProdukt.getProdukt());
+            produktDetail.setDatumVypozicania(objednavkaProdukt.getDatumVypozicania());
+            produktDetail.setDatumVratenia(objednavkaProdukt.getDatumVratenia());
+
+            obsahObjednavky.add(produktDetail);
         }
 
         Context context = new Context();

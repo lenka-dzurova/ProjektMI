@@ -6,21 +6,106 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Schválenie objednávky</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #dddddd;
+            border-radius: 8px;
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #333333;
+            font-size: 24px;
+            margin: 0;
+        }
+        .content p {
+            color: #555555;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .content h3 {
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        .action-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .action-button {
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            margin: 5px;
+            display: inline-block;
+        }
+        .approve {
+            background-color: #28a745;
+        }
+        .reject {
+            background-color: #dc3545;
+        }
+    </style>
 </head>
 <body>
-    <h1>Nová objednávka</h1>
-    <p>Prišla nová s ID: <span th:text="${idObjednavka}"></span></p>
-    <p>Objednávateľ: <span th:text="${menoObjednavatela}"></span> <span th:text="${priezviskoObjednavatel}"></span></p>
-    <p>Prosím, schváľte alebo zamietnite objednávku:</p>
+<div class="email-container">
+    <div class="header">
+        <h1>Nová objednávka</h1>
+    </div>
+    <div class="content">
+        <p><b>Prišla nová objednávka s ID: </b><span th:text="${idObjednavka}"></span></p>
+        <p><b>Objednávateľ: </b><span th:text="${menoObjednavatela}"></span> <span th:text="${priezviskoObjednavatel}"></span></p>
+        <p>Prosím, schváľte alebo zamietnite objednávku.</p>
 
-    <h3>Zoznam produktov: </h3>
-    <ul>
-        <li th:each="produkt : ${produkty}">
-            <span th:text="${produkt}"></span>
-        </li>
-    </ul>
-
-    <a th:href="${schvalitUrl}" style="padding: 10px; background-color: green; color: white; text-decoration: none;">Schváliť</a>
-    <a th:href="${zamietnutUrl}" style="padding: 10px; background-color: red; color: white; text-decoration: none;">Zamietnuť</a>
+        <h3>Zoznam produktov:</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>ID Produktu</th>
+                <th>Dátum vypožičania</th>
+                <th>Dátum vrátenia</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="produkt : ${produkty}">
+                <td th:text="${produkt.produkt.getIdProdukt()}"></td>
+                <td th:text="${produkt.getDatumVypozicania()}"></td>
+                <td th:text="${produkt.getDatumVratenia()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="action-buttons">
+        <a th:href="${schvalitUrl}" class="action-button approve">Schváliť</a>
+        <a th:href="${zamietnutUrl}" class="action-button reject">Zamietnuť</a>
+    </div>
+</div>
 </body>
 </html>
