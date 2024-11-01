@@ -102,4 +102,8 @@ public class ObjednavkaService {
             throw new RuntimeException("Objednávka nenájdená.");
         }
     }
+
+    public List<ObjednavkaProdukt> getObjednavkyPodlaProduktId(String id) {
+        return objednavkaProduktRepository.findObjednavkaProduktByProduktIdProdukt(id);
+    }
 }

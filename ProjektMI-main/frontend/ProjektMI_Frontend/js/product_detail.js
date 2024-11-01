@@ -10,6 +10,8 @@ axios.get(`http://localhost:8080/produkt/get-produkt/${productId}`, {withCredent
         document.querySelector('.big-img img').src = `data:image/jpeg;base64,${product.obrazok}`;
         document.querySelector('h2').textContent = product.nazov;
         document.querySelector('h6').textContent = product.popis;
+
+        vratDatumyObjednavok(productId)
     })
     .catch(error => console.error('Error fetching product details:', error));
 
@@ -196,3 +198,21 @@ document.getElementById("calendarClose").addEventListener("click", () => {
     resetSelection();
     generateCalendar();
 });
+
+
+//TODO zobrazit datumy v kalendari
+function vratDatumyObjednavok(idProdukt) {
+    const requestData = {
+        idProdukt : idProdukt
+    }
+
+    axios.post('http://localhost:8080/objednavka/datumy-objednavok', requestData, {
+       headers: {
+           'Content-Type': 'application/json'
+       }
+    }).then(response => {
+        if (response.status === 200) {
+            console.log(response.data)
+        }
+    });
+}

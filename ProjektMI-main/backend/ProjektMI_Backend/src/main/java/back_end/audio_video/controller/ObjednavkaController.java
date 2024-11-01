@@ -2,7 +2,10 @@ package back_end.audio_video.controller;
 
 
 import back_end.audio_video.dto.ObjednavkaDTO;
+import back_end.audio_video.dto.ObjednavkaProduktDTO;
+import back_end.audio_video.entity.ObjednavkaProdukt;
 import back_end.audio_video.exception.ObjednavkaNotFoundException;
+import back_end.audio_video.request.IdProduktRequest;
 import back_end.audio_video.request.VytvorObjednavkaRequest;
 import back_end.audio_video.service.ObjednavkaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -57,5 +61,26 @@ public class ObjednavkaController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Nastala chyba pri spracovaní požiadavky");
         }
+    }
+
+    @PostMapping("/datumy-objednavok")
+    public ResponseEntity<?> vratZoznamDatumyObjednavok(@RequestBody IdProduktRequest idProduktRequest) {
+        List<ObjednavkaProdukt> objednavky = objednavkaService.getObjednavkyPodlaProduktId(idProduktRequest.getIdProdukt());
+
+        if (objednavky.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        List<ObjednavkaProduktDTO> zoznamDatumov = objednavky.stream().map(objednavkaProdukt -> {
+            ObjednavkaProduktDTO objednavkaProduktDTO = new ObjednavkaProduktDTO();
+            objednavkaProduktDTO.setId(objednavkaProdukt.getId());
+            objednavkaProduktDTO.setProduktId(objednavkaProdukt.getProdukt().getIdProdukt());
+            objednavkaProduktDTO.setDatumVypozicania(objednavkaProdukt.getDatumVypozicania());
+            objednavkaProduktDTO.setDatumVratenia(objednavkaProdukt.getDatumVratenia());
+            return objednavkaProduktDTO;
+        }).toList();
+
+
+        return ResponseEntity.ok(zoznamDatumov);
     }
 }
