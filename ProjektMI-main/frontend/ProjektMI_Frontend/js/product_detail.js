@@ -1,6 +1,7 @@
 // Získanie parametrov z URL
 const params = new URLSearchParams(window.location.search);
 const productId = params.get('id');
+const cart = JSON.parse(localStorage.getItem('cart')) || [];
 let product;
 // Príklad pomocou Axios na načítanie dát o produkte
 axios.get(`http://localhost:8080/produkt/get-produkt/${productId}`, {withCredentials: true})
@@ -11,7 +12,8 @@ axios.get(`http://localhost:8080/produkt/get-produkt/${productId}`, {withCredent
         document.querySelector('h2').textContent = product.nazov;
         document.querySelector('h6').textContent = product.popis;
 
-        vratDatumyObjednavok(productId)
+        vratDatumyObjednavok(productId);
+        vratDatumyZKosika(productId);
     })
     .catch(error => console.error('Error fetching product details:', error));
 
@@ -24,7 +26,8 @@ const nextButton = document.getElementById("next");
 const confirmButton = document.getElementById("confirmButton");
 const productModal = new bootstrap.Modal(document.getElementById("productModal"));
 
-
+let shoppingCardDates = [];
+let reservedDates = [];
 let selectedDays = [];
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
@@ -53,6 +56,19 @@ function generateCalendar() {
 
         const dateValue = new Date(currentYear, currentMonth, day).toISOString().split("T")[0];
         dayElement.setAttribute("data-date", dateValue);
+
+        // Check if the date is reserved
+        if (reservedDates.includes(dateValue)) {
+            dayElement.classList.add("reserved");
+            dayElement.classList.add("disabled");
+            dayElement.style.pointerEvents = "none";
+        }
+
+        if (shoppingCardDates.includes(dateValue)) {
+            dayElement.classList.add("selectedCard");
+            dayElement.classList.add("disabled");
+            dayElement.style.pointerEvents = "none";
+        }
 
         // Ak je deň vybraný, nastavíme ho ako selected
         if (selectedDays.includes(dateValue)) {
@@ -105,6 +121,7 @@ function toggleSelection(selectedDate, element) {
         }
 
         selectRange(startDate, endDate);
+
     }
 
     updateSelectedDates(); // Aktualizácia zobrazenia dátumov
@@ -112,7 +129,6 @@ function toggleSelection(selectedDate, element) {
 
 
 function selectRange(startDate, endDate) {
-
 
     let currentDate = new Date(startDate);
     const lastDate = new Date(endDate);
@@ -167,29 +183,39 @@ generateCalendar();
 
 confirmButton.addEventListener("click", () => {
 
-    if (selectedDays.length > 1 && (startDate && endDate)) {
-        console.info(selectedDays);
+    if (selectedDays.length > 0 && (startDate && endDate)) {
         productModal.hide();
     } else {
+        startDateElement.textContent = "";
+        endDateElement.textContent = "";
         toastr.error('Musíte zadať dátumy od kedy do kedy');
     }
 });
 
 document.getElementById('objednat').addEventListener('click', function() {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    // Pridáme nový produkt s dátumami do košíka
-    cart.push({
-        id: product.idProdukt,
-        nazov: product.nazov,
-        image: product.obrazok,
-        startDate: startDateElement.textContent ? startDateElement.textContent : null,
-        endDate: endDateElement.textContent ? endDateElement.textContent : null
-    });
-    console.info(cart);
-    // Uložíme aktualizovaný zoznam do localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
 
-    alert('Produkt s vybranými dátumami bol pridaný do košíka!');
+    console.info(startDate);
+    if (startDate != null  && endDate != null) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        // Pridáme nový produkt s dátumami do košíka
+        cart.push({
+            id: product.idProdukt,
+            nazov: product.nazov,
+            image: product.obrazok,
+            startDate: startDateElement.textContent ? startDateElement.textContent : null,
+            endDate: endDateElement.textContent ? endDateElement.textContent : null
+        });
+        // Uložíme aktualizovaný zoznam do localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        updateCartCount();
+        resetSelection()
+
+        toastr.info('Produkt s vybranými dátumami bol pridaný do košíka!');
+    } else {
+        toastr.error("Nevybrali ste dátumy, kedy chcete rezevovať techniku")
+    }
+
 });
 
 
@@ -199,8 +225,12 @@ document.getElementById("calendarClose").addEventListener("click", () => {
     generateCalendar();
 });
 
+document.getElementById("resetButton").addEventListener("click", () => {
+    resetSelection(); // Vymaže výber
+    updateSelectedDates(); // Aktualizuje zobrazenie vybraných dátumov
+});
 
-//TODO zobrazit datumy v kalendari
+
 function vratDatumyObjednavok(idProdukt) {
     const requestData = {
         idProdukt : idProdukt
@@ -212,7 +242,55 @@ function vratDatumyObjednavok(idProdukt) {
        }
     }).then(response => {
         if (response.status === 200) {
-            console.log(response.data)
+            const rezervacie = response.data;
+            reservedDates = []; // Reset reserved dates array
+
+            // Process each reservation to populate reservedDates
+            rezervacie.forEach(rezervacia => {
+                const startDateBooking = new Date(rezervacia.datumVypozicania.split('. ').reverse().join('-'));
+                const endDateBooking = new Date(rezervacia.datumVratenia.split('. ').reverse().join('-'));
+
+                let currentDate = new Date(startDateBooking);
+                while (currentDate <= endDateBooking) {
+                    reservedDates.push(currentDate.toISOString().split("T")[0]);
+                    currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
+                }
+            });
+
+            generateCalendar();
+        }
+    });
+
+}
+
+function vratDatumyZKosika(idProdukt) {
+    cart.forEach(item => {
+        if (item.id == idProdukt) {
+            const startDateBooking = new Date(item.startDate.split('. ').reverse().join('-'));
+            const endDateBooking = new Date(item.endDate.split('. ').reverse().join('-'));
+
+            let currentDate = new Date(startDateBooking);
+            while (currentDate <= endDateBooking) {
+                shoppingCardDates.push(currentDate.toISOString().split("T")[0]);
+                currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
+            }
         }
     });
 }
+
+function updateCartCount() {
+
+    const cartCountElement = document.getElementById('cart-count');
+
+    const productCount = cart.length; // Získa počet produktov v košíku
+
+    if (productCount > 0) {
+        cartCountElement.textContent = productCount; // Nastaví text na počet produktov
+        cartCountElement.style.display = 'block'; // Zobrazí počet
+    } else {
+        cartCountElement.style.display = 'none'; // Skryje počet, ak je košík prázdny
+    }
+}
+
+// Volajte funkciu, aby sa aktualizoval počet pri načítaní stránky
+document.addEventListener('DOMContentLoaded', updateCartCount);

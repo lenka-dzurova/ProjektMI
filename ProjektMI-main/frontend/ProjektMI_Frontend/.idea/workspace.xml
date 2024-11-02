@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fda1d4c-d091-45a6-ad44-a4912057c133" name="Changes" comment="Uoravene zobrazovanie obrazkov v kosiku">
+    <list default="true" id="1fda1d4c-d091-45a6-ad44-a4912057c133" name="Changes" comment="Úprava vzhľadu košíka a opravené id produktov">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/shopping_cart.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/shopping_cart.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/shopping_cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/shopping_cart.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/product_detail.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/product_detail.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/product_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/product_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/product_detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/product_detail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/products.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/shopping_cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/shopping_cart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../backend" beforeDir="false" afterPath="$PROJECT_DIR$/../../../backend" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -75,7 +73,9 @@
       <workItem from="1729926080783" duration="7920000" />
       <workItem from="1730110494858" duration="11288000" />
       <workItem from="1730123946895" duration="422000" />
-      <workItem from="1730297931599" duration="12899000" />
+      <workItem from="1730297931599" duration="13395000" />
+      <workItem from="1730391250892" duration="2373000" />
+      <workItem from="1730548500885" duration="12379000" />
     </task>
     <task id="LOCAL-00001" summary="Na FE sa dokaze upravovat role pouziatelom">
       <option name="closed" value="true" />
@@ -101,7 +101,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730124309395</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Úprava vzhľadu košíka a opravené id produktov">
+      <option name="closed" value="true" />
+      <created>1730319278515</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1730319278515</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,6 +129,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Na FE sa dokaze upravovat role pouziatelom" />
     <MESSAGE value="Uoravene zobrazovanie obrazkov v kosiku" />
-    <option name="LAST_COMMIT_MESSAGE" value="Uoravene zobrazovanie obrazkov v kosiku" />
+    <MESSAGE value="Úprava vzhľadu košíka a opravené id produktov" />
+    <option name="LAST_COMMIT_MESSAGE" value="Úprava vzhľadu košíka a opravené id produktov" />
   </component>
 </project>

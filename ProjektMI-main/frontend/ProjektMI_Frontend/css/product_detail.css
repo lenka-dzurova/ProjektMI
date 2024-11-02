@@ -180,12 +180,47 @@ li img {
     transition: background-color 0.2s, color 0.2s;
 }
 
+.fa-shopping-cart {
+    font-size: 24px; /* Nastavte požadovanú veľkosť */
+}
+
+#cart-count {
+    top: 40px;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    right: 15px;
+    height: 20px;
+    display: none;
+    padding: 0 5px;
+    position: absolute;
+    font-size: 10px;
+    min-width: 20px;
+    background: #e9242e;
+    font-weight: 500;
+    line-height: 16px;
+    border-radius: 10px;
+    animation-name: zoomIn;
+    justify-content: center;
+    animation-duration: 200ms;
+}
+
 .date:hover {
     background-color: #f0f8ff;
 }
 
+.selectedCard {
+    background-color: #007bff;
+    color: white;
+}
+
 .selected {
     background-color: #007bff;
+    color: white;
+}
+
+.reserved {
+    background-color: #f46c6b; /* Svetločervená farba pre rezervované dni */
+    cursor: not-allowed;
     color: white;
 }
 
@@ -214,6 +249,30 @@ li img {
         font-size: 0.9em;
     }
 }
+
+.btn-with-icon {
+    background-color: #2b3a64; /* Žltá farba */
+    color: white; /* Biela farba textu */
+    border: none; /* Žiadny okraj */
+    border-radius: 5px; /* Zaoblené rohy */
+    padding: 10px 20px; /* Vnútorné odsadenie */
+    font-size: 16px; /* Veľkosť písma */
+    cursor: pointer; /* Ukazovateľ myši */
+    display: flex; /* Flexbox pre zarovnanie ikony a textu */
+    align-items: center; /* Vertikálne zarovnanie */
+    transition: background-color 0.3s; /* Efekt prechodu */
+}
+
+.btn-with-icon:hover {
+    background-color: #1e2a4d; /* Tmavšia žltá pri hover */
+}
+
+.btn-with-icon i {
+    margin-right: 8px; /* Medzera medzi ikonou a textom */
+}
+
+
+
 
 footer{
     bottom: 0;
