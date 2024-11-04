@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const emailPattern = /^[a-zA-Z0-9._%+-]+@(stud\.)?uniza\.sk$/;
-        if (!email /*|| !emailPattern.test(email)*/) {
+        if (!email || !emailPattern.test(email)) {
             document.getElementById('email-error').textContent = 'Zadajte študenský email';
             document.getElementById('email-register').classList.add('invalid');
             isValid = false;
