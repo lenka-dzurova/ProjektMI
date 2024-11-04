@@ -33,9 +33,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/register/**", "/login/**", "/verify/**", "/resend-verification-email/**").permitAll();
-                    registry.requestMatchers("/produkt/pridat", "/produkt/get-all", "/produkt/get-produkt/**", "/produkt/delete/**", "/produkt/update/**", "/pouzivatel-udaje").authenticated();
-                    registry.requestMatchers("/produkt/delete-produkty").permitAll();
-                    registry.requestMatchers("/objednavka/**").permitAll();
+                    registry.requestMatchers("/produkt/pridat", "/produkt/get-produkt/**", "/produkt/delete/**", "/pouzivatel-udaje").authenticated();
+                    registry.requestMatchers("/produkt/delete-produkty", "/produkt/update").permitAll();
+                    registry.requestMatchers("/objednavka/**", "/pouzivatel-udaje", "/produkt/get-all-by-rola").permitAll();
                     registry.requestMatchers("/get-all-users", "/update-rola").permitAll(); //TODO nech to niekto nastavi na hasRole, ked tu bude admin user.
                     registry.anyRequest().authenticated();
                 })

@@ -206,10 +206,11 @@ document.getElementById('objednat').addEventListener('click', function() {
             endDate: endDateElement.textContent ? endDateElement.textContent : null
         });
         // Uložíme aktualizovaný zoznam do localStorage
+        updateCartCount();
+        resetSelection();
         localStorage.setItem('cart', JSON.stringify(cart));
 
-        updateCartCount();
-        resetSelection()
+
 
         toastr.info('Produkt s vybranými dátumami bol pridaný do košíka!');
     } else {

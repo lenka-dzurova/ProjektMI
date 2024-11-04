@@ -1,9 +1,14 @@
 package back_end.audio_video.controller;
 
+import back_end.audio_video.details.Rola;
 import back_end.audio_video.entity.Produkt;
+import back_end.audio_video.request.AktualizujProduktRequest;
+import back_end.audio_video.request.ProduktRequest;
+import back_end.audio_video.request.RolaRequest;
 import back_end.audio_video.service.ProduktService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/produkt")
 public class ProduktController {
@@ -24,8 +30,13 @@ public class ProduktController {
     private ObjectMapper jacksonObjectMapper;
 
     @PostMapping("/pridat")
-    public ResponseEntity<?> pridajProdukt(@RequestParam String id, @RequestParam String nazov, @RequestParam String popis,
-                                           @RequestParam MultipartFile obrazok, @RequestParam String typTechniky){
+    public ResponseEntity<?> pridajProdukt(@ModelAttribute ProduktRequest produktRequest) {
+        String id = produktRequest.getId();
+        String nazov = produktRequest.getNazov();
+        String popis = produktRequest.getPopis();
+        String typTechniky = produktRequest.getTypTechniky();
+        Rola rola = produktRequest.getRolaProduktu();
+        MultipartFile obrazok = produktRequest.getObrazok();
 
         if (!produktService.obsahujeProdukt(id)) {
             try {
@@ -39,9 +50,11 @@ public class ProduktController {
                 newProdukt.setNazov(nazov);
                 newProdukt.setPopis(popis);
                 newProdukt.setTypTechniky(typTechniky);
+                newProdukt.setRolaProduktu(rola);
                 newProdukt.setObrazok(obrazok.getBytes());
 
                 produktService.pridajProdukt(newProdukt);
+
                 return ResponseEntity.status(HttpStatus.CREATED).body(newProdukt);
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Produkt sa nepodarilo pridat");
@@ -50,6 +63,7 @@ public class ProduktController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Produkt s danym ID uz existuje");
         }
     }
+
 
     @GetMapping("/get-produkt/{id}")
     public ResponseEntity<?> getProdukt(@PathVariable String id) {
@@ -62,9 +76,9 @@ public class ProduktController {
         }
     }
 
-    @GetMapping("/get-all")
-    public List<Produkt> getAllProducts() {
-        return produktService.vratVsetkyProdukty();
+    @PostMapping("/get-all-by-rola")
+    public List<Produkt> getAllProducts(@RequestBody RolaRequest rolaRequest) {
+        return produktService.vratVsetkyProdukty(rolaRequest.getRolaProduktu());
     }
 
 
@@ -89,11 +103,14 @@ public class ProduktController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> aktualizujProdukt(@PathVariable String id, @RequestParam("produkt") String produktJson, @RequestParam(required = false) MultipartFile obrazok) {
+    @PutMapping("/update")
+    public ResponseEntity<?> aktualizujProdukt(@ModelAttribute AktualizujProduktRequest aktualizujProduktRequest) {
 
+        String id = aktualizujProduktRequest.getIdProdukt();
+        String json = aktualizujProduktRequest.getProduktJSON();
+        MultipartFile obrazok = aktualizujProduktRequest.getObrazok();
         try {
-            Produkt novyProdukt = jacksonObjectMapper.readValue(produktJson, Produkt.class);
+            Produkt novyProdukt = jacksonObjectMapper.readValue(json, Produkt.class);
 
             if (obrazok != null && !obrazok.isEmpty()) {
                 novyProdukt.setObrazok(obrazok.getBytes());

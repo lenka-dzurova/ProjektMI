@@ -1,5 +1,6 @@
 package back_end.audio_video.service;
 
+import back_end.audio_video.details.Rola;
 import back_end.audio_video.entity.Produkt;
 import back_end.audio_video.repository.ProduktRepository;
 import jakarta.transaction.Transactional;
@@ -29,8 +30,13 @@ public class ProduktService {
         return produktRepository.getProduktByIdProdukt(id);
     }
 
-    public List<Produkt> vratVsetkyProdukty() {
-        return produktRepository.findAll();
+    public List<Produkt> vratVsetkyProdukty(Rola rola) {
+        if (rola == Rola.ADMIN || rola == Rola.UCITEL) {
+            return produktRepository.findAll();
+        } else {
+            System.out.println("Vola sa");
+            return produktRepository.findAllByRolaProduktu(rola);
+        }
     }
 
     public ResponseEntity<?> odstranProdukt(String id) {
