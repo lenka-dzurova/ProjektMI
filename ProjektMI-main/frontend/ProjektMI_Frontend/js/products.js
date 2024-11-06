@@ -1,6 +1,10 @@
 import {fetchUser} from "./helpers.js";
 
+<<<<<<< HEAD
 let rola;
+=======
+let rola = '';
+>>>>>>> 32e5cf94fa1b5c9125489ceeedc60e631cd7d077
 const btnAdd = document.getElementById("addProductBtn");
 const btnDelete = document.getElementById("deleteSelectedBtn");
 const btnUpdate = document.getElementById("updateProductBtn");
@@ -11,7 +15,10 @@ const id = document.getElementById('productId');
 const name = document.getElementById('productName');
 const info = document.getElementById('productInfo');
 const type = document.getElementById('productType');
+<<<<<<< HEAD
 const rolaProduktu = document.getElementById('productRola');
+=======
+>>>>>>> 32e5cf94fa1b5c9125489ceeedc60e631cd7d077
 const image = document.getElementById('productImage');
 const imagePreview = document.getElementById('imagePreview');
 
@@ -25,11 +32,15 @@ document.addEventListener("DOMContentLoaded", function () {
             btnDelete.style.display = "inline-block";
             btnUpdate.style.display = "inline-block";
         }
+<<<<<<< HEAD
         fetchProducts(rola);
+=======
+>>>>>>> 32e5cf94fa1b5c9125489ceeedc60e631cd7d077
     });
 
 
     btnAdd.addEventListener("click", () => {
+<<<<<<< HEAD
         id.value = "";
         name.value = "";
         info.value = "";
@@ -41,6 +52,18 @@ document.addEventListener("DOMContentLoaded", function () {
         clearImageBtn.style.display = 'none';
         btnSave.style.display = "block";
         btnEdit.style.display = "none";
+=======
+       id.value = "";
+       name.value = "";
+       info.value = "";
+       type.value = "";
+       image.value = "";
+       imagePreview.src = "";
+       imagePreview.style.display = 'none';
+       clearImageBtn.style.display = 'none';
+       btnSave.style.display = "block";
+       btnEdit.style.display = "none";
+>>>>>>> 32e5cf94fa1b5c9125489ceeedc60e631cd7d077
     });
 
 
@@ -132,6 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('productType').classList.add('invalid');
             isValid = false;
         }
+<<<<<<< HEAD
 
         if (!image) {
             document.getElementById('productImage-error').textContent = 'Obrázok je povinný';
@@ -166,6 +190,43 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         }
+=======
+
+        if (!image) {
+            document.getElementById('productImage-error').textContent = 'Obrázok je povinný';
+            document.getElementById('productImage').classList.add('invalid');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Create a FormData object
+            const formData = new FormData();
+            formData.append('id', id.value);
+            formData.append('nazov', name.value);
+            formData.append('popis', info.value);
+            formData.append('obrazok', image.files[0]);
+            formData.append('typTechniky', type.value);
+
+            axios.post('http://localhost:8080/produkt/pridat', formData, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+
+            }).then(response => {
+                console.log(response.status);
+                if (response.status === 201) {
+                    location.reload();
+                }
+            }).catch(error => {
+                console.error(error);
+                if (error.response) {
+                    console.error('Server responded with:', error.response.data);
+                }
+            });
+        }
+
+>>>>>>> 32e5cf94fa1b5c9125489ceeedc60e631cd7d077
     });
 });
 
@@ -300,7 +361,11 @@ btnDelete.addEventListener('click', () => {
     }
 });
 
+<<<<<<< HEAD
 btnUpdate.addEventListener("click", () => {
+=======
+btnUpdate.addEventListener("click",() => {
+>>>>>>> 32e5cf94fa1b5c9125489ceeedc60e631cd7d077
 
     if (vybraneProdukty.length === 1) {
         let idProduct = vybraneProdukty[0];
@@ -314,7 +379,10 @@ btnUpdate.addEventListener("click", () => {
                 name.value = product.nazov;
                 info.value = product.popis;
                 type.value = product.typTechniky;
+<<<<<<< HEAD
                 rolaProduktu.value = product.rolaProdukt;
+=======
+>>>>>>> 32e5cf94fa1b5c9125489ceeedc60e631cd7d077
 
 
                 if (product.obrazok) {
@@ -333,19 +401,34 @@ btnUpdate.addEventListener("click", () => {
             })
             .catch(error => console.error('Error fetching product details:', error));
     } else {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 32e5cf94fa1b5c9125489ceeedc60e631cd7d077
         toastr.error('Máte vybratých viac produktov ale môžete mať iba jeden');
     }
 });
 
+<<<<<<< HEAD
 btnEdit.addEventListener("click", () => {
     const idProduct = id.value;
 
     const updatedProduct = {
+=======
+btnEdit.addEventListener("click",() => {
+    // Získajte ID produktu
+    const idProduct = id.value;
+
+    // Pripravte JSON produkt
+    const updatedProduct = {
+        idProdukt: idProduct,
+>>>>>>> 32e5cf94fa1b5c9125489ceeedc60e631cd7d077
         nazov: name.value,
         popis: info.value,
         typTechniky: type.value
     };
 
+<<<<<<< HEAD
     const formData = new FormData();
     formData.append("idProdukt", idProduct);
     formData.append("produktJSON", JSON.stringify(updatedProduct));
@@ -363,6 +446,29 @@ btnEdit.addEventListener("click", () => {
     }).then(response => {
         console.log('Produkt bol úspešne aktualizovaný:', response.data);
     })
+=======
+    // Vytvorte FormData objekt na odoslanie obrázka, ak je prítomný
+    const formData = new FormData();
+    formData.append("produkt", JSON.stringify(updatedProduct));
+     // Zmeňte na ID vášho inputu pre obrázok
+
+    if (image.files.length > 0) {
+        formData.append("obrazok", image.files[0]); // Pridajte súbor, ak je vybraný
+    }
+
+    // Pošlite PUT požiadavku na aktualizáciu produktu
+    axios.put(`http://localhost:8080/update/${idProduct}`, formData, {
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+
+    })
+        .then(response => {
+            console.log('Produkt bol úspešne aktualizovaný:', response.data);
+            // Môžete pridať kód na uzavretie modálneho okna alebo na zobrazenie správy o úspechu
+        })
+>>>>>>> 32e5cf94fa1b5c9125489ceeedc60e631cd7d077
         .catch(error => {
             if (error.response) {
                 // Server responded with a status other than 200 range

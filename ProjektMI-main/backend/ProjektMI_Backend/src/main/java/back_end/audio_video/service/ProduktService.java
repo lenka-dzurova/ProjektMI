@@ -33,7 +33,7 @@ public class ProduktService {
     public List<Produkt> vratVsetkyProdukty(Rola rola) {
         if (rola == Rola.ADMIN || rola == Rola.UCITEL) {
             return produktRepository.findAll();
-        } else {
+        } else {as
             System.out.println("Vola sa");
             return produktRepository.findAllByRolaProduktu(rola);
         }
