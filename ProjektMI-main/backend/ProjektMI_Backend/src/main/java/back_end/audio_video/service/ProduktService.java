@@ -30,7 +30,7 @@ public class ProduktService {
         return produktRepository.getProduktByIdProdukt(id);
     }
 
-    public List<Produkt> vratVsetkyProdukty(Rola rola) {
+    public List<Produkt> vratVsetkyProdukty(Rola rola) {asd
         if (rola == Rola.ADMIN || rola == Rola.UCITEL) {
             return produktRepository.findAll();
         } else {
