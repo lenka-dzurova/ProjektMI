@@ -40,7 +40,7 @@ public class ProduktService {
     }
 
     public ResponseEntity<?> odstranProdukt(String id) {
-        if (produktRepository.existsByIdProdukt(id)) {ds
+        if (produktRepository.existsByIdProdukt(id)) {
             Optional<Produkt> vratenyProdukt = produktRepository.getProduktByIdProdukt(id);
             System.out.println(vratenyProdukt.get().getNazov());
              produktRepository.deleteById(id);
