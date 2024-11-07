@@ -73,7 +73,10 @@ document.getElementById('checkout-btn').addEventListener('click', (event) => {
         },
         withCredentials: true
     }).then(response => {
-        console.log(response.status)
+        if (response.status === 201) {
+            localStorage.clear();
+            window.location.reload();
+        }
     })
 })
 

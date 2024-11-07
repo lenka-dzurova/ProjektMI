@@ -3,6 +3,7 @@ package back_end.audio_video.controller;
 import back_end.audio_video.details.Rola;
 import back_end.audio_video.entity.Produkt;
 import back_end.audio_video.request.AktualizujProduktRequest;
+import back_end.audio_video.request.IdProduktRequest;
 import back_end.audio_video.request.ProduktRequest;
 import back_end.audio_video.request.RolaRequest;
 import back_end.audio_video.service.ProduktService;
@@ -64,10 +65,9 @@ public class ProduktController {
         }
     }
 
-
-    @GetMapping("/get-produkt/{id}")
-    public ResponseEntity<?> getProdukt(@PathVariable String id) {
-        Optional<Produkt> produkt = produktService.vratProdukt(id);
+    @PostMapping("/get-produkt")
+    public ResponseEntity<?> getProdukt(@RequestBody IdProduktRequest idProduktRequest) {
+        Optional<Produkt> produkt = produktService.vratProdukt(idProduktRequest.getIdProdukt());
 
         if (produkt.isPresent()) {
             return ResponseEntity.ok().body(produkt.get());
@@ -105,6 +105,8 @@ public class ProduktController {
 
     @PutMapping("/update")
     public ResponseEntity<?> aktualizujProdukt(@ModelAttribute AktualizujProduktRequest aktualizujProduktRequest) {
+
+        System.out.println(aktualizujProduktRequest.getIdProdukt());
 
         String id = aktualizujProduktRequest.getIdProdukt();
         String json = aktualizujProduktRequest.getProduktJSON();

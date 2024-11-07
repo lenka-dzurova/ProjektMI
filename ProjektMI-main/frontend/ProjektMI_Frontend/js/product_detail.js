@@ -1,21 +1,36 @@
 // Získanie parametrov z URL
 const params = new URLSearchParams(window.location.search);
 const productId = params.get('id');
-const cart = JSON.parse(localStorage.getItem('cart')) || [];
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let product;
-// Príklad pomocou Axios na načítanie dát o produkte
-axios.get(`http://localhost:8080/produkt/get-produkt/${productId}`, {withCredentials: true})
-    .then(response => {
-        product = response.data;
-        // Naplnenie HTML elementov detailmi produktu
-        document.querySelector('.big-img img').src = `data:image/jpeg;base64,${product.obrazok}`;
-        document.querySelector('h2').textContent = product.nazov;
-        document.querySelector('h6').textContent = product.popis;
 
-        vratDatumyObjednavok(productId);
-        vratDatumyZKosika(productId);
-    })
-    .catch(error => console.error('Error fetching product details:', error));
+const requestData = {
+    idProdukt: productId
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    updateCartCount();
+
+    axios.post('http://localhost:8080/produkt/get-produkt', requestData, {withCredentials: true})
+        .then(response => {
+            product = response.data;
+            // Naplnenie HTML elementov detailmi produktu
+            document.querySelector('.big-img img').src = `data:image/jpeg;base64,${product.obrazok}`;
+            document.querySelector('h2').textContent = product.nazov;
+            document.querySelector('h6').textContent = product.popis;
+
+            vratDatumyObjednavok(productId);
+            vratDatumyZKosika(productId);
+            console.info(cart)
+        })
+        .catch(error => console.error('Error fetching product details:', error));
+
+
+
+})
+
+
 
 const calendarElement = document.getElementById("calendar");
 const startDateElement = document.getElementById("start-date").querySelector("span");
@@ -46,6 +61,7 @@ function generateCalendar() {
         const emptyDiv = document.createElement("div");
         emptyDiv.className = "day"; // Trieda pre deň
         calendarElement.appendChild(emptyDiv);
+
     }
 
     // Pridá dni do kalendára
@@ -54,8 +70,9 @@ function generateCalendar() {
         dayElement.className = "date"; // Trieda pre dátum
         dayElement.textContent = day;
 
-        const dateValue = new Date(currentYear, currentMonth, day).toISOString().split("T")[0];
+        const dateValue = new Date(currentYear, currentMonth, day+1).toISOString().split("T")[0];
         dayElement.setAttribute("data-date", dateValue);
+
 
         // Check if the date is reserved
         if (reservedDates.includes(dateValue)) {
@@ -63,6 +80,7 @@ function generateCalendar() {
             dayElement.classList.add("disabled");
             dayElement.style.pointerEvents = "none";
         }
+
 
         if (shoppingCardDates.includes(dateValue)) {
             dayElement.classList.add("selectedCard");
@@ -129,17 +147,19 @@ function toggleSelection(selectedDate, element) {
 
 
 function selectRange(startDate, endDate) {
-
-    let currentDate = new Date(startDate);
+    let currentDate = new Date(Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()));
     const lastDate = new Date(endDate);
 
     // Prejdeme dni medzi počiatočným a koncovým dňom, aj cez rôzne mesiace
     while (currentDate <= lastDate) {
+
         const dateString = currentDate.toISOString().split("T")[0]; // Formátovanie dátumu na YYYY-MM-DD
+
         selectedDays.push(dateString);
 
         // Vyhľadanie elementu podľa data-date a označenie
         const dayElement = document.querySelector(`.date[data-date="${dateString}"]`);
+
         if (dayElement) {
             dayElement.classList.add("selected");
         }
@@ -192,10 +212,10 @@ confirmButton.addEventListener("click", () => {
     }
 });
 
-document.getElementById('objednat').addEventListener('click', function() {
+document.getElementById('objednat').addEventListener('click', function () {
 
-    console.info(startDate);
-    if (startDate != null  && endDate != null) {
+
+    if (startDate != null && endDate != null) {
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         // Pridáme nový produkt s dátumami do košíka
         cart.push({
@@ -210,15 +230,17 @@ document.getElementById('objednat').addEventListener('click', function() {
         resetSelection();
         localStorage.setItem('cart', JSON.stringify(cart));
 
-
-
-        toastr.info('Produkt s vybranými dátumami bol pridaný do košíka!');
+        toastr.info('Produkt s vybranými dátumami bol pridaný do košíka!', '', {
+            onHidden: function() {
+                // Po ukrytí toastovej správy vykonáme reload
+                window.location.reload();
+            }
+        });
     } else {
         toastr.error("Nevybrali ste dátumy, kedy chcete rezevovať techniku")
     }
 
 });
-
 
 
 document.getElementById("calendarClose").addEventListener("click", () => {
@@ -234,27 +256,32 @@ document.getElementById("resetButton").addEventListener("click", () => {
 
 function vratDatumyObjednavok(idProdukt) {
     const requestData = {
-        idProdukt : idProdukt
+        idProdukt: idProdukt
     }
 
     axios.post('http://localhost:8080/objednavka/datumy-objednavok', requestData, {
-       headers: {
-           'Content-Type': 'application/json'
-       }
+        headers: {
+            'Content-Type': 'application/json'
+        }
     }).then(response => {
         if (response.status === 200) {
             const rezervacie = response.data;
             reservedDates = []; // Reset reserved dates array
-
             // Process each reservation to populate reservedDates
             rezervacie.forEach(rezervacia => {
                 const startDateBooking = new Date(rezervacia.datumVypozicania.split('. ').reverse().join('-'));
                 const endDateBooking = new Date(rezervacia.datumVratenia.split('. ').reverse().join('-'));
 
                 let currentDate = new Date(startDateBooking);
-                while (currentDate <= endDateBooking) {
+                endDateBooking.setDate(endDateBooking.getDate() + 1);
+                while (currentDate < endDateBooking) {
+
+                     // Move to the next day
+
                     reservedDates.push(currentDate.toISOString().split("T")[0]);
-                    currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
+                    currentDate.setDate(currentDate.getDate() + 1);
+
+
                 }
             });
 
@@ -271,7 +298,8 @@ function vratDatumyZKosika(idProdukt) {
             const endDateBooking = new Date(item.endDate.split('. ').reverse().join('-'));
 
             let currentDate = new Date(startDateBooking);
-            while (currentDate <= endDateBooking) {
+            endDateBooking.setDate(endDateBooking.getDate() + 1);
+            while (currentDate < endDateBooking) {
                 shoppingCardDates.push(currentDate.toISOString().split("T")[0]);
                 currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
             }
@@ -293,5 +321,8 @@ function updateCartCount() {
     }
 }
 
-// Volajte funkciu, aby sa aktualizoval počet pri načítaní stránky
-document.addEventListener('DOMContentLoaded', updateCartCount);
+
+window.onfocus = function() {
+    // Ak je stránka vrátená do popredia, obnov stránku
+    window.location.reload();
+};

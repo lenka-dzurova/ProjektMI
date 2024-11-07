@@ -104,6 +104,6 @@ public class ObjednavkaService {
     }
 
     public List<ObjednavkaProdukt> getObjednavkyPodlaProduktId(String id) {
-        return objednavkaProduktRepository.findObjednavkaProduktByProduktIdProdukt(id);
+        return objednavkaProduktRepository.findObjednavkaProduktByProduktIdProduktAndObjednavka_StavObjednavky(id, StavObjednavky.valueOf(StavObjednavky.SCHVALENA.toString()));
     }
 }

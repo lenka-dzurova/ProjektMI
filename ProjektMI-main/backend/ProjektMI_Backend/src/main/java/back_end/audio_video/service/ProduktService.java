@@ -34,7 +34,6 @@ public class ProduktService {
         if (rola == Rola.ADMIN || rola == Rola.UCITEL) {
             return produktRepository.findAll();
         } else {
-            System.out.println("Vola sa");
             return produktRepository.findAllByRolaProduktu(rola);
         }
     }
