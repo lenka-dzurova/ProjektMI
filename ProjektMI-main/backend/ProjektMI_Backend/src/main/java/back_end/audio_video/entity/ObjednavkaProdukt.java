@@ -1,6 +1,7 @@
 package back_end.audio_video.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class ObjednavkaProdukt {
     private UUID id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "id_objednavka")
     private Objednavka objednavka;
 

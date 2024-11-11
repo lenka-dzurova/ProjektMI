@@ -13,7 +13,12 @@ import back_end.audio_video.repository.ObjednavkaProduktRepository;
 import back_end.audio_video.repository.ObjednavkaRepository;
 import back_end.audio_video.repository.PouzivatelRepository;
 import back_end.audio_video.repository.ProduktRepository;
+import back_end.audio_video.request.AktualizaciaDatumVrateniaRequest;
+import back_end.audio_video.request.AktualizaciaObjednavkyRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -105,5 +110,36 @@ public class ObjednavkaService {
 
     public List<ObjednavkaProdukt> getObjednavkyPodlaProduktId(String id) {
         return objednavkaProduktRepository.findObjednavkaProduktByProduktIdProduktAndObjednavka_StavObjednavky(id, StavObjednavky.valueOf(StavObjednavky.SCHVALENA.toString()));
+    }
+
+
+    public List<Objednavka> getOrdersByUserId(UUID userId) {
+        // Implementácia logiky na získanie objednávok podľa ID používateľa
+        return objednavkaRepository.findAllByPouzivatelIdPouzivatel(userId);
+    }
+
+    public List<ObjednavkaProdukt> getProductsByOrderId(UUID orderId) {
+        return objednavkaProduktRepository.findObjednavkaProduktByObjednavka_IdObjednavka(orderId);
+    }
+
+    public ResponseEntity<?> upravProduktyObjednavky(AktualizaciaObjednavkyRequest request) {
+        List<ObjednavkaProdukt> produkty = objednavkaProduktRepository.findObjednavkaProduktByObjednavka_IdObjednavka(request.getIdObjednavka());
+
+        if (produkty.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Žiadne produkty pre danú objednávku neboli nájdené");
+        }
+
+        for (AktualizaciaDatumVrateniaRequest aktualizaciaProduktRequest : request.getProdukty()) {
+            for (ObjednavkaProdukt produkt : produkty) {
+                if (produkt.getId().toString().equals(aktualizaciaProduktRequest.getIdObjednavkaProdukt().toString())) {
+
+                    produkt.setDatumVratenia(aktualizaciaProduktRequest.getDatumVratenia());
+                }
+            }
+        }
+
+        objednavkaProduktRepository.saveAll(produkty);
+
+        return ResponseEntity.ok("Produkty objednávky boli úspešne aktualizované");
     }
 }

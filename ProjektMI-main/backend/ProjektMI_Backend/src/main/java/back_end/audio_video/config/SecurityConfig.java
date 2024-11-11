@@ -33,7 +33,7 @@ public class SecurityConfig {
     @Lazy
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Value("${frontend.urls}")
+    @Value("${frontend.url}")
     private String[] frontendUrls;
 
 
