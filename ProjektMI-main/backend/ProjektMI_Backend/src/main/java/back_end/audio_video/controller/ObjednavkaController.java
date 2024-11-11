@@ -4,10 +4,11 @@ package back_end.audio_video.controller;
 import back_end.audio_video.details.StavObjednavky;
 import back_end.audio_video.dto.ObjednavkaDTO;
 import back_end.audio_video.dto.ObjednavkaProduktDTO;
+import back_end.audio_video.entity.Objednavka;
 import back_end.audio_video.entity.ObjednavkaProdukt;
+import back_end.audio_video.entity.Produkt;
 import back_end.audio_video.exception.ObjednavkaNotFoundException;
-import back_end.audio_video.request.IdProduktRequest;
-import back_end.audio_video.request.VytvorObjednavkaRequest;
+import back_end.audio_video.request.*;
 import back_end.audio_video.service.ObjednavkaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -83,5 +84,20 @@ public class ObjednavkaController {
 
 
         return ResponseEntity.ok(zoznamDatumov);
+    }
+
+    @PostMapping("/get-all-by-user-id")
+    public List<Objednavka> getAllOrdersByUserId(@RequestBody PouzivatelRequest pouzivatelRequest) {
+        return objednavkaService.getOrdersByUserId(pouzivatelRequest.getIdPouzivatel());
+    }
+
+    @PostMapping("/get-products-by-order-id")
+    public List<ObjednavkaProdukt> getProductsByOrderId(@RequestBody ObjednavkaProduktRequest objednavkaProduktRequest) {
+        return objednavkaService.getProductsByOrderId(objednavkaProduktRequest.getIdObjednavka());
+    }
+
+    @PostMapping("/update-date")
+    public ResponseEntity<?> updateProduktOreders(@RequestBody AktualizaciaObjednavkyRequest request) {
+        return objednavkaService.upravProduktyObjednavky(request);
     }
 }
