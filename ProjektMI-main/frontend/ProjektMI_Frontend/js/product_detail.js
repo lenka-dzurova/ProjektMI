@@ -10,6 +10,10 @@ const requestData = {
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    if (sessionStorage.getItem('showToastr') === 'true') {
+        toastr.info("Produkt s vybranými dátumami bol pridaný do košíka!");
+        sessionStorage.removeItem('showToastr'); // Vymažeme informáciu z sessionStorage
+    }
     updateCartCount();
 
     axios.post('http://localhost:8080/produkt/get-produkt', requestData, {withCredentials: true})
@@ -19,10 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector('.big-img img').src = `data:image/jpeg;base64,${product.obrazok}`;
             document.querySelector('h2').textContent = product.nazov;
             document.querySelector('h6').textContent = product.popis;
-
+            document.getElementById("title").textContent = product.nazov;
             vratDatumyObjednavok(productId);
             vratDatumyZKosika(productId);
-            console.info(cart)
+
         })
         .catch(error => console.error('Error fetching product details:', error));
 
@@ -230,12 +234,9 @@ document.getElementById('objednat').addEventListener('click', function () {
         resetSelection();
         localStorage.setItem('cart', JSON.stringify(cart));
 
-        toastr.info('Produkt s vybranými dátumami bol pridaný do košíka!', '', {
-            onHidden: function() {
-                // Po ukrytí toastovej správy vykonáme reload
-                window.location.reload();
-            }
-        });
+        sessionStorage.setItem('showToastr', 'true');
+        window.location.reload();
+
     } else {
         toastr.error("Nevybrali ste dátumy, kedy chcete rezevovať techniku")
     }

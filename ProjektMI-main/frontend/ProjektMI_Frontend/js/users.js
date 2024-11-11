@@ -35,23 +35,23 @@ function includeHTML() {
 const userMap = new Map();
 
 function displayUsers(users) {
-    const userTab = document.getElementById('userTab');
+    const userTab = document.getElementById('userBody');
+
 
     users.forEach(user => {
         const col = document.createElement('tr');
         const currentRole = user.rola || 'STUDENT';
 
-        col.className = '';
+        col.className = 'user-row';
+        col.dataset.userId = user.idPouzivatel;
         col.innerHTML = `
-<!--            // <div class="checkbox-container">-->
-<!--            //     <input type="checkbox" class="product-checkbox" value="${user.id}">-->
-<!--            // </div>-->
+
           <tr>
             <td>${user.meno}</td>
             <td>${user.priezvisko}</td>
             <td>${user.email}</td>
             <td>${user.telCislo}</td>
-            <td>
+            <td class="role-cell">
                 <select class="role-select" data-current-role="${currentRole}">
                     <option value="STUDENT" ${currentRole === 'STUDENT' ? 'selected' : ''}>Študent</option>
                     <option value="UCITEL" ${currentRole === 'UCITEL' ? 'selected' : ''}>Učiteľ</option>
@@ -63,6 +63,16 @@ function displayUsers(users) {
             <td>${user.psc}</td>
           </tr>
         `;
+
+        col.addEventListener('click', (event) => {
+            // Check if the clicked element is NOT within the "Role" cell
+            if (!event.target.closest('.role-cell')) {
+                const userId = col.dataset.userId;
+                window.location.href = `userOrders.html?userId=${userId}`;
+            }
+        });
+
+
 
         const selectElement = col.querySelector('.role-select');
         selectElement.addEventListener('change', () => {
@@ -114,10 +124,7 @@ async function fetchUsers() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetchUsers().then(response => {
-        console.log("User outside async function (from global variable):", response);
-        displayUsers(response);
-    });
+    fetchUsers();
 
     document.getElementById('ulozit').addEventListener('click', (event) => {
         saveAllUserRoles();

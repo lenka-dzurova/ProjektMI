@@ -6,6 +6,7 @@ const btnDelete = document.getElementById("deleteSelectedBtn");
 const btnUpdate = document.getElementById("updateProductBtn");
 const btnSave = document.getElementById("saveProductBtn");
 const btnEdit = document.getElementById("editProductBtn");
+const usersLink = document.getElementById("usersList");
 
 const id = document.getElementById('productId');
 const name = document.getElementById('productName');
@@ -23,7 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
             btnAdd.style.display = "inline-block";
             btnDelete.style.display = "inline-block";
             btnUpdate.style.display = "inline-block";
+            usersLink.style.display = "inline";
+        } else {
+            let orders = document.getElementById("orders");
+
+            orders.style.display = "inline-block";
+            orders.addEventListener("click", function (event) {
+                window.location.href = `userOrders.html?userId=${response.id}`;
+            })
         }
+
 
         fetchProducts(rola);
     });
@@ -331,11 +341,13 @@ btnUpdate.addEventListener("click",() => {
                 }
                 btnSave.style.display = "none";
                 btnEdit.style.display = "block";
+                id.readOnly = true;
                 productModal.show();
             })
             .catch(error => console.error('Error fetching product details:', error));
+    } else if (vybraneProdukty.length === 0) {
+        toastr.error('Nemáte vybraný žiaden produkt');
     } else {
-
         toastr.error('Máte vybratých viac produktov ale môžete mať iba jeden');
     }
 });
@@ -370,10 +382,13 @@ btnEdit.addEventListener("click",() => {
         }
     })
         .then(response => {
-            console.log('Produkt bol úspešne aktualizovaný:', response.data);
+            if (response.status === 200) {
+                toastr.success('Produkt bol úspešne aktualizovaný');
+            }
             // Môžete pridať kód na uzavretie modálneho okna alebo na zobrazenie správy o úspechu
         })
         .catch(error => {
+            toastr.error('Produkt nebol aktualizovaný');
             if (error.response) {
                 // Server responded with a status other than 200 range
                 console.error('Error response:', error.response.data);

@@ -1,0 +1,55 @@
+html, body{
+    width: 100%;
+    overflow-x:hidden;
+}
+
+/* Table Styling */
+#productsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 1em;
+}
+
+#productsTable th, #productsTable td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+}
+
+#productsTable th {
+    background-color: #454545;
+    font-weight: bold;
+    color: white;
+}
+
+input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center;
+}
+
+/* Button Styling */
+.btn-save {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #ffffff;
+    background-color: #2b3a64;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-save:hover {
+    background-color: #1e2a4d;
+}
+
+.btn-container {
+    text-align: right; /* Zarovná tlačidlo doprava */
+    margin-top: 1rem; /* Vytvorí medzeru nad tlačidlom */
+}
+
+

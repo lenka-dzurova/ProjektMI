@@ -4,12 +4,14 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault(); // Zabráni predvolenému správaniu odkazu
         document.getElementById("login").style.display = "none"; // Skryje prihlasovací div
         document.getElementById("registration").style.display = "block"; // Zobrazí registračný div
+        document.getElementById("title").textContent = "Registrácia";
     });
 
     document.getElementById("linkLogin").addEventListener("click", function (event) {
         event.preventDefault(); // Zabráni predvolenému správaniu odkazu
         document.getElementById("registration").style.display = "none"; // Skryje prihlasovací div
         document.getElementById("login").style.display = "block"; // Zobrazí registračný div
+        document.getElementById("title").textContent = "Prihlásenie";
 
         document.getElementById('meno-register').value = "";
         document.getElementById('priezvisko-register').value = "";

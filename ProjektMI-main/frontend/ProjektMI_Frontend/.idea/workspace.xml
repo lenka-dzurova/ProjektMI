@@ -4,18 +4,42 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fda1d4c-d091-45a6-ad44-a4912057c133" name="Changes" comment="Zobrazovanie v kalendári kedy je produkt rezervovaný, oprava pridávania do košíki, zmena navigácie v produckt-detail">
+    <list default="true" id="1fda1d4c-d091-45a6-ad44-a4912057c133" name="Changes" comment="update produktu, tlačidlá môže vidieť iba administrátor">
+      <change afterPath="$PROJECT_DIR$/css/productsOrder.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/userOrders.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/users.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/html/productsOrder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/html/userOrders.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/productsOrder.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/userOrders.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28__10__2024_11_15__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/products.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/products.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/Footer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Header.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/Header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/product_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/product_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/html/products.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/products.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/shopping_cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/shopping_cart.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/users.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/product_detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/product_detail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/products.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/users.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../backend" beforeDir="false" afterPath="$PROJECT_DIR$/../../../backend" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+        <option value="CSS File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
@@ -40,21 +64,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC/IdeaProjects/ProjektMI/ProjektMI-main/frontend/ProjektMI_Frontend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\PC\\AppData\\Local\\JetBrains\\WebStorm 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/PC/IdeaProjects/ProjektMI/ProjektMI-main/frontend/ProjektMI_Frontend/js",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\PC\\AppData\\Local\\JetBrains\\WebStorm 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\PC\IdeaProjects\ProjektMI\ProjektMI-main\frontend\ProjektMI_Frontend\js" />
+      <recent name="C:\Users\PC\IdeaProjects\ProjektMI\ProjektMI-main\frontend\ProjektMI_Frontend\css" />
+      <recent name="C:\Users\PC\IdeaProjects\ProjektMI\ProjektMI-main\frontend\ProjektMI_Frontend\html" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\PC\IdeaProjects\ProjektMI\ProjektMI-main\frontend\ProjektMI_Frontend\html" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -78,6 +114,10 @@
       <workItem from="1730391250892" duration="2373000" />
       <workItem from="1730548500885" duration="13183000" />
       <workItem from="1730649785337" duration="14639000" />
+      <workItem from="1730739522623" duration="729000" />
+      <workItem from="1731148252050" duration="7346000" />
+      <workItem from="1731244659796" duration="8653000" />
+      <workItem from="1731321868576" duration="23101000" />
     </task>
     <task id="LOCAL-00001" summary="Na FE sa dokaze upravovat role pouziatelom">
       <option name="closed" value="true" />
@@ -119,7 +159,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730565429760</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="update produktu, tlačidlá môže vidieť iba administrátor">
+      <option name="closed" value="true" />
+      <created>1730739625431</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1730739625431</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -141,6 +189,7 @@
     <MESSAGE value="Uoravene zobrazovanie obrazkov v kosiku" />
     <MESSAGE value="Úprava vzhľadu košíka a opravené id produktov" />
     <MESSAGE value="Zobrazovanie v kalendári kedy je produkt rezervovaný, oprava pridávania do košíki, zmena navigácie v produckt-detail" />
-    <option name="LAST_COMMIT_MESSAGE" value="Zobrazovanie v kalendári kedy je produkt rezervovaný, oprava pridávania do košíki, zmena navigácie v produckt-detail" />
+    <MESSAGE value="update produktu, tlačidlá môže vidieť iba administrátor" />
+    <option name="LAST_COMMIT_MESSAGE" value="update produktu, tlačidlá môže vidieť iba administrátor" />
   </component>
 </project>

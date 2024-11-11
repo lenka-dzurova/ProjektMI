@@ -1,0 +1,35 @@
+html, body{
+    width: 100%;
+    overflow-x:hidden;
+}
+
+/* Table Styling */
+#orderTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 1em;
+}
+
+#orderTable th, #orderTable td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+}
+
+#orderTable th {
+    background-color: #454545;
+    font-weight: bold;
+    color: white;
+}
+
+
+#orderTable .order-row td {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#orderTable .order-row:hover td {
+    background-color: #cfcece; /* Light color to indicate it's clickable */
+}
+

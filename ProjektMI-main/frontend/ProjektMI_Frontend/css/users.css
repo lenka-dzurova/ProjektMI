@@ -1,0 +1,73 @@
+html, body{
+    width: 100%;
+    overflow-x:hidden;
+}
+
+/* Table Styling */
+#userTab {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 1em;
+}
+
+#userTab th, #userTab td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+}
+
+#userTab th {
+    background-color: #454545;
+    font-weight: bold;
+    color: white;
+}
+
+/* Row hover effect */
+#userTab tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Select Styling */
+.role-select {
+    padding: 5px;
+    font-size: 0.95em;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+/* Button Styling */
+.btn-save {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #ffffff;
+    background-color: #2b3a64;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-save:hover {
+    background-color: #1e2a4d;
+}
+
+.btn-container {
+    text-align: right; /* Zarovná tlačidlo doprava */
+    margin-top: 1rem; /* Vytvorí medzeru nad tlačidlom */
+}
+
+#userBody .user-row td {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#userBody .user-row:hover td {
+    background-color: #cfcece; /* Light color to indicate it's clickable */
+}
+
+
+
+
