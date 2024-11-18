@@ -1,6 +1,7 @@
 package back_end.audio_video.request;
 
 import back_end.audio_video.details.Rola;
+import back_end.audio_video.details.StavProduktu;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
@@ -17,4 +18,5 @@ public class ProduktRequest {
     private MultipartFile obrazok;
     private String typTechniky;
     private Rola rolaProduktu;
+    private StavProduktu stavProduktu;
 }

@@ -14,6 +14,7 @@ import back_end.audio_video.response.PouzivatelResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -54,6 +55,8 @@ public class PouzivatelService {
     private SpringTemplateEngine templateEngine;
 
 
+
+
     public Boolean pouzivatelExistuje(String email) {
         return pouzivatelRepository.findByEmail(email).isPresent();
     }
@@ -62,8 +65,6 @@ public class PouzivatelService {
         Optional<DocasnyPouzivatel> docasnyPouzivatelDatabaza = docasnyPouzivatelRepository.findByEmail(pouzivatel.getEmail());
         Optional<Pouzivatel> pouzivatelDatabaza = pouzivatelRepository.findByEmail(pouzivatel.getEmail());
 
-        //TODO toto sa spytaj Lenky ci docasnyPouzivatelDatabaza.isPresent() nedam prec pretoze som zistil
-        // ze ak nechtiac reloadne tak sa nebude 24 hodin moct registrovat aspon myslim ze to tak funguje kvoli docasnyPouzivatelDatabaza.isPresent()
         if (pouzivatelDatabaza.isPresent() || docasnyPouzivatelDatabaza.isPresent()) {
             return false;
         } else {

@@ -1,6 +1,7 @@
 package back_end.audio_video.controller;
 
 import back_end.audio_video.details.Rola;
+import back_end.audio_video.details.StavProduktu;
 import back_end.audio_video.entity.Produkt;
 import back_end.audio_video.request.AktualizujProduktRequest;
 import back_end.audio_video.request.IdProduktRequest;
@@ -37,6 +38,7 @@ public class ProduktController {
         String popis = produktRequest.getPopis();
         String typTechniky = produktRequest.getTypTechniky();
         Rola rola = produktRequest.getRolaProduktu();
+        StavProduktu stavProduktu = produktRequest.getStavProduktu();
         MultipartFile obrazok = produktRequest.getObrazok();
 
         if (!produktService.obsahujeProdukt(id)) {
@@ -52,6 +54,7 @@ public class ProduktController {
                 newProdukt.setPopis(popis);
                 newProdukt.setTypTechniky(typTechniky);
                 newProdukt.setRolaProduktu(rola);
+                newProdukt.setStavProduktu(stavProduktu);
                 newProdukt.setObrazok(obrazok.getBytes());
 
                 produktService.pridajProdukt(newProdukt);
@@ -77,15 +80,14 @@ public class ProduktController {
     }
 
     @PostMapping("/get-all-by-rola")
-    public List<Produkt> getAllProducts(@RequestBody RolaRequest rolaRequest) {
-        return produktService.vratVsetkyProdukty(rolaRequest.getRolaProduktu());
+    public List<Produkt> getAllProducts(@RequestBody RolaRequest request) {
+        return produktService.vratVsetkyProdukty(request);
     }
 
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> odstranProdukt(@PathVariable String id) {
-        produktService.odstranProdukt(id);
-        return ResponseEntity.ok().build();
+        return produktService.odstranProdukt(id);
     }
 
 
@@ -113,6 +115,8 @@ public class ProduktController {
         MultipartFile obrazok = aktualizujProduktRequest.getObrazok();
         try {
             Produkt novyProdukt = jacksonObjectMapper.readValue(json, Produkt.class);
+
+            System.out.println(novyProdukt.getStavProduktu());
 
             if (obrazok != null && !obrazok.isEmpty()) {
                 novyProdukt.setObrazok(obrazok.getBytes());
