@@ -4,10 +4,14 @@ package back_end.audio_video.controller;
 import back_end.audio_video.component.JwtUtil;
 import back_end.audio_video.details.PouzivatelDetails;
 import back_end.audio_video.details.Rola;
+import back_end.audio_video.entity.PasswordResetToken;
 import back_end.audio_video.entity.Pouzivatel;
+import back_end.audio_video.repository.PasswordResetRepository;
 import back_end.audio_video.request.EmailRequest;
 import back_end.audio_video.request.LoginRequest;
+import back_end.audio_video.request.PasswordResetRequest;
 import back_end.audio_video.response.PouzivatelResponse;
+import back_end.audio_video.service.PasswordResetService;
 import back_end.audio_video.service.PouzivatelService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,17 +22,25 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 public class PouzivatelController {
     @Autowired
     private PouzivatelService pouzivatelService;
+
+    @Autowired
+    private PasswordResetService passwordResetService;
+
     @Autowired
     private JwtUtil jwtUtil;
 

@@ -55,6 +55,7 @@ public class ProduktService {
     public Produkt aktualizujProdukt(String id, Produkt novyProdukt) {
         Optional<Produkt> existujuciProduktOptional = produktRepository.getProduktByIdProdukt(id);
 
+        System.out.println(novyProdukt.getTypTechniky());
 
         if (existujuciProduktOptional.isPresent()) {
             Produkt existujuciProdukt = existujuciProduktOptional.get();

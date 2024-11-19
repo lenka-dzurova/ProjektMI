@@ -4,6 +4,7 @@ import back_end.audio_video.component.JwtUtil;
 import back_end.audio_video.details.PouzivatelDetails;
 import back_end.audio_video.details.Rola;
 import back_end.audio_video.entity.DocasnyPouzivatel;
+import back_end.audio_video.entity.PasswordResetToken;
 import back_end.audio_video.entity.Pouzivatel;
 import back_end.audio_video.entity.VerificationToken;
 import back_end.audio_video.repository.DocasnyPouzivatelRepository;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -53,8 +55,6 @@ public class PouzivatelService {
     private JwtUtil jwtUtil;
     @Autowired
     private SpringTemplateEngine templateEngine;
-
-
 
 
     public Boolean pouzivatelExistuje(String email) {
@@ -230,5 +230,9 @@ public class PouzivatelService {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    public Optional<Pouzivatel> findByEmail(String email) {
+        return pouzivatelRepository.findByEmail(email);
     }
 }

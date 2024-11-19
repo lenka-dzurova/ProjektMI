@@ -7,6 +7,7 @@ import back_end.audio_video.entity.Pouzivatel;
 import back_end.audio_video.entity.Produkt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -65,22 +66,6 @@ public class EmailService {
         }
 
         context.setVariable("produkty", produktList);
-
-
-//        List<String> produktList = new ArrayList<>();
-//
-//        for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
-//            String objednavkaObsah = String.format("Produkt ID: %s, Dátum vypožičania: %s, Dátum vrátenia: %s",
-//                    objednavkaProdukt.getProdukt().getIdProdukt(),
-//                    objednavkaProdukt.getDatumVypozicania().format(DateTimeFormatter.ofPattern("d. M. yyyy")),
-//                    objednavkaProdukt.getDatumVratenia().format(DateTimeFormatter.ofPattern("d. M. yyyy")));
-//
-//            produktList.add(objednavkaObsah);
-//        }
-//
-//        context.setVariable("produkty", produktList);
-
-
         String htmlContext = templateEngine.process("objednavka-schvalenie", context);
 
         MimeMessagePreparator messagePreparator = this.createMail(objednavka.getPouzivatel().getEmail(), adminMail, "Nová objednávka na schválenie", htmlContext);
@@ -104,17 +89,6 @@ public class EmailService {
         String priezviko = pouzivatel.getPriezvisko();
         UUID id = objednavka.getIdObjednavka();
         String subject = "Schválená objednávka";
-
-//        List<String> obsahObjednavky = new ArrayList<>();
-//
-//
-//        for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
-//            String produkt = String.format("Produkt ID: %s\n, Dátum vypožičania: %s\n, Dátum vrátenia: %s",
-//                    objednavkaProdukt.getProdukt().getNazov(),
-//                    objednavkaProdukt.getDatumVypozicania().format(DateTimeFormatter.ofPattern("d. M. yyyy")),
-//                    objednavkaProdukt.getDatumVratenia().format(DateTimeFormatter.ofPattern("d. M. yyyy")));
-//            obsahObjednavky.add(produkt);
-//        }
 
         List<ObjednavkaProdukt> obsahObjednavky = new ArrayList<>();
 
@@ -171,5 +145,15 @@ public class EmailService {
         MimeMessagePreparator messagePreparator = this.createMail(adminMail, email, subject, htmlContent);
 
         javaMailSender.send(messagePreparator);
+    }
+
+    public void sendResetPasswordMail(String to, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(body);
+        message.setFrom(adminMail);
+
+        javaMailSender.send(message);
     }
 }

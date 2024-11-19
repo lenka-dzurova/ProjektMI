@@ -2,6 +2,7 @@ package back_end.audio_video.controller;
 
 import back_end.audio_video.details.Rola;
 import back_end.audio_video.details.StavProduktu;
+import back_end.audio_video.details.Technika;
 import back_end.audio_video.entity.Produkt;
 import back_end.audio_video.request.AktualizujProduktRequest;
 import back_end.audio_video.request.IdProduktRequest;
@@ -36,7 +37,7 @@ public class ProduktController {
         String id = produktRequest.getId();
         String nazov = produktRequest.getNazov();
         String popis = produktRequest.getPopis();
-        String typTechniky = produktRequest.getTypTechniky();
+        Technika typTechniky = produktRequest.getTypTechniky();
         Rola rola = produktRequest.getRolaProduktu();
         StavProduktu stavProduktu = produktRequest.getStavProduktu();
         MultipartFile obrazok = produktRequest.getObrazok();
