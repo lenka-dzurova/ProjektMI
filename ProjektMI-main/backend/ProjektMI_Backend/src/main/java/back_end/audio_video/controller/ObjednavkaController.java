@@ -1,12 +1,10 @@
 package back_end.audio_video.controller;
 
 
-import back_end.audio_video.details.StavObjednavky;
 import back_end.audio_video.dto.ObjednavkaDTO;
 import back_end.audio_video.dto.ObjednavkaProduktDTO;
 import back_end.audio_video.entity.Objednavka;
 import back_end.audio_video.entity.ObjednavkaProdukt;
-import back_end.audio_video.entity.Produkt;
 import back_end.audio_video.exception.ObjednavkaNotFoundException;
 import back_end.audio_video.request.*;
 import back_end.audio_video.service.ObjednavkaService;

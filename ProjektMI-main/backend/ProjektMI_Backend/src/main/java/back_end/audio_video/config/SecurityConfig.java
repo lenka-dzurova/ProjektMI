@@ -2,7 +2,6 @@ package back_end.audio_video.config;
 
 import back_end.audio_video.filter.JwtAuthenticationFilter;
 import back_end.audio_video.service.CustomUserDetailsService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +45,7 @@ public class SecurityConfig {
                     registry.requestMatchers("/produkt/delete-produkty", "/produkt/update").permitAll();
                     registry.requestMatchers("/objednavka/**", "/pouzivatel-udaje", "/produkt/get-all-by-rola").permitAll();
                     registry.requestMatchers("/get-all-users", "/update-rola").permitAll();
+                    registry.requestMatchers("/reset-password/**").permitAll();
                     registry.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

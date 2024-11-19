@@ -2,6 +2,7 @@ package back_end.audio_video.controller;
 
 import back_end.audio_video.details.Rola;
 import back_end.audio_video.details.StavProduktu;
+import back_end.audio_video.details.Technika;
 import back_end.audio_video.entity.Produkt;
 import back_end.audio_video.request.AktualizujProduktRequest;
 import back_end.audio_video.request.IdProduktRequest;
@@ -10,7 +11,6 @@ import back_end.audio_video.request.RolaRequest;
 import back_end.audio_video.service.ProduktService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Slf4j
 @RestController
 @RequestMapping("/produkt")
 public class ProduktController {
@@ -36,7 +35,7 @@ public class ProduktController {
         String id = produktRequest.getId();
         String nazov = produktRequest.getNazov();
         String popis = produktRequest.getPopis();
-        String typTechniky = produktRequest.getTypTechniky();
+        Technika typTechniky = produktRequest.getTypTechniky();
         Rola rola = produktRequest.getRolaProduktu();
         StavProduktu stavProduktu = produktRequest.getStavProduktu();
         MultipartFile obrazok = produktRequest.getObrazok();
@@ -107,16 +106,16 @@ public class ProduktController {
 
     @PutMapping("/update")
     public ResponseEntity<?> aktualizujProdukt(@ModelAttribute AktualizujProduktRequest aktualizujProduktRequest) {
-
-        System.out.println(aktualizujProduktRequest.getIdProdukt());
-
         String id = aktualizujProduktRequest.getIdProdukt();
         String json = aktualizujProduktRequest.getProduktJSON();
+
+        System.out.println(json);
+
         MultipartFile obrazok = aktualizujProduktRequest.getObrazok();
         try {
             Produkt novyProdukt = jacksonObjectMapper.readValue(json, Produkt.class);
 
-            System.out.println(novyProdukt.getStavProduktu());
+            System.out.println(novyProdukt.getRolaProduktu());
 
             if (obrazok != null && !obrazok.isEmpty()) {
                 novyProdukt.setObrazok(obrazok.getBytes());

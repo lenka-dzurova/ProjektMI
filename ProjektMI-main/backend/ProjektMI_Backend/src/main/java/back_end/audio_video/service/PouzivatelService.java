@@ -4,9 +4,11 @@ import back_end.audio_video.component.JwtUtil;
 import back_end.audio_video.details.PouzivatelDetails;
 import back_end.audio_video.details.Rola;
 import back_end.audio_video.entity.DocasnyPouzivatel;
+import back_end.audio_video.entity.PasswordResetToken;
 import back_end.audio_video.entity.Pouzivatel;
 import back_end.audio_video.entity.VerificationToken;
 import back_end.audio_video.repository.DocasnyPouzivatelRepository;
+import back_end.audio_video.repository.PasswordResetTokenRepository;
 import back_end.audio_video.repository.PouzivatelRepository;
 import back_end.audio_video.repository.VerificationTokenRepository;
 import back_end.audio_video.request.LoginRequest;
@@ -14,7 +16,6 @@ import back_end.audio_video.response.PouzivatelResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -53,8 +55,8 @@ public class PouzivatelService {
     private JwtUtil jwtUtil;
     @Autowired
     private SpringTemplateEngine templateEngine;
-
-
+    @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
 
 
     public Boolean pouzivatelExistuje(String email) {
@@ -230,5 +232,40 @@ public class PouzivatelService {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    public String generateResetToken(String email) {
+        Optional<Pouzivatel> pouzivatel = pouzivatelRepository.findByEmail(email);
+
+        if (pouzivatel.isEmpty()) {
+            throw new RuntimeException("Používateľ s týmto e-mailom neexistuje.");
+        }
+
+        String token = UUID.randomUUID().toString();
+
+        LocalDateTime expiryDate = LocalDateTime.now().plusHours(1);
+
+        PasswordResetToken passwordResetToken = new PasswordResetToken();
+        passwordResetToken.setToken(token);
+        passwordResetToken.setExpirationDate(expiryDate);
+        passwordResetToken.setPouzivatel(pouzivatel.get());
+
+        passwordResetTokenRepository.save(passwordResetToken);
+
+        return token;
+    }
+
+    public boolean validateResetToken(String token) {
+        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token);
+
+        if (resetToken == null || resetToken.getExpirationDate().isBefore(LocalDateTime.now())) {
+            return false;
+        }
+        return true;
+    }
+
+    public void updatePassword(Pouzivatel pouzivatel, String newPassword) {
+        pouzivatel.setHeslo(passwordEncoder.encode(newPassword));
+        pouzivatelRepository.save(pouzivatel);
     }
 }
