@@ -2,7 +2,6 @@ package back_end.audio_video.repository;
 
 
 import back_end.audio_video.entity.Objednavka;
-import back_end.audio_video.entity.Pouzivatel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

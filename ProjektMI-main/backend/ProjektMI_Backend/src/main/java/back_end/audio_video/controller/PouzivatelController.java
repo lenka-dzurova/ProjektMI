@@ -131,9 +131,7 @@ public class PouzivatelController {
     @PutMapping("/update-rola")
     public ResponseEntity<?> update(@RequestBody Map<UUID, Rola> userRoles) {
         if (!userRoles.isEmpty()) {
-            userRoles.forEach((k, v) -> {
-                pouzivatelService.updateRola(k, v);
-            });
+            userRoles.forEach((k, v) -> pouzivatelService.updateRola(k, v));
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

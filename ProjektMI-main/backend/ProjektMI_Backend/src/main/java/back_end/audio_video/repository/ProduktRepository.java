@@ -2,7 +2,6 @@ package back_end.audio_video.repository;
 
 import back_end.audio_video.details.Rola;
 import back_end.audio_video.details.StavProduktu;
-import back_end.audio_video.entity.ObjednavkaProdukt;
 import back_end.audio_video.entity.Produkt;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

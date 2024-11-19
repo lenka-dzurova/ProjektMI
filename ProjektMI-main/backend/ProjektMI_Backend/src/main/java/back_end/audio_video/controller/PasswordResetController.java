@@ -3,6 +3,7 @@ package back_end.audio_video.controller;
 import back_end.audio_video.entity.PasswordResetToken;
 import back_end.audio_video.entity.Pouzivatel;
 import back_end.audio_video.repository.PasswordResetTokenRepository;
+import back_end.audio_video.request.EmailRequest;
 import back_end.audio_video.request.PasswordResetRequest;
 import back_end.audio_video.service.PouzivatelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ public class PasswordResetController {
     private String backendUrl;
 
     @PostMapping("/request")
-    public String requestPasswordReset(@RequestParam String email) {
-        System.out.println(email);
+    public String requestPasswordReset(@RequestBody EmailRequest request) {
+        String email = request.getEmail();
         String token = pouzivatelService.generateResetToken(email);
         sendPasswordResetEmail(email, token);
         return "Email bol odoslany";
