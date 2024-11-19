@@ -1,3 +1,5 @@
+
+
 let meno;
 
 function includeHTML() {
@@ -32,9 +34,9 @@ function includeHTML() {
     }
 }
 
-async function fetchUsers() {
+async function fetchOrders() {
     const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get('userId');
+    const userId = urlParams.get('id');
     const requestData = {
         idPouzivatel: userId,
     };
@@ -87,7 +89,10 @@ function displayUsers(orders) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetchUsers();
+
+    fetchOrders();
+    includeHTML();
+
 
 
 });

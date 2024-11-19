@@ -10,11 +10,7 @@ const requestData = {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    if (sessionStorage.getItem('showToastr') === 'true') {
-        toastr.info("Produkt s vybranými dátumami bol pridaný do košíka!");
-        sessionStorage.removeItem('showToastr'); // Vymažeme informáciu z sessionStorage
-    }
-    updateCartCount();
+
 
     axios.post('http://localhost:8080/produkt/get-produkt', requestData, {withCredentials: true})
         .then(response => {
@@ -31,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(error => console.error('Error fetching product details:', error));
 
 
-
+    updateCartCount();
 })
 
 
@@ -309,18 +305,19 @@ function vratDatumyZKosika(idProdukt) {
 }
 
 function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || []; // Načítaj košík z localStorage
+    const cartCountElement = document.getElementById("cart-count"); // Element pre počet produktov
 
-    const cartCountElement = document.getElementById('cart-count');
 
-    const productCount = cart.length; // Získa počet produktov v košíku
+    const productCount = cart.length; // Získaj počet produktov v košíku
 
     if (productCount > 0) {
-        cartCountElement.textContent = productCount; // Nastaví text na počet produktov
-        cartCountElement.style.display = 'block'; // Zobrazí počet
+        cartCountElement.textContent = productCount; // Nastav počet produktov
+        cartCountElement.style.display = "inline-block"; // Zobraz počet
     } else {
-        cartCountElement.style.display = 'none'; // Skryje počet, ak je košík prázdny
+        cartCountElement.style.display = "none"; // Skry, ak je košík prázdny
     }
-}
+};
 
 
 window.onfocus = function() {

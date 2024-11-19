@@ -32,11 +32,18 @@
 		<section style="margin-top: 4%;">
 			<div class="container">
 				<div class="row">
-					<div class="col-10" >
+					<div class="col-6" >
 						<div class="my-auto">
 							<H1 class="napis">Preskúmajte našu ponuku</H1>
 							<H6 id="section-heading">NAŠE AUDIO TECHNOLÓGIE</H6>
 						</div>
+					</div>
+					<div class="col-4 d-flex justify-content-end align-items-center">
+						<div class="input-group">
+							<input type="text" id="searchBar" class="form-control" placeholder="Vyhľadajte produkt" >
+							<span class="input-group-text"><i class="bi bi-search"></i></span> <!-- Ikona lupy -->
+						</div>
+
 					</div>
 					<div class="col-2 d-flex justify-content-end align-items-center custom-btn-container">
 						<button id="addProductBtn" class="btn btn-primary product-btn" data-bs-toggle="modal" data-bs-target="#productModal">
@@ -78,11 +85,19 @@
 										<label for="productType" class="form-label">Typ produktu</label>
 										<select class="form-control" id="productType">
 											<option value="" disabled selected>Vyberte typ produktu</option>
-											<option value="audio">audio</option>
-											<option value="video">video</option>
+											<option value="AUDIO">audio</option>
+											<option value="VIDEO">video</option>
 										</select>
 										<span id="productType-error" class="error-message"></span>
-
+									</div>
+									<div class="mb-3">
+										<label for="productStatus" class="form-label">Stav produktu</label>
+										<select class="form-control" id="productStatus">
+											<option value="" disabled>Vyberte typ produktu</option>
+											<option value="FUNKCNE" selected>funkčné</option>
+											<option value="NEFUNKCNE">nefunkčné</option>
+										</select>
+										<span id="productStatus-error" class="error-message"></span>
 									</div>
 									<div class="mb-3">
 										<label for="productRola" class="form-label">Používateľská rola</label>

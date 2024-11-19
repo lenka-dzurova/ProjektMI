@@ -1,6 +1,8 @@
 import {fetchUser} from "./helpers.js";
 
 let rola = '';
+let aktivneAudio = true;
+let aktivneVideo = false;
 const btnAdd = document.getElementById("addProductBtn");
 const btnDelete = document.getElementById("deleteSelectedBtn");
 const btnUpdate = document.getElementById("updateProductBtn");
@@ -14,8 +16,16 @@ const info = document.getElementById('productInfo');
 const type = document.getElementById('productType');
 const image = document.getElementById('productImage');
 const imagePreview = document.getElementById('imagePreview');
+const status = document.getElementById('productStatus');
+const productRola = document.getElementById('productRola');
+const searchBar = document.getElementById("searchBar");
+
 
 document.addEventListener("DOMContentLoaded", function () {
+    if (localStorage.getItem('updateProduct') === 'true') {
+        toastr.success('Produkt bol úspešne aktualizovaný');
+        localStorage.removeItem('updateProduct');
+    }
 
     fetchUser().then(response => {
         rola = response.rola;
@@ -34,6 +44,10 @@ document.addEventListener("DOMContentLoaded", function () {
             })
         }
 
+        searchBar.addEventListener('input', (event) => {
+            liveSearch(rola);
+        });
+
 
         fetchProducts(rola);
     });
@@ -46,10 +60,12 @@ document.addEventListener("DOMContentLoaded", function () {
         type.value = "";
         image.value = "";
         imagePreview.src = "";
+        status.value = "";
         imagePreview.style.display = 'none';
         clearImageBtn.style.display = 'none';
         btnSave.style.display = "block";
         btnEdit.style.display = "none";
+        id.readOnly = false;
     });
 
 
@@ -60,6 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('audioSection').style.display = 'block'; // Zobrazíme audio sekciu
         document.getElementById('videoSection').style.display = 'none';// Skryjeme video sekciu
         heading.textContent = 'NAŠE AUDIO TECHNOLÓGIE';
+        aktivneAudio = true;
+        aktivneVideo = false;
+        fetchProducts(rola);
     });
 
     // Keď kliknete na "VIDEO TECHNOLÓGIE"
@@ -68,6 +87,10 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('videoSection').style.display = 'block'; // Zobrazíme video sekciu
         document.getElementById('audioSection').style.display = 'none';  // Skryjeme audio sekciu
         heading.textContent = 'NAŠE VIDEO TECHNOLÓGIE';
+        aktivneVideo = true;
+        aktivneAudio = false;
+
+        fetchProducts(rola);
     });
 
     document.getElementById("logout").addEventListener("click", () => {
@@ -148,6 +171,18 @@ document.addEventListener("DOMContentLoaded", function () {
             isValid = false;
         }
 
+        if (!status) {
+            document.getElementById('productStatus-error').textContent = 'Status produktu je povinný';
+            document.getElementById('productStatus').classList.add('invalid');
+            isValid = false;
+        }
+
+        if (!productRola) {
+            document.getElementById('productRola-error').textContent = 'Rola produktu je povinná';
+            document.getElementById('productRola').classList.add('invalid');
+            isValid = false;
+        }
+
         if (isValid) {
             // Create a FormData object
             const formData = new FormData();
@@ -156,6 +191,8 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append('popis', info.value);
             formData.append('obrazok', image.files[0]);
             formData.append('typTechniky', type.value);
+            formData.append('stavProduktu', status.value);
+            formData.append('rolaProduktu', productRola.value);
 
             axios.post('http://localhost:8080/produkt/pridat', formData, {
                 withCredentials: true,
@@ -181,12 +218,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Načítanie produktov z API
 async function fetchProducts(rolaPouzivatel) {
-        console.log(rolaPouzivatel)
+        let type = 'AUDIO';
+        if (aktivneVideo) {
+            type = 'VIDEO';
+        }
         const requestBody = {
-            rolaProduktu: rolaPouzivatel
+            rolaProduktu: rolaPouzivatel,
+            typTechniky: type
         }
 
-        console.log(requestBody)
+
 
         await axios.post(`http://localhost:8080/produkt/get-all-by-rola`, requestBody, {
             headers: {
@@ -196,11 +237,8 @@ async function fetchProducts(rolaPouzivatel) {
         }).then(response => {
             const products = response.data;
 
-            const audioProducts = products.filter(product => product.typTechniky === 'audio');
-            const videoProducts = products.filter(product => product.typTechniky === 'video');
 
-            displayAudioProducts(audioProducts);
-            displayVideoProducts(videoProducts);
+            displayProducts(products);
         }).catch(error => {
             console.error('Error fetching products:', error);
             if (error.response) {
@@ -209,12 +247,81 @@ async function fetchProducts(rolaPouzivatel) {
         });
     }
 
-function displayAudioProducts(products) {
-    const audioSection = document.getElementById('audioSection');
-    const audioContainer = audioSection.querySelector('.container');
-    const productRow = audioContainer.querySelector('#audioProductsRow');
+let section;
+let container;
+let productRow;
+let searchTimeout;
+
+async function liveSearch(rolaProduct) {
+    const query = searchBar.value;
+    let type = 'AUDIO';
+    if (aktivneVideo) {
+        type = 'VIDEO';
+
+    }
+    if (query.trim() === "") {
+        console.log(aktivneVideo);
+        if (aktivneVideo) {
+            fetchProducts(rolaProduct);
+
+        } else {
+            fetchProducts(rolaProduct);
+        }
+        return;
+    }
+
+
+
+
+    const requestBody = {
+        rolaProduktu: rolaProduct,
+        nazov: query,
+        typTechniky: type
+    }
+
+    // Zastavíme predchádzajúce požiadavky a počkáme pred odoslaním novej
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(async () => {
+
+        try {
+
+            // Posielame požiadavku na backend s aktuálnym textom v search bar cez axios
+            axios.post('http://localhost:8080/produkt/vyhladavanie',requestBody, {
+                withCredentials: true
+            })
+                .then(response => {
+
+                    if (response.status === 200) {
+                        const products = response.data;
+                        displayProducts(products);
+                    }
+                }).catch(error => {
+                console.error("Chyba pri live search:", error);
+            });
+
+
+        } catch (error) {
+            console.error("Chyba pri live search:", error);
+        }
+    }, 300); // Počkajte 300 ms pred odoslaním požiadavky
+}
+
+function displayProducts(products) {
+
+    if (aktivneVideo) {
+        section = document.getElementById('videoSection');
+        container = section.querySelector('.container');
+        productRow = container.querySelector('#videoProductsRow');
+    } else {
+        section = document.getElementById('audioSection');
+        container = section.querySelector('.container');
+        productRow = container.querySelector('#audioProductsRow');
+    }
+
+    productRow.innerHTML = '';
 
     products.forEach(product => {
+
         const col = document.createElement('div');
         col.className = 'col-md-4 mt-3 product-container';
         col.innerHTML = `
@@ -230,40 +337,27 @@ function displayAudioProducts(products) {
                     <div class="col-md-12 py-2">
                         <H5>${product.popis}</H5>
                     </div>
-                </div>
-            </a>
-        `;
-        productRow.appendChild(col);
-    });
-}
-
-function displayVideoProducts(products) {
-    const videoSection = document.getElementById('videoSection');
-    const videoContainer = videoSection.querySelector('.container');
-    const productRow = videoContainer.querySelector('#videoProductsRow');
-
-    products.forEach(product => {
-        const col = document.createElement('div');
-        col.className = 'col-md-4 mt-3 product-container';
-        col.innerHTML = `
-            <div class="checkbox-container">
-                <input type="checkbox" id="checkbox" class="product-checkbox" value="${product.idProdukt}" style="${rola === 'ADMIN' ? 'display: line;' : 'display: none;'}">
-            </div>
-            <a href="product_detail.html?id=${product.idProdukt}">
-                <div class="big-img">
-                    <img src="data:image/jpeg;base64,${product.obrazok}" class="obrazky" alt="${product.nazov}">
-                </div>
-                <H4 class="nadpis">${product.nazov}</H4>
-                <div class="row">
-                    <div class="col-md-12 py-2">
-                        <H5>${product.popis}</H5>
+                    <div class="col-md-12 status-text-container" id="status-text" style="${rola === 'ADMIN' ? 'display: line;' : 'display: none;'}; text-align: right" >
+                        <H5 id="statusText">${textDesign(product.stavProduktu)}</H5>
                     </div>
                 </div>
             </a>
         `;
+        const statusTextElement = col.querySelector('#statusText');
+        if (product.stavProduktu === "FUNKCNE") {
+            statusTextElement.style.color = 'green';
+        } else {
+            statusTextElement.style.color = 'red';
+        }
         productRow.appendChild(col);
     });
 }
+
+function textDesign(text) {
+    return text === "FUNKCNE" ? 'FUNKČNÉ' : 'NEFUNKČNÉ';
+}
+
+
 
 let vybraneProdukty = [];
 
@@ -321,12 +415,13 @@ btnUpdate.addEventListener("click",() => {
         axios.post(`http://localhost:8080/produkt/get-produkt`, requestData, {withCredentials: true})
             .then(response => {
                 const product = response.data;
-                console.info(product);
 
                 id.value = product.idProdukt;
                 name.value = product.nazov;
                 info.value = product.popis;
                 type.value = product.typTechniky;
+                status.value = product.stavProduktu;
+                productRola.value = product.rolaProduktu;
 
 
                 if (product.obrazok) {
@@ -360,7 +455,9 @@ btnEdit.addEventListener("click",() => {
     const updatedProduct = {
         nazov: name.value,
         popis: info.value,
-        typTechniky: type.value
+        typTechniky: type.value,
+        stavProduktu: status.value,
+        rolaProduktu: productRola.value
     };
 
     // Vytvorte FormData objekt na odoslanie obrázka, ak je prítomný
@@ -383,7 +480,8 @@ btnEdit.addEventListener("click",() => {
     })
         .then(response => {
             if (response.status === 200) {
-                toastr.success('Produkt bol úspešne aktualizovaný');
+                localStorage.setItem("updateProduct",true);
+                location.reload();
             }
             // Môžete pridať kód na uzavretie modálneho okna alebo na zobrazenie správy o úspechu
         })
