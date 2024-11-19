@@ -10,7 +10,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class PouzivatelRequest {
-
     private UUID idPouzivatel;
     private String meno;
     private String priezvisko;

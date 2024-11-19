@@ -11,7 +11,6 @@ import back_end.audio_video.request.RolaRequest;
 import back_end.audio_video.service.ProduktService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Slf4j
 @RestController
 @RequestMapping("/produkt")
 public class ProduktController {
@@ -108,16 +106,16 @@ public class ProduktController {
 
     @PutMapping("/update")
     public ResponseEntity<?> aktualizujProdukt(@ModelAttribute AktualizujProduktRequest aktualizujProduktRequest) {
-
-        System.out.println(aktualizujProduktRequest.getIdProdukt());
-
         String id = aktualizujProduktRequest.getIdProdukt();
         String json = aktualizujProduktRequest.getProduktJSON();
+
+        System.out.println(json);
+
         MultipartFile obrazok = aktualizujProduktRequest.getObrazok();
         try {
             Produkt novyProdukt = jacksonObjectMapper.readValue(json, Produkt.class);
 
-            System.out.println(novyProdukt.getStavProduktu());
+            System.out.println(novyProdukt.getRolaProduktu());
 
             if (obrazok != null && !obrazok.isEmpty()) {
                 novyProdukt.setObrazok(obrazok.getBytes());
