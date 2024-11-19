@@ -235,11 +235,16 @@ public class PouzivatelService {
     }
 
     public String generateResetToken(String email) {
-        Optional<Pouzivatel> pouzivatel = pouzivatelRepository.findByEmail(email);
+        Optional<Pouzivatel> pouzivatelOptional = pouzivatelRepository.findByEmail(email);
 
-        if (pouzivatel.isEmpty()) {
+        if (pouzivatelOptional.isEmpty()) {
             throw new RuntimeException("Používateľ s týmto e-mailom neexistuje.");
         }
+        Pouzivatel pouzivatel = pouzivatelOptional.get();
+
+        Optional<PasswordResetToken> existingToken = passwordResetTokenRepository.findByPouzivatel(pouzivatel);
+
+        existingToken.ifPresent(token -> passwordResetTokenRepository.delete(token));
 
         String token = UUID.randomUUID().toString();
 
@@ -248,7 +253,7 @@ public class PouzivatelService {
         PasswordResetToken passwordResetToken = new PasswordResetToken();
         passwordResetToken.setToken(token);
         passwordResetToken.setExpirationDate(expiryDate);
-        passwordResetToken.setPouzivatel(pouzivatel.get());
+        passwordResetToken.setPouzivatel(pouzivatel);
 
         passwordResetTokenRepository.save(passwordResetToken);
 

@@ -4,10 +4,7 @@ import back_end.audio_video.details.Rola;
 import back_end.audio_video.details.StavProduktu;
 import back_end.audio_video.details.Technika;
 import back_end.audio_video.entity.Produkt;
-import back_end.audio_video.request.AktualizujProduktRequest;
-import back_end.audio_video.request.IdProduktRequest;
-import back_end.audio_video.request.ProduktRequest;
-import back_end.audio_video.request.RolaRequest;
+import back_end.audio_video.request.*;
 import back_end.audio_video.service.ProduktService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -128,5 +125,10 @@ public class ProduktController {
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produkt s id " + id + " neexistuje");
         }
+    }
+    @PostMapping("/vyhladavanie")
+    public List<Produkt> searchProducts(@RequestBody VyhladavanieProduktuRequest request) {
+        System.out.println(request.getNazov());
+        return produktService.vratVsetkyProduktyPodlaVyhladavania(request); // Vyhľadáva produkty obsahujúce zadaný text
     }
 }
