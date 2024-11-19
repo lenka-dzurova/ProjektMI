@@ -1,17 +1,39 @@
+const login = document.getElementById("login");
+const registration = document.getElementById("registration");
+const resetPassword = document.getElementById("resetPasswordBox");
+const title = document.getElementById("title");
+
 document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("linkRegistration").addEventListener("click", function (event) {
         event.preventDefault(); // Zabráni predvolenému správaniu odkazu
-        document.getElementById("login").style.display = "none"; // Skryje prihlasovací div
-        document.getElementById("registration").style.display = "block"; // Zobrazí registračný div
-        document.getElementById("title").textContent = "Registrácia";
+        login.style.display = "none"; // Skryje prihlasovací div
+        registration.style.display = "block"; // Zobrazí registračný div
+        resetPassword.style.display = "none";
+        title.textContent = "Registrácia";
+
+    });
+
+    document.getElementById("backButton").addEventListener("click", function (event) {
+        event.preventDefault(); // Zabráni predvolenému správaniu odkazu
+        back()
+    })
+
+    document.getElementById("linkResetPassword").addEventListener("click", function (event) {
+        event.preventDefault(); // Zabráni predvolenému správaniu odkazu
+        login.style.display = "none"; // Skryje prihlasovací div
+        registration.style.display = "none"; // Zobrazí registračný div
+        resetPassword.style.display = "block";
+        title.textContent = "Zmena hesla";
     });
 
     document.getElementById("linkLogin").addEventListener("click", function (event) {
         event.preventDefault(); // Zabráni predvolenému správaniu odkazu
-        document.getElementById("registration").style.display = "none"; // Skryje prihlasovací div
-        document.getElementById("login").style.display = "block"; // Zobrazí registračný div
-        document.getElementById("title").textContent = "Prihlásenie";
+        registration.style.display = "none"; // Skryje prihlasovací div
+        login.style.display = "block"; // Zobrazí registračný div
+        resetPassword.style.display = "none";
+        title.textContent = "Prihlásenie";
+
 
         document.getElementById('meno-register').value = "";
         document.getElementById('priezvisko-register').value = "";
@@ -156,7 +178,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     });
+
+
 });
+
+
 
 
 document.getElementById("loginButton").addEventListener("click", () => {
@@ -198,6 +224,30 @@ document.getElementById("loginButton").addEventListener("click", () => {
 });
 
 
+document.getElementById("resetPasswordButton").addEventListener("click", () => {
+    const emailReset = document.getElementById("email-reset").value;
+    const dataRequest = {
+        email: emailReset,
+    }
+    console.log(dataRequest);
+    axios.post('http://localhost:8080/reset-password/request',dataRequest ,{
+        withCredentials: true
+    }).then(response => {
+        console.log(response.status);
+        if (response.status === 200) {
+            back();
+            toastr.info('Na email vám prišiel link na zmenu hesla.', 'Zmena hesla');
+
+        }
+    });
+});
+
+function back() {
+    registration.style.display = "none"; // Skryje prihlasovací div
+    login.style.display = "block"; // Zobrazí registračný div
+    resetPassword.style.display = "none";
+    title.textContent = "Prihlásenie";
+}
 
 
 

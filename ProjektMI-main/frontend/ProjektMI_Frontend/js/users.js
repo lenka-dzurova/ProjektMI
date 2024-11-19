@@ -1,5 +1,7 @@
 //import {fetchUser} from "./helpers.js";
 
+
+
 function includeHTML() {
     var z, i, elmnt, file, xhttp;
     /* Loop through a collection of all HTML elements: */
@@ -68,7 +70,7 @@ function displayUsers(users) {
             // Check if the clicked element is NOT within the "Role" cell
             if (!event.target.closest('.role-cell')) {
                 const userId = col.dataset.userId;
-                window.location.href = `userOrders.html?userId=${userId}`;
+                window.location.href = `userOrders.html?id=${userId}`;
             }
         });
 
@@ -125,6 +127,7 @@ async function fetchUsers() {
 
 document.addEventListener("DOMContentLoaded", function () {
     fetchUsers();
+    includeHTML();
 
     document.getElementById('ulozit').addEventListener('click', (event) => {
         saveAllUserRoles();

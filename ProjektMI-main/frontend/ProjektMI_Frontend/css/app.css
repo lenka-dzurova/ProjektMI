@@ -59,11 +59,11 @@ position: absolute;
 bottom: -10px; 
 }
 
-#login h3, #registration h3 {
+#login h3, #registration h3, #resetPasswordBox h3 {
 	text-align: center;
 }
 
-#login, #registration {
+#login, #registration, #resetPasswordBox {
 	background-color: #ffffff88;
 	border-radius: 5px;
 	padding: 10px;
@@ -71,7 +71,7 @@ bottom: -10px;
 }
 
 
-.inputLogin input, .inputRegistration input {
+.inputLogin input, .inputRegistration input, .inputPassword input {
 	height: 35px;
 	border-radius: 5px;
 	min-width: 100%;
