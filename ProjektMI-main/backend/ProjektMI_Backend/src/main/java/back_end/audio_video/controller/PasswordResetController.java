@@ -35,11 +35,11 @@ public class PasswordResetController {
     private String backendUrl;
 
     @PostMapping("/request")
-    public String requestPasswordReset(@RequestBody EmailRequest request) {
+    public ResponseEntity<?> requestPasswordReset(@RequestBody EmailRequest request) {
         String email = request.getEmail();
         String token = pouzivatelService.generateResetToken(email);
         sendPasswordResetEmail(email, token);
-        return "Email bol odoslany";
+        return ResponseEntity.status(HttpStatus.OK).body("Email bol odoslany");
     }
 
     @PostMapping("/reset")

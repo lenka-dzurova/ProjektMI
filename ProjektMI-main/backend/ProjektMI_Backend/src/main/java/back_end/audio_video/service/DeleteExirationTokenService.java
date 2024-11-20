@@ -3,7 +3,6 @@ package back_end.audio_video.service;
 import back_end.audio_video.entity.DocasnyPouzivatel;
 import back_end.audio_video.entity.VerificationToken;
 import back_end.audio_video.repository.DocasnyPouzivatelRepository;
-import back_end.audio_video.repository.PasswordResetTokenRepository;
 import back_end.audio_video.repository.VerificationTokenRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,6 @@ public class DeleteExirationTokenService {
     private VerificationTokenRepository verificationTokenRepository;
     @Autowired
     private DocasnyPouzivatelRepository docasnyPouzivatelRepository;
-    @Autowired
-    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Transactional
     public void removeAllExpiredUsersAndTokens() {
@@ -36,6 +33,5 @@ public class DeleteExirationTokenService {
                 docasnyPouzivatelRepository.delete(docasnyPouzivatel);
             }
         }
-        passwordResetTokenRepository.removePasswordResetTokenByExpirationDateBefore(expiryThreshold);
     }
 }
