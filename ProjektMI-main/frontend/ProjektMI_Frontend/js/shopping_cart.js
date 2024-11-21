@@ -1,3 +1,4 @@
+import {createFooter, createHeader, updateCartCount} from './neutralne.js';
 const cartDiv = document.getElementById('cart');
 const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -82,5 +83,10 @@ document.getElementById('checkout-btn').addEventListener('click', (event) => {
 
 
 // Načítanie košíka pri načítaní stránky
-document.addEventListener('DOMContentLoaded', renderCart);
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.insertBefore(createHeader(), document.body.firstChild);
+    document.body.insertBefore(createFooter(), document.body.lastChild);
+    renderCart();
+    updateCartCount();
+});
 

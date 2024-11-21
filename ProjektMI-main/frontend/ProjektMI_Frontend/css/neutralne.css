@@ -1,0 +1,325 @@
+
+
+.navbar {
+    background-color: #00274d;
+    top: 0;
+    width: 100%; /* Pokryje celú šírku stránky */
+    z-index: 1000; /* Bude vždy nad obsahom */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Jemný tieň */
+}
+
+.nav-item a {
+    color: white;
+    transition: color 0.3s;
+}
+
+.nav-item a:hover {
+    color: #007bff;
+}
+
+.nav-link {
+    color: white; /* Farba odkazov */
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #007bff; /* Zvýraznenie odkazov pri hover */
+}
+
+.mobile-dropdown {
+    display: none;
+}
+
+.mobile-dropdown-menu a {
+    display: none;
+}
+
+
+/* Menšie obrazovky - skrytie dropdownu a použitie textového odkazu */
+@media (max-width: 990px) {
+    .user-icon {
+        display: none; /* Skryje ikonu používateľa */
+    }
+
+    #icon-cart {
+        display: none;
+    }
+
+
+
+    .dropdown {
+        display: none; /* Skryje dropdown */
+    }
+
+    .nav-item {
+        display: block; /* Zobrazí text pre menšie obrazovky */
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        color: #007bff;
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .mobile-dropdown {
+        display: block; /* Zobrazí text pre menšie obrazovky */
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        color: white;
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .mobile-dropdown span:hover {
+        color: #007bff;
+    }
+
+    .navbar-collapse {
+        padding: 1rem;
+    }
+
+    .mobile-dropdown-menu {
+        display: none; /* Skryté pod textom */
+        background-color: #00274d;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 8px 0;
+
+    }
+
+    .mobile-dropdown-menu a {
+        display: block;
+        padding: 8px 30px;
+        text-decoration: none;
+        font-size: 1rem;
+        color: white;
+    }
+
+    .mobile-dropdown-menu a:hover {
+        color: #007bff;
+    }
+    .navbar-toggler {
+        color: #00274d;
+    }
+
+
+    /* Štýl pre vlastnú ikonu */
+    .custom-toggler-icon i {
+        font-size:  2.5rem; /* Veľkosť ikony */
+        color: white; /* Farba ikony */
+        transition: transform 0.3s ease; /* Prechod pri kliknutí */
+    }
+
+    /* Efekt pri hover */
+    .custom-toggler-icon i:hover {
+        transform: scale(1.2); /* Zväčšenie pri hover */
+        color: #0056b3; /* Zvýraznená farba */
+    }
+
+    .navbar-brand img{
+        width: 15rem;
+    }
+}
+
+
+
+/* Dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    float: right;
+    padding-right: 2%;
+}
+
+li::marker {
+    content: ''; /* Toto spôsobuje, že odrážky zmiznú */
+}
+
+/* Dropdown content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 50px; /* Adjust this to align the dropdown */
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 1000;
+    width: 150px;
+    text-align: left;
+    /*overflow: hidden;*/
+    padding: 8px 0; /* Add padding for better click area */
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+    display: block;
+}
+
+/* Links styling */
+.dropdown-content a {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    gap: 10px; /* Space between icon and text */
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+    color: #007bff;
+}
+
+.dropdown-content a:hover i {
+    color: #007bff;
+}
+
+.dropdown-content a:hover i {
+    color: #007bff;
+}
+
+/* User icon */
+.user-icon {
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.dropdown:hover .user-icon {
+    transform: scale(1.1);
+}
+
+
+
+
+
+
+/* Štýl pre sekciu užívateľa a košíka */
+.shopping-cart {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+/* Ikona košíka */
+.shopping-cart i {
+    font-size: 24px; /* Nastavenie veľkosti */
+    color: white; /* Farba ikony */
+    transition: color 0.3s ease, transform 0.3s ease; /* Hover efekt */
+}
+
+.shopping-cart i:hover {
+    color: #007bff;
+    transform: scale(1.2); /* Jemné zväčšenie pri hover */
+}
+
+/* Počet položiek v košíku */
+#cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background: #e9242e;
+    color: #fff;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    display: block; /* Uistite sa, že je zobrazený */
+    min-width: 18px;
+    text-align: center;
+    border: 2px solid #fff; /* Lemovanie */
+}
+
+
+
+
+
+/* Základný štýl pre footer */
+.footer-container {
+    background-color: #00274d; /* Tmavomodré pozadie */
+    color: #ffffff; /* Biela farba textu */
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+}
+
+
+
+.footer-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+    align-items: center;
+    text-align: center;
+}
+
+
+
+/* Stĺpec loga */
+.footer-logo img {
+    max-width: 300px;
+    margin: auto;
+
+}
+
+/* Stĺpec kontaktov */
+.footer-contact h5 {
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.footer-contact p {
+    margin: 5px 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Stĺpec sociálnych sietí */
+.footer-social h5 {
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 0;
+    font-size: 14px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.social-link i {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+/* Hover efekty */
+.social-link:hover {
+    color: #f39c12; /* Zlatá pri hover */
+}
+
+/* Responzívnosť pre menšie obrazovky */
+@media (max-width: 768px) {
+    .footer-row {
+        grid-template-columns: 1fr; /* Jednostĺpcové rozloženie */
+        text-align: center;
+    }
+
+    .footer-logo img {
+        margin-bottom: 20px;
+    }
+}
+
+

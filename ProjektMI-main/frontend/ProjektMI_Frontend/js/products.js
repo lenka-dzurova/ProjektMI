@@ -19,8 +19,10 @@ const imagePreview = document.getElementById('imagePreview');
 const status = document.getElementById('productStatus');
 const productRola = document.getElementById('productRola');
 const searchBar = document.getElementById("searchBar");
-
-
+const profilText = document.getElementById('profilLink');
+const logoutMobile = document.getElementById('logoutMobile');
+const orders = document.getElementById("orders");
+const orderMobile = document.getElementById('ordersMobile');
 document.addEventListener("DOMContentLoaded", function () {
     if (localStorage.getItem('updateProduct') === 'true') {
         toastr.success('Produkt bol úspešne aktualizovaný');
@@ -35,10 +37,18 @@ document.addEventListener("DOMContentLoaded", function () {
             btnDelete.style.display = "inline-block";
             btnUpdate.style.display = "inline-block";
             usersLink.style.display = "inline";
-        } else {
-            let orders = document.getElementById("orders");
 
-            orders.style.display = "inline-block";
+        } else {
+            usersLink.style.display = "none";
+            if (window.innerWidth <= 990) {
+
+
+                orderMobile.style.display = 'block'; // Zobraziť na menších obrazovkách
+                orderLink.style.display = 'block';
+
+            } else {
+                orderMobile.style.display = 'none'; // Skryť na väčších obrazovkách
+            }
             orders.addEventListener("click", function (event) {
                 window.location.href = `userOrders.html?userId=${response.id}`;
             })
@@ -94,16 +104,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("logout").addEventListener("click", () => {
-        axios.post('http://localhost:8080/odhlasenie', null, {withCredentials: true})
-            .then(res => {
-                if (res.status === 200) {
-                    window.location.href = "index.html";
-                    console.log('Odhlásenie úspešné'); // Odhlásenie úspešné
-                }
-            })
-            .catch(error => {
-                console.error('Chyba pri odhlásení:', error); // Chyba pri odhlásení
-            });
+        odhlasenie()
+    });
+    logoutMobile.addEventListener("click", ()=>{
+        odhlasenie();
+    });
+
+    profilText.addEventListener('click', (event) => {
+        const menu = document.querySelector('.mobile-dropdown-menu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     });
 
 
@@ -251,6 +260,19 @@ let section;
 let container;
 let productRow;
 let searchTimeout;
+
+function odhlasenie() {
+    axios.post('http://localhost:8080/odhlasenie', null, {withCredentials: true})
+        .then(res => {
+            if (res.status === 200) {
+                window.location.href = "index.html";
+                console.log('Odhlásenie úspešné'); // Odhlásenie úspešné
+            }
+        })
+        .catch(error => {
+            console.error('Chyba pri odhlásení:', error); // Chyba pri odhlásení
+        });
+}
 
 async function liveSearch(rolaProduct) {
     const query = searchBar.value;

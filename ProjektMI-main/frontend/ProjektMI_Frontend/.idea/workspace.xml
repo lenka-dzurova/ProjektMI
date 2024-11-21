@@ -4,18 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fda1d4c-d091-45a6-ad44-a4912057c133" name="Changes" comment="zozbrazenie objednavok, zobrazenie produktov danej objednavky, uzivatel vidi svoje objednavky, zablokovanie id pola pri update, uprava dizajnu zoznamu pouzivatelov">
+    <list default="true" id="1fda1d4c-d091-45a6-ad44-a4912057c133" name="Changes" comment="search bar, stav produktov, reset password">
+      <change afterPath="$PROJECT_DIR$/css/neutralne.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/html/navbar.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/product_detail.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/product_detail.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/products.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/products.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/shopping_cart.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/shopping_cart.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/Footer.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/Header.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/html/product_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/product_detail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/html/products.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/products.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/productsOrder.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/productsOrder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/shopping_cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/shopping_cart.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/html/userOrders.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/userOrders.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/html/users.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/users.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/product_detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/product_detail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/products.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/productsOrder.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/productsOrder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/shopping_cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/shopping_cart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/userOrders.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/userOrders.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/users.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../backend" beforeDir="false" afterPath="$PROJECT_DIR$/../../../backend" afterDir="false" />
@@ -28,9 +35,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -111,7 +118,15 @@
       <workItem from="1731148252050" duration="7346000" />
       <workItem from="1731244659796" duration="8653000" />
       <workItem from="1731321868576" duration="23455000" />
-      <workItem from="1732013522046" duration="34253000" />
+      <workItem from="1732013522046" duration="37954000" />
+      <workItem from="1732095508852" duration="7340000" />
+      <workItem from="1732105240811" duration="10558000" />
+      <workItem from="1732124321763" duration="2619000" />
+      <workItem from="1732136393023" duration="819000" />
+      <workItem from="1732179963080" duration="9510000" />
+      <workItem from="1732191811835" duration="3725000" />
+      <workItem from="1732213809084" duration="3851000" />
+      <workItem from="1732224000316" duration="5525000" />
     </task>
     <task id="LOCAL-00001" summary="Na FE sa dokaze upravovat role pouziatelom">
       <option name="closed" value="true" />
@@ -169,7 +184,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731365054856</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="search bar, stav produktov, reset password">
+      <option name="closed" value="true" />
+      <created>1732052016034</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1732052016034</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -193,6 +216,7 @@
     <MESSAGE value="Zobrazovanie v kalendári kedy je produkt rezervovaný, oprava pridávania do košíki, zmena navigácie v produckt-detail" />
     <MESSAGE value="update produktu, tlačidlá môže vidieť iba administrátor" />
     <MESSAGE value="zozbrazenie objednavok, zobrazenie produktov danej objednavky, uzivatel vidi svoje objednavky, zablokovanie id pola pri update, uprava dizajnu zoznamu pouzivatelov" />
-    <option name="LAST_COMMIT_MESSAGE" value="zozbrazenie objednavok, zobrazenie produktov danej objednavky, uzivatel vidi svoje objednavky, zablokovanie id pola pri update, uprava dizajnu zoznamu pouzivatelov" />
+    <MESSAGE value="search bar, stav produktov, reset password" />
+    <option name="LAST_COMMIT_MESSAGE" value="search bar, stav produktov, reset password" />
   </component>
 </project>

@@ -1,3 +1,5 @@
+import {createFooter, createHeader, updateCartCount} from "./neutralne.js";
+
 // Získanie parametrov z URL
 const params = new URLSearchParams(window.location.search);
 const productId = params.get('id');
@@ -8,9 +10,11 @@ const requestData = {
     idProdukt: productId
 }
 
+
+//TODO POTOM SA SEM VRAT A SKONTROLUJ CI TO JE DOBRE
 document.addEventListener("DOMContentLoaded", () => {
-
-
+    document.body.insertBefore(createHeader(), document.body.firstChild);
+    document.body.insertBefore(createFooter(), document.body.lastChild);
 
     axios.post('http://localhost:8080/produkt/get-produkt', requestData, {withCredentials: true})
         .then(response => {
@@ -26,6 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(error => console.error('Error fetching product details:', error));
 
+
+    window.addEventListener('popstate', () => {
+        updateCartCount();
+    })
 
     updateCartCount();
 })
@@ -304,23 +312,9 @@ function vratDatumyZKosika(idProdukt) {
     });
 }
 
-function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || []; // Načítaj košík z localStorage
-    const cartCountElement = document.getElementById("cart-count"); // Element pre počet produktov
 
 
-    const productCount = cart.length; // Získaj počet produktov v košíku
-
-    if (productCount > 0) {
-        cartCountElement.textContent = productCount; // Nastav počet produktov
-        cartCountElement.style.display = "inline-block"; // Zobraz počet
-    } else {
-        cartCountElement.style.display = "none"; // Skry, ak je košík prázdny
-    }
-};
-
-
-window.onfocus = function() {
-    // Ak je stránka vrátená do popredia, obnov stránku
-    window.location.reload();
-};
+// window.onfocus = function() {
+//     // Ak je stránka vrátená do popredia, obnov stránku
+//     window.location.reload();
+// };

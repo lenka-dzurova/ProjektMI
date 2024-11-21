@@ -1,15 +1,7 @@
 html, body{
     width: 100%;
-    overflow-x:hidden; 
-    }
 
-#navigacia {
-    border-style: solid;
-    border-width: 0 0 1px 0;
-    border-color: rgba(0, 0, 0, 0.5);
-    background-color: #2b3a64;
-    width: 100%;
-}
+    }
 
 .error-message {
     color: red;
@@ -29,76 +21,9 @@ select.invalid {
     border-color: red;
 }
 
-/* Média query pre menšie obrazovky */
-@media screen and (max-width: 768px) {
 
 
 
-    li:last-child {
-        margin-left: 0; /* Zrušenie automatického posúvania doprava pre užívateľa */
-    }
-
-    li a {
-        padding: 10px 0; /* Zmenšenie paddingu pre menšie obrazovky */
-        font-size: 16px; /* Zmenšenie veľkosti textu */
-    }
-
-    li img {
-        width: 50px; /* Zmenšenie veľkosti loga */
-    }
-
-    li a img {
-        width: 200px; /* Zmenšenie veľkosti ikony používateľa */
-    }
-}
-
-@media screen and (max-width: 480px) {
-    li {
-        margin-bottom: 10px; /* Medzery medzi prvkami */
-        width: 100%; /* Prvky sa natiahnu na celú šírku */
-        justify-content: center; /* Zarovnanie textu na stred */
-    }
-
-    li a {
-        font-size: 14px; /* Ešte menšie texty pre mobilné zariadenia */
-    }
-
-    li img {
-        width: 30px; /* Ďalšie zmenšenie loga */
-    }
-
-    li a img {
-        width: 150px; /* Menšia ikona pre užívateľa */
-    }
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #2b3a64;
-    width: 100%;
-}
-
-.logoUniza {
-    margin-left: 2%;
-}
-
-li {
-    display: flex;
-    align-items: center;
-}
-
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 20px;
-    text-decoration: none;
-    font-size: 18px;
-}
 
 .custom-btn-container button {
     background-color: white;
@@ -111,48 +36,11 @@ li a {
     border-color: #d3cfcf;
 }
 
-li img {
-    vertical-align: middle;
-}
-
-.dropdown {
-    margin-left: auto; /* Posunie dropdown na pravú stranu */
-    position: relative; /* Nastavenie pozície pre obsah dropdownu */
-    display: inline-block;
-    margin-right: 5%;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0; /* Zarovná obsah dropdownu na ľavú stranu ikony používateľa */
-    background-color: #f9f9f9;
-    min-width: 120px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block; /* Zobrazenie obsahu pri hover */
-}
 
 
 
-    .nav-link{
-    color: #fff;
-    }
-    
+
+
     
     h1 {
     color: #fff;
@@ -215,9 +103,6 @@ li img {
     font-size: 1.5rem;
 }
 
-/*#addProductBtn .custom-icon {*/
-/*    color: black; !* Farba ikony pre pridať produkt (zelená) *!*/
-/*}*/
 
 #deleteSelectedBtn {
     margin-left: 10px;
@@ -344,46 +229,295 @@ li img {
     margin-top: 10px;
 }
 
-    .menu {
-        display: flex;
-        justify-content: center; /* Horizontálne vycentrovanie */
-        align-items: center; /* Vertikálne vycentrovanie */
+
+
+
+/* Základný štýl pre footer */
+.footer-container {
+    background-color: #00274d; /* Tmavomodré pozadie */
+    color: #ffffff; /* Biela farba textu */
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+    align-items: center;
+}
+
+.footer-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+    align-items: center;
+    text-align: center;
+}
+
+
+
+/* Stĺpec loga */
+.footer-logo img {
+    max-width: 300px;
+    margin: auto;
+}
+
+/* Stĺpec kontaktov */
+.footer-contact h5 {
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.footer-contact p {
+    margin: 5px 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Stĺpec sociálnych sietí */
+.footer-social h5 {
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 0;
+    font-size: 14px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.social-link i {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+/* Hover efekty */
+.social-link:hover {
+    color: #f39c12; /* Zlatá pri hover */
+}
+
+/* Responzívnosť pre menšie obrazovky */
+@media (max-width: 768px) {
+    .footer-row {
+        grid-template-columns: 1fr; /* Jednostĺpcové rozloženie */
+        text-align: center;
     }
 
-    .menu .col-md-6 {
-        text-align: center; /* Vycentrovanie textu v stĺpci */
+    .footer-logo img {
+        margin-bottom: 20px;
+    }
+}
+
+
+
+
+
+.navbar {
+    background-color: #00274d;
+    top: 0;
+    width: 100%; /* Pokryje celú šírku stránky */
+    z-index: 1000; /* Bude vždy nad obsahom */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Jemný tieň */
+}
+
+.nav-item a {
+    color: white;
+    transition: color 0.3s;
+}
+
+.nav-item a:hover {
+    color: #007bff;
+}
+
+.nav-link {
+    color: white; /* Farba odkazov */
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #007bff; /* Zvýraznenie odkazov pri hover */
+}
+
+.mobile-dropdown {
+    display: none;
+}
+
+.mobile-dropdown-menu a {
+    display: none;
+}
+
+.navbar-nav{
+    align-items: center;
+}
+
+
+/* Menšie obrazovky - skrytie dropdownu a použitie textového odkazu */
+@media (max-width: 990px) {
+    .user-icon {
+        display: none; /* Skryje ikonu používateľa */
     }
 
-    
-    footer{
-    background-color: #2b3a64;
+    #icon-cart {
+        display: none;
     }
-    
-    .peticka-ciara h5::before{
-    content: "";
-    border: 1px solid #6c757d;
-    height: 2px;
-    width: 170px;
+
+    .navbar-nav{
+        align-items: start;
+    }
+
+
+    .dropdown {
+        display: none; /* Skryje dropdown */
+    }
+
+    .nav-item {
+        display: block; /* Zobrazí text pre menšie obrazovky */
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        color: #007bff;
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .mobile-dropdown {
+        display: block; /* Zobrazí text pre menšie obrazovky */
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        color: white;
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .mobile-dropdown span:hover {
+        color: #007bff;
+    }
+
+    .navbar-collapse {
+        padding: 1rem;
+    }
+
+    .mobile-dropdown-menu {
+        display: none; /* Skryté pod textom */
+        background-color: #00274d;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 8px 0;
+
+    }
+
+    .mobile-dropdown-menu a {
+        display: block;
+        padding: 8px 30px;
+        text-decoration: none;
+        font-size: 1rem;
+        color: white;
+    }
+
+
+
+    .mobile-dropdown-menu a:hover {
+        color: #007bff;
+    }
+    .navbar-toggler {
+        color: #00274d;
+    }
+
+
+
+
+    /* Štýl pre vlastnú ikonu */
+    .custom-toggler-icon i {
+        font-size:  2.5rem; /* Veľkosť ikony */
+        color: white; /* Farba ikony */
+        transition: transform 0.3s ease; /* Prechod pri kliknutí */
+    }
+
+    /* Efekt pri hover */
+    .custom-toggler-icon i:hover {
+        transform: scale(1.2); /* Zväčšenie pri hover */
+        color: #0056b3; /* Zvýraznená farba */
+    }
+
+    .navbar-brand img{
+        width: 15rem;
+    }
+}
+
+li::marker {
+    content: ''; /* Toto spôsobuje, že odrážky zmiznú */
+}
+
+/* Dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    float: right;
+    padding-right: 2%;
+}
+
+/* Dropdown content */
+.dropdown-content {
+    display: none;
     position: absolute;
-    bottom: 45px;
-    }
-    
-    .peticka h5{
-    color: #fff;
-    }
-    
-    .peticka-ciara a::before{
-    content: "";
-    border: 1px solid #6c757d;
-    height: 2px;
-    width: 170px;
-    position: absolute;
-    bottom: 42px;
-    }
-    
-    .peticka a{
-    color: #fff;
-    }
+    top: 50px; /* Adjust this to align the dropdown */
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 1000;
+    width: 150px;
+    text-align: left;
+    /*overflow: hidden;*/
+    padding: 8px 0; /* Add padding for better click area */
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover {
+    display: block;
+}
+
+/* Links styling */
+.dropdown-content a {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    gap: 10px; /* Space between icon and text */
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+    color: #007bff;
+}
+
+.dropdown-content a:hover i {
+    color: #007bff;
+}
+
+.dropdown-content a:hover i {
+    color: #007bff;
+}
+
+/* User icon */
+.user-icon {
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.dropdown:hover .user-icon {
+    transform: scale(1.1);
+}
+
+
 
 
     
