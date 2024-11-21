@@ -5,6 +5,7 @@ import back_end.audio_video.details.StavProduktu;
 import back_end.audio_video.entity.Produkt;
 import back_end.audio_video.repository.ProduktRepository;
 import back_end.audio_video.request.RolaRequest;
+import back_end.audio_video.request.VyhladavanieProduktuRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,11 +35,19 @@ public class ProduktService {
 
     public List<Produkt> vratVsetkyProdukty(RolaRequest request) {
         if (request.getRolaProduktu() == Rola.ADMIN) {
-            return produktRepository.findAll();
+            return produktRepository.findAllByTypTechniky(request.getTypTechniky());
         }else if(request.getRolaProduktu() == Rola.UCITEL) {
-            return produktRepository.findAllByStavProduktu(StavProduktu.FUNKCNE);
+            return produktRepository.findAllByStavProduktuAndTypTechniky(StavProduktu.FUNKCNE, request.getTypTechniky());
         } else {
-            return produktRepository.findAllByRolaProduktuAndStavProduktu(request.getRolaProduktu(), StavProduktu.FUNKCNE);
+            return produktRepository.findAllByRolaProduktuAndStavProduktuAndTypTechniky(request.getRolaProduktu(), StavProduktu.FUNKCNE, request.getTypTechniky());
+        }
+    }
+
+    public List<Produkt> vratVsetkyProduktyPodlaVyhladavania(VyhladavanieProduktuRequest request) {
+        if (request.getRolaProduktu() == Rola.ADMIN) {
+            return produktRepository.findAllByTypTechnikyAndNazovContainingIgnoreCase(request.getTypTechniky() ,request.getNazov());
+        } else {
+            return produktRepository.findAllByRolaProduktuAndStavProduktuAndTypTechnikyAndNazovContainingIgnoreCase(request.getRolaProduktu(),StavProduktu.FUNKCNE,request.getTypTechniky(), request.getNazov());
         }
     }
 
@@ -64,6 +73,7 @@ public class ProduktService {
             existujuciProdukt.setPopis(novyProdukt.getPopis());
             existujuciProdukt.setTypTechniky(novyProdukt.getTypTechniky());
             existujuciProdukt.setStavProduktu(novyProdukt.getStavProduktu());
+            existujuciProdukt.setRolaProduktu(novyProdukt.getRolaProduktu());
 
             if (novyProdukt.getObrazok() != null) {
                 existujuciProdukt.setObrazok(novyProdukt.getObrazok());

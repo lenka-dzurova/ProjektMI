@@ -8,7 +8,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RolaRequest {
+public class VyhladavanieProduktuRequest {
     private Rola rolaProduktu;
     private Technika typTechniky;
+    private String nazov;
 }

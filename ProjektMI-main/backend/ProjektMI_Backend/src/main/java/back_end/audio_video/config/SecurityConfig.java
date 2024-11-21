@@ -42,10 +42,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/register/**", "/login/**", "/verify/**", "/resend-verification-email/**").permitAll();
                     registry.requestMatchers("/produkt/pridat", "/produkt/get-produkt", "/produkt/delete/**", "/pouzivatel-udaje").authenticated();
-                    registry.requestMatchers("/produkt/delete-produkty", "/produkt/update").permitAll();
-                    registry.requestMatchers("/objednavka/**", "/pouzivatel-udaje", "/produkt/get-all-by-rola").permitAll();
-                    registry.requestMatchers("/get-all-users", "/update-rola").permitAll();
-                    registry.requestMatchers("/reset-password/**").permitAll();
+                    registry.requestMatchers("/produkt/delete-produkty", "/produkt/update").authenticated();
+                    registry.requestMatchers("/objednavka/**", "/pouzivatel-udaje", "/produkt/get-all-by-rola").authenticated();
+                    registry.requestMatchers("/get-all-users", "/update-rola", "/update-pouzivatel", "/get-pouzivatel").authenticated();
+                    registry.requestMatchers("/reset-password/**").authenticated();
                     registry.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -69,9 +69,11 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
-        return authenticationManagerBuilder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder()).and().build();
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+
+        authenticationManagerBuilder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+
+        return authenticationManagerBuilder.build();
     }
 
     @Bean

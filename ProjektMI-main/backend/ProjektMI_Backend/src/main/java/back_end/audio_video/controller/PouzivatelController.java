@@ -5,7 +5,9 @@ import back_end.audio_video.component.JwtUtil;
 import back_end.audio_video.details.PouzivatelDetails;
 import back_end.audio_video.details.Rola;
 import back_end.audio_video.entity.Pouzivatel;
+import back_end.audio_video.request.AktualizujPouzivatelRequest;
 import back_end.audio_video.request.EmailRequest;
+import back_end.audio_video.request.IdPouzivatelRequest;
 import back_end.audio_video.request.LoginRequest;
 import back_end.audio_video.response.PouzivatelResponse;
 import back_end.audio_video.service.PouzivatelService;
@@ -136,5 +138,15 @@ public class PouzivatelController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+
+    @PostMapping("/update-pouzivatel")
+    public ResponseEntity<?> updatePouzivatel(@RequestBody AktualizujPouzivatelRequest request) {
+        return pouzivatelService.updatePouzivatel(request);
+    }
+
+    @PostMapping("/get-pouzivatel")
+    private ResponseEntity<?> getPouzivatel(@RequestBody IdPouzivatelRequest request) {
+        return pouzivatelService.getPouzivatel(request);
     }
 }

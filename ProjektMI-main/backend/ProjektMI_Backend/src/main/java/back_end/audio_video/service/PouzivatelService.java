@@ -11,11 +11,15 @@ import back_end.audio_video.repository.DocasnyPouzivatelRepository;
 import back_end.audio_video.repository.PasswordResetTokenRepository;
 import back_end.audio_video.repository.PouzivatelRepository;
 import back_end.audio_video.repository.VerificationTokenRepository;
+import back_end.audio_video.request.AktualizujPouzivatelRequest;
+import back_end.audio_video.request.IdPouzivatelRequest;
 import back_end.audio_video.request.LoginRequest;
+import back_end.audio_video.response.PouzivatelOsobneUdajeResponse;
 import back_end.audio_video.response.PouzivatelResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -267,5 +271,44 @@ public class PouzivatelService {
     public void updatePassword(Pouzivatel pouzivatel, String newPassword) {
         pouzivatel.setHeslo(passwordEncoder.encode(newPassword));
         pouzivatelRepository.save(pouzivatel);
+    }
+
+    public ResponseEntity<?> updatePouzivatel(AktualizujPouzivatelRequest request) {
+        Optional<Pouzivatel> pouzivetelOptional = pouzivatelRepository.findByIdPouzivatel(request.getIdPouzivatel());
+
+        if (pouzivetelOptional.isPresent()) {
+            Pouzivatel pouzivatel = pouzivetelOptional.get();
+            pouzivatel.setMeno(request.getMeno());
+            pouzivatel.setPriezvisko(request.getPriezvisko());
+            pouzivatel.setTelCislo(request.getTelCislo());
+            pouzivatel.setUlica(request.getUlica());
+            pouzivatel.setPsc(request.getPsc());
+            pouzivatel.setMesto(request.getMesto());
+            pouzivatelRepository.save(pouzivatel);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pouzivatel sa nenasiel");
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity<?> getPouzivatel(IdPouzivatelRequest request) {
+        Optional<Pouzivatel> pouzivetelOptional = pouzivatelRepository.findByIdPouzivatel(request.getIdPouzivatel());
+
+        if (pouzivetelOptional.isPresent()) {
+            Pouzivatel pouzivatel = pouzivetelOptional.get();
+
+            PouzivatelOsobneUdajeResponse response = new PouzivatelOsobneUdajeResponse();
+            response.setMeno(pouzivatel.getMeno());
+            response.setPriezvisko(pouzivatel.getPriezvisko());
+            response.setTelCislo(pouzivatel.getTelCislo());
+            response.setUlica(pouzivatel.getUlica());
+            response.setPsc(pouzivatel.getPsc());
+            response.setMesto(pouzivatel.getMesto());
+
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pouzivatel sa nenasiel");
+        }
     }
 }
