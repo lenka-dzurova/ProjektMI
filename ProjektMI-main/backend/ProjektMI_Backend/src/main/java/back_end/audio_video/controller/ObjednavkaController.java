@@ -1,13 +1,19 @@
 package back_end.audio_video.controller;
 
 
+import back_end.audio_video.details.Rola;
 import back_end.audio_video.dto.ObjednavkaDTO;
 import back_end.audio_video.dto.ObjednavkaProduktDTO;
 import back_end.audio_video.entity.Objednavka;
 import back_end.audio_video.entity.ObjednavkaProdukt;
+import back_end.audio_video.entity.Produkt;
 import back_end.audio_video.exception.ObjednavkaNotFoundException;
 import back_end.audio_video.request.*;
 import back_end.audio_video.service.ObjednavkaService;
+import back_end.audio_video.service.PDFGeneratorService;
+import back_end.audio_video.service.ProduktService;
+import com.itextpdf.text.DocumentException;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +33,10 @@ public class ObjednavkaController {
     private ObjednavkaService objednavkaService;
     @Autowired
     private SpringTemplateEngine templateEngine;
+
+    @Autowired
+    private PDFGeneratorService pdfGeneratorService;
+
 
     @PostMapping("/vytvor")
     public ResponseEntity<ObjednavkaDTO> vytvorObjednavku(@RequestBody VytvorObjednavkaRequest request) {
@@ -97,5 +108,32 @@ public class ObjednavkaController {
     @PostMapping("/update-date")
     public ResponseEntity<?> updateProduktOreders(@RequestBody AktualizaciaObjednavkyRequest request) {
         return objednavkaService.upravProduktyObjednavky(request);
+    }
+
+
+    //TODO POTOM ASI POMEN PRE OBJEDNAVKY
+//    @GetMapping("/download-pdf")
+//    @PostMapping(value = "/generate", produces = MediaType.APPLICATION_PDF_VALUE)
+//    public void downloadPDF(HttpServletResponse response) {
+//        response.setContentType("application/pdf");
+//        response.setHeader("Content-Disposition", "filename=products.pdf");
+//
+//
+//        List<Objednavka> objednavka = objednavkaService.zoznamObjednavok();
+//        pdfGeneratorService.generatePDF(objednavka, response);
+//    }
+
+    @PostMapping("/generate")
+    public void downloadPDF(HttpServletResponse response) {
+        try {
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=products.pdf");
+
+            List<Objednavka> objednavky = objednavkaService.zoznamObjednavok();
+
+            pdfGeneratorService.generatePDF(objednavky, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

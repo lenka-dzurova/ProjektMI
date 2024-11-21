@@ -60,7 +60,7 @@ public class JwtUtil {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
-            throw new RuntimeException("Could not parse JWT: " + e.getMessage());
+            throw new RuntimeException("Nedokazem rozparsovat TOKEN: " + e.getMessage());
         }
     }
 
