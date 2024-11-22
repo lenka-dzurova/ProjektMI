@@ -141,4 +141,10 @@ public class ObjednavkaService {
 
         return ResponseEntity.ok("Produkty objednávky boli úspešne aktualizované");
     }
+
+
+    //TODO POTOM AK TAK ODSTRAN ALE AK BUDE FUNGOVAT VRAT ZOZNAM PRE KONKRETNY DEN
+    public List<Objednavka> zoznamObjednavok() {
+        return objednavkaRepository.findAll();
+    }
 }

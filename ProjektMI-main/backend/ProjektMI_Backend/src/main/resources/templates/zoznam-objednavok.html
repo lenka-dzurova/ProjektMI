@@ -1,0 +1,234 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8"/>-->
+<!--    <title>Zoznam Objednávok</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            background-color: #f4f4f9;-->
+<!--            color: #333;-->
+<!--        }-->
+
+<!--        h1 {-->
+<!--            text-align: center;-->
+<!--            color: #0056b3;-->
+<!--            padding: 20px;-->
+<!--            background-color: #e9ecef;-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        ul {-->
+<!--            list-style-type: none;-->
+<!--            padding: 0;-->
+<!--        }-->
+
+<!--        li {-->
+<!--            background-color: #ffffff;-->
+<!--            margin: 10px 0;-->
+<!--            padding: 15px;-->
+<!--            border-radius: 8px;-->
+<!--            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);-->
+<!--        }-->
+
+<!--        p {-->
+<!--            font-size: 14px;-->
+<!--            margin: 5px 0;-->
+<!--        }-->
+
+<!--        span {-->
+<!--            font-weight: bold;-->
+<!--        }-->
+
+<!--        .order-info {-->
+<!--            margin-bottom: 15px;-->
+<!--        }-->
+
+<!--        .product-list {-->
+<!--            margin-left: 20px;-->
+<!--            margin-top: 10px;-->
+<!--        }-->
+
+<!--        .product-list li {-->
+<!--            background-color: #f8f9fa;-->
+<!--            margin-bottom: 8px;-->
+<!--            padding: 10px;-->
+<!--            border-radius: 5px;-->
+<!--        }-->
+
+<!--        .product-list li p {-->
+<!--            font-size: 13px;-->
+<!--        }-->
+
+<!--        .product-list p {-->
+<!--            color: #495057;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Zoznam Objednávok</h1>-->
+<!--<ul>-->
+<!--    <th:block th:each="objednavka : ${objednavky}">-->
+<!--        <li>-->
+<!--            <div class="order-info">-->
+<!--                <p>ID: <span th:text="${objednavka.idObjednavka}">ID objednávky</span></p>-->
+<!--                <p>Dátum: <span th:text="${#temporals.format(objednavka.datumObjednavky, 'dd-MM-yyyy')}">Dátum objednávky</span></p>-->
+<!--                <p>Zákazník: <span th:text="${objednavka.pouzivatel.meno}">Meno</span> <span th:text="${objednavka.pouzivatel.priezvisko}">Priezvisko</span></p>-->
+<!--            </div>-->
+<!--            <p>Produkty:</p>-->
+<!--            <ul class="product-list">-->
+<!--                <th:block th:each="produkt : ${objednavka.objednavkaProdukty}">-->
+<!--                    <li>-->
+<!--                        <p>Názov produktu: <span th:text="${produkt.produkt.nazov}">Názov produktu</span></p>-->
+<!--                        <p>Dátum vypožičania: <span th:text="${#temporals.format(produkt.datumVypozicania, 'dd-MM-yyyy')}">Dátum vypožičania</span></p>-->
+<!--                        <p>Dátum vrátenia: <span th:text="${#temporals.format(produkt.datumVratenia, 'dd-MM-yyyy')}">Dátum vrátenia</span></p>-->
+<!--                    </li>-->
+<!--                </th:block>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--    </th:block>-->
+<!--</ul>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Zoznam Objednávok</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-top: 40px;
+            color: #2c3e50;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Wrapper for content */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* List of orders */
+        .order-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .order-list li {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .order-list li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .order-info {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .order-info p {
+            margin: 5px 0;
+            color: #7f8c8d;
+        }
+
+        .order-info span {
+            font-weight: 500;
+            color: #34495e;
+        }
+
+        /* Product List */
+        .product-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+        .product-list li {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .product-info p {
+            margin: 5px 0;
+            color: #7f8c8d;
+        }
+
+        .product-info span {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Zoznam Objednávok</h1>
+    <ul class="order-list">
+        <th:block th:each="objednavka : ${objednavky}">
+            <li>
+                <div class="order-info">
+                    <p><strong>ID:</strong> <span th:text="${objednavka.idObjednavka}">ID objednávky</span></p>
+                    <p><strong>Dátum:</strong> <span th:text="${#temporals.format(objednavka.datumObjednavky, 'dd-MM-yyyy')}">Dátum objednávky</span></p>
+                    <p><strong>Zákazník:</strong> <span th:text="${objednavka.pouzivatel.meno}">Meno</span> <span th:text="${objednavka.pouzivatel.priezvisko}">Priezvisko</span></p>
+                </div>
+                <p><strong>Produkty:</strong></p>
+                <ul class="product-list">
+                    <th:block th:each="produkt : ${objednavka.objednavkaProdukty}">
+                        <li>
+                            <div class="product-info">
+                                <p><strong>Názov produktu:</strong> <span th:text="${produkt.produkt.nazov}">Názov produktu</span></p>
+                                <p><strong>Dátum vypožičania:</strong> <span th:text="${#temporals.format(produkt.datumVypozicania, 'dd-MM-yyyy')}">Dátum vypožičania</span></p>
+                                <p><strong>Dátum vrátenia:</strong> <span th:text="${#temporals.format(produkt.datumVratenia, 'dd-MM-yyyy')}">Dátum vrátenia</span></p>
+                            </div>
+                        </li>
+                    </th:block>
+                </ul>
+            </li>
+        </th:block>
+    </ul>
+</div>
+</body>
+</html>
