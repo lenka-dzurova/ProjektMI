@@ -24,7 +24,7 @@ export function createHeader() {
                             </li>
                             <div class="dropdown-content">
                                 <a href="#"><i class="fas fa-user"></i> Profil</a>
-                                <a href="#" id="orders" style="display: none; width: 100%;"><i class="fas fa-box"></i> Objednávky</a>
+                                <a href="#" id="orders" width: 100%;"><i class="fas fa-box"></i> Objednávky</a>
                                 <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Odhlásiť</a>
                             </div>
                         </div>
@@ -109,10 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 orderLink.style.display = 'none';
                 orderMobile.style.display = 'none';
             } else {
+                orderLink.style.display = 'block';
                 if (window.innerWidth <= 990) {
 
                     orderMobile.style.display = 'block'; // Zobraziť na menších obrazovkách
-                    orderLink.style.display = 'block';
+
 
                 } else {
                     orderMobile.style.display = 'none'; // Skryť na väčších obrazovkách
@@ -139,11 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
         profilText.style.textTransform = 'uppercase';
 
         orderMobile.addEventListener("click",()=>{
-            window.location.href = `userOrders.html?userId=${response.id}`;
+            window.location.href = `userOrders.html?id=${response.id}`;
         });
 
         orderLink.addEventListener("click", function (event) {
-            window.location.href = `userOrders.html?userId=${response.id}`;
+            window.location.href = `userOrders.html?id=${response.id}`;
         });
 
         profilText.addEventListener('click', (event) => {

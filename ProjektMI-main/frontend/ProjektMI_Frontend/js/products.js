@@ -40,17 +40,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else {
             usersLink.style.display = "none";
+            orders.style.display = 'block';
             if (window.innerWidth <= 990) {
 
-
                 orderMobile.style.display = 'block'; // Zobraziť na menších obrazovkách
-                orderLink.style.display = 'block';
-
             } else {
                 orderMobile.style.display = 'none'; // Skryť na väčších obrazovkách
             }
             orders.addEventListener("click", function (event) {
-                window.location.href = `userOrders.html?userId=${response.id}`;
+                window.location.href = `userOrders.html?id=${response.id}`;
             })
         }
 
