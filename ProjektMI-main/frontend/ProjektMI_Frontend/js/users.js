@@ -65,11 +65,15 @@ function saveAllUserRoles() {
         changeUser[key] = value;
     })
 
+
+    console.log(changeUser)
+
     if (Object.keys(changeUser).length > 0) {
         axios.put('http://localhost:8080/update-rola', changeUser, {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            withCredentials:true
         }).then(response => {
             if (response.status === 200) {
                 window.location.reload();

@@ -45,7 +45,7 @@ public class SecurityConfig {
                     registry.requestMatchers("/produkt/delete-produkty", "/produkt/update").authenticated();
                     registry.requestMatchers("/objednavka/**", "/pouzivatel-udaje", "/produkt/get-all-by-rola").authenticated();
                     registry.requestMatchers("/get-all-users", "/update-rola", "/update-pouzivatel", "/get-pouzivatel").authenticated();
-                    registry.requestMatchers("/reset-password/**").authenticated();
+                    registry.requestMatchers("/reset-password/**").permitAll();
                     registry.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
