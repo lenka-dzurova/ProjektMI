@@ -13,8 +13,4 @@ import java.util.UUID;
 public class ObjednavkaProduktDTO {
     private UUID id;
     private String produktId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d. M. yyyy")
-    private LocalDate datumVypozicania;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d. M. yyyy")
-    private LocalDate datumVratenia;
 }

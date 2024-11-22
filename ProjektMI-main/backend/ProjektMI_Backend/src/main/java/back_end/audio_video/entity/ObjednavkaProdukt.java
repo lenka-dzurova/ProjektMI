@@ -25,9 +25,4 @@ public class ObjednavkaProdukt {
     @ManyToOne
     @JoinColumn(name = "id_produkt")
     private Produkt produkt;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d. M. yyyy")
-    private LocalDate datumVypozicania;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d. M. yyyy")
-    private LocalDate datumVratenia;
 }

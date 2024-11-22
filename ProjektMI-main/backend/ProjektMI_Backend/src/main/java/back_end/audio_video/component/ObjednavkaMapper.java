@@ -16,7 +16,8 @@ public class ObjednavkaMapper {
     public ObjednavkaDTO objednavkaToDTO(Objednavka objednavka) {
         ObjednavkaDTO dto = new ObjednavkaDTO();
         dto.setIdObjednavka(objednavka.getIdObjednavka());
-        dto.setDatumObjednavky(objednavka.getDatumObjednavky());
+        dto.setDatumVypozicania(objednavka.getDatumVypozicania());
+        dto.setDatumVratenia(objednavka.getDatumVratenia());
         dto.setIdPouzivatela(objednavka.getPouzivatel().getIdPouzivatel());
 
         List<ObjednavkaProduktDTO> produktyDTO = objednavka.getObjednavkaProdukty()
@@ -31,8 +32,6 @@ public class ObjednavkaMapper {
         ObjednavkaProduktDTO dto = new ObjednavkaProduktDTO();
         dto.setId(objednavkaProdukt.getId());
         dto.setProduktId(objednavkaProdukt.getProdukt().getIdProdukt());
-        dto.setDatumVypozicania(objednavkaProdukt.getDatumVypozicania());
-        dto.setDatumVratenia(objednavkaProdukt.getDatumVratenia());
 
         return dto;
     }

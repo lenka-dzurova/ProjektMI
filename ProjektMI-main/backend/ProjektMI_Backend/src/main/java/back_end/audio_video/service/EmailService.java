@@ -53,14 +53,14 @@ public class EmailService {
         context.setVariable("zamietnutUrl", zamietnutUrl);
         context.setVariable("menoObjednavatela", objednavka.getPouzivatel().getMeno());
         context.setVariable("priezviskoObjednavatel", objednavka.getPouzivatel().getPriezvisko());
+        context.setVariable("datumVytvorenia", objednavka.getDatumVypozicania());
+        context.setVariable("datumVratenia", objednavka.getDatumVratenia());
 
         List<ObjednavkaProdukt> produktList = new ArrayList<>();
 
         for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
             ObjednavkaProdukt produktDetail = new ObjednavkaProdukt();
             produktDetail.setProdukt(objednavkaProdukt.getProdukt());
-            produktDetail.setDatumVypozicania(objednavkaProdukt.getDatumVypozicania());
-            produktDetail.setDatumVratenia(objednavkaProdukt.getDatumVratenia());
 
             produktList.add(produktDetail);
         }
@@ -95,8 +95,6 @@ public class EmailService {
         for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
             ObjednavkaProdukt produktDetail = new ObjednavkaProdukt();
             produktDetail.setProdukt(objednavkaProdukt.getProdukt());
-            produktDetail.setDatumVypozicania(objednavkaProdukt.getDatumVypozicania());
-            produktDetail.setDatumVratenia(objednavkaProdukt.getDatumVratenia());
 
             obsahObjednavky.add(produktDetail);
         }
@@ -106,6 +104,8 @@ public class EmailService {
         context.setVariable("priezvisko", priezviko);
         context.setVariable("idObjednavky", id);
         context.setVariable("obsahObjednavky", obsahObjednavky);
+        context.setVariable("dautmVytvorenia", objednavka.getDatumVypozicania());
+        context.setVariable("datumVratenia", objednavka.getDatumVratenia());
 
         String htmlContent = templateEngine.process("objednavka-schvalena-objednavatel", context);
 
@@ -128,8 +128,6 @@ public class EmailService {
         for (ObjednavkaProdukt objednavkaProdukt : objednavka.getObjednavkaProdukty()) {
             ObjednavkaProdukt produktDetail = new ObjednavkaProdukt();
             produktDetail.setProdukt(objednavkaProdukt.getProdukt());
-            produktDetail.setDatumVypozicania(objednavkaProdukt.getDatumVypozicania());
-            produktDetail.setDatumVratenia(objednavkaProdukt.getDatumVratenia());
 
             obsahObjednavky.add(produktDetail);
         }
@@ -138,7 +136,10 @@ public class EmailService {
         context.setVariable("meno", meno);
         context.setVariable("priezvisko", priezviko);
         context.setVariable("idObjednavky", id);
+        context.setVariable("datumVypozicania", objednavka.getDatumVypozicania());
+        context.setVariable("datumVratenia", objednavka.getDatumVratenia());
         context.setVariable("obsahObjednavky", obsahObjednavky);
+
 
         String htmlContent = templateEngine.process("objednavka-zamietnuta-objednavatel", context);
 

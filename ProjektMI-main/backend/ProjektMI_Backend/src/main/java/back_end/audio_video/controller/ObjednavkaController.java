@@ -39,9 +39,8 @@ public class ObjednavkaController {
 
 
     @PostMapping("/vytvor")
-    public ResponseEntity<ObjednavkaDTO> vytvorObjednavku(@RequestBody VytvorObjednavkaRequest request) {
-        ObjednavkaDTO objednavkaDTO = objednavkaService.vytvorObjednavku(request.getPouzivatelId(), request.getObjednavkaProduktyDTO());
-        return ResponseEntity.status(HttpStatus.CREATED).body(objednavkaDTO);
+    public ResponseEntity<?> vytvorObjednavku(@RequestBody VytvorObjednavkaRequest request) {
+        return objednavkaService.vytvorObjednavku(request);
     }
 
     @GetMapping("/schvalit/{id}")
@@ -74,6 +73,8 @@ public class ObjednavkaController {
         }
     }
 
+
+    //TODO ZISTI OD LENKY CI TO POUZIVAME
     @PostMapping("/datumy-objednavok")
     public ResponseEntity<?> vratZoznamDatumyObjednavok(@RequestBody IdProduktRequest idProduktRequest) {
         List<ObjednavkaProdukt> objednavky = objednavkaService.getObjednavkyPodlaProduktId(idProduktRequest.getIdProdukt());
@@ -86,8 +87,6 @@ public class ObjednavkaController {
             ObjednavkaProduktDTO objednavkaProduktDTO = new ObjednavkaProduktDTO();
             objednavkaProduktDTO.setId(objednavkaProdukt.getId());
             objednavkaProduktDTO.setProduktId(objednavkaProdukt.getProdukt().getIdProdukt());
-            objednavkaProduktDTO.setDatumVypozicania(objednavkaProdukt.getDatumVypozicania());
-            objednavkaProduktDTO.setDatumVratenia(objednavkaProdukt.getDatumVratenia());
             return objednavkaProduktDTO;
         }).toList();
 
@@ -107,7 +106,7 @@ public class ObjednavkaController {
 
     @PostMapping("/update-date")
     public ResponseEntity<?> updateProduktOreders(@RequestBody AktualizaciaObjednavkyRequest request) {
-        return objednavkaService.upravProduktyObjednavky(request);
+        return objednavkaService.upravObjednavku(request);
     }
 
 

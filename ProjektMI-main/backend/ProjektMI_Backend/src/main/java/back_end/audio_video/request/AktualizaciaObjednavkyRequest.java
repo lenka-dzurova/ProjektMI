@@ -4,6 +4,8 @@ package back_end.audio_video.request;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,5 +13,5 @@ import java.util.UUID;
 @Setter
 public class AktualizaciaObjednavkyRequest {
     private UUID idObjednavka;
-    private List<AktualizaciaDatumVrateniaRequest> produkty;
+    private LocalDate datumVratenia;
 }

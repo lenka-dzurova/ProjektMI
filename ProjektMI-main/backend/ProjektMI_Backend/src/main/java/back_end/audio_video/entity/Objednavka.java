@@ -2,10 +2,12 @@ package back_end.audio_video.entity;
 
 
 import back_end.audio_video.details.StavObjednavky;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +21,11 @@ public class Objednavka {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID idObjednavka;
 
-    private LocalDateTime datumObjednavky;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    private LocalDate datumVypozicania;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    private LocalDate datumVratenia;
 
     @ManyToOne
     @JoinColumn(name = "id_pouzivatel")

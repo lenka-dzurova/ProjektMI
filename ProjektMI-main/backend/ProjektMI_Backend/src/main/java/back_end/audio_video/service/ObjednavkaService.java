@@ -15,12 +15,12 @@ import back_end.audio_video.repository.PouzivatelRepository;
 import back_end.audio_video.repository.ProduktRepository;
 import back_end.audio_video.request.AktualizaciaDatumVrateniaRequest;
 import back_end.audio_video.request.AktualizaciaObjednavkyRequest;
+import back_end.audio_video.request.VytvorObjednavkaRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,45 +41,48 @@ public class ObjednavkaService {
     @Autowired
     private EmailService emailService;
 
-    public ObjednavkaDTO vytvorObjednavku(UUID pouzivatelId, List<ObjednavkaProduktDTO> objednavkaProduktyDTO) {
-        Optional<Pouzivatel> pouzivatel = pouzivatelRepository.findById(pouzivatelId);
+    public ResponseEntity<?> vytvorObjednavku(VytvorObjednavkaRequest request) {
+        Optional<Pouzivatel> pouzivatel = pouzivatelRepository.findById(request.getPouzivatelId());
 
         if (pouzivatel.isEmpty()) {
-            throw new RuntimeException("Pouzivatel nenajdeny");
-        }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pouzivatel sa nenasiel");
+        } else {
+            Objednavka objednavka = new Objednavka();
+            objednavka.setPouzivatel(pouzivatel.get());
+            objednavka.setStavObjednavky(StavObjednavky.CAKAJUCA);
+            objednavka.setDatumVypozicania(request.getDatumVypozicania());
+            objednavka.setDatumVratenia(request.getDatumVratenia());
 
-        Objednavka objednavka = new Objednavka();
-        objednavka.setPouzivatel(pouzivatel.get());
-        objednavka.setStavObjednavky(StavObjednavky.CAKAJUCA);
-        objednavka.setDatumObjednavky(LocalDateTime.now());
 
-        objednavkaRepository.save(objednavka);
+//            System.err.println(objednavka.getDatumVypozicania());
+//            System.err.println(objednavka.getDatumVratenia());
 
-        List<ObjednavkaProdukt> objednavkaProdukty = new ArrayList<>();
+            objednavkaRepository.save(objednavka);
 
-        for (ObjednavkaProduktDTO produktDTO : objednavkaProduktyDTO) {
-            Optional<Produkt> produkt = produktRepository.getProduktByIdProdukt(produktDTO.getProduktId());
+            List<ObjednavkaProdukt> objednavkaProdukty = new ArrayList<>();
 
-            if (produkt.isEmpty()) {
-                throw new RuntimeException("Produkt nenajdeny");
+            for (ObjednavkaProduktDTO produktDTO : request.getObjednavkaProduktyDTO()) {
+                Optional<Produkt> produkt = produktRepository.getProduktByIdProdukt(produktDTO.getProduktId());
+
+                if (produkt.isEmpty()) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produkty sa nenasli");
+                }
+
+                ObjednavkaProdukt objednavkaProdukt = new ObjednavkaProdukt();
+                objednavkaProdukt.setObjednavka(objednavka);
+                objednavkaProdukt.setProdukt(produkt.get());
+
+                objednavkaProduktRepository.save(objednavkaProdukt);
+
+                objednavkaProdukty.add(objednavkaProdukt);
             }
 
-            ObjednavkaProdukt objednavkaProdukt = new ObjednavkaProdukt();
-            objednavkaProdukt.setObjednavka(objednavka);
-            objednavkaProdukt.setProdukt(produkt.get());
-            objednavkaProdukt.setDatumVypozicania(produktDTO.getDatumVypozicania());
-            objednavkaProdukt.setDatumVratenia(produktDTO.getDatumVratenia());
+            objednavka.setObjednavkaProdukty(objednavkaProdukty);
 
-            objednavkaProduktRepository.save(objednavkaProdukt);
+            this.emailService.sendMailAdministrator(objednavka);
 
-            objednavkaProdukty.add(objednavkaProdukt);
+            return ResponseEntity.ok(objednavkaMapper.objednavkaToDTO(objednavka));
         }
-
-        objednavka.setObjednavkaProdukty(objednavkaProdukty);
-
-        this.emailService.sendMailAdministrator(objednavka);
-
-        return objednavkaMapper.objednavkaToDTO(objednavka);
     }
 
     public void schvalitObjednavku(UUID id) {
@@ -113,7 +116,6 @@ public class ObjednavkaService {
 
 
     public List<Objednavka> getOrdersByUserId(UUID userId) {
-        // Implementácia logiky na získanie objednávok podľa ID používateľa
         return objednavkaRepository.findAllByPouzivatelIdPouzivatel(userId);
     }
 
@@ -121,25 +123,19 @@ public class ObjednavkaService {
         return objednavkaProduktRepository.findObjednavkaProduktByObjednavka_IdObjednavka(orderId);
     }
 
-    public ResponseEntity<?> upravProduktyObjednavky(AktualizaciaObjednavkyRequest request) {
-        List<ObjednavkaProdukt> produkty = objednavkaProduktRepository.findObjednavkaProduktByObjednavka_IdObjednavka(request.getIdObjednavka());
+    public ResponseEntity<?> upravObjednavku(AktualizaciaObjednavkyRequest request) {
+        Optional<Objednavka> objednavkaOptional = objednavkaRepository.findByIdObjednavka(request.getIdObjednavka());
 
-        if (produkty.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Žiadne produkty pre danú objednávku neboli nájdené");
+        if (objednavkaOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Objednavka nebola najdena");
         }
 
-        for (AktualizaciaDatumVrateniaRequest aktualizaciaProduktRequest : request.getProdukty()) {
-            for (ObjednavkaProdukt produkt : produkty) {
-                if (produkt.getId().toString().equals(aktualizaciaProduktRequest.getIdObjednavkaProdukt().toString())) {
+        Objednavka objednavka = objednavkaOptional.get();
+        objednavka.setDatumVratenia(request.getDatumVratenia());
 
-                    produkt.setDatumVratenia(aktualizaciaProduktRequest.getDatumVratenia());
-                }
-            }
-        }
+        objednavkaRepository.save(objednavka);
 
-        objednavkaProduktRepository.saveAll(produkty);
-
-        return ResponseEntity.ok("Produkty objednávky boli úspešne aktualizované");
+        return ResponseEntity.ok().body("Produkty objednávky boli úspešne aktualizované");
     }
 
 

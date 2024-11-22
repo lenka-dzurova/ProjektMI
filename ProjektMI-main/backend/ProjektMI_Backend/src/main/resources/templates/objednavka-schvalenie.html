@@ -81,7 +81,10 @@
     </div>
     <div class="content">
         <p><b>Prišla nová objednávka s ID: </b><span th:text="${idObjednavka}"></span></p>
-        <p><b>Objednávateľ: </b><span th:text="${menoObjednavatela}"></span> <span th:text="${priezviskoObjednavatel}"></span></p>
+        <p><b>Objednávateľ: </b><span th:text="${menoObjednavatela}"/> <span th:text="${priezviskoObjednavatel}"/></p>
+        <p><b>Dátum vypožičania: </b><span th:text="${datumVytvorenia}"/></p>
+        <p><b>Dátum vrátenia: </b><span th:text="${datumVratenia}"/></p>
+
         <p>Prosím, schváľte alebo zamietnite objednávku.</p>
 
         <h3>Zoznam produktov:</h3>
@@ -89,15 +92,15 @@
             <thead>
             <tr>
                 <th>ID Produktu</th>
-                <th>Dátum vypožičania</th>
-                <th>Dátum vrátenia</th>
+                <th>Názov produktu</th>
+                <th>Typ techniky</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="produkt : ${produkty}">
                 <td th:text="${produkt.produkt.getIdProdukt()}"></td>
-                <td th:text="${produkt.getDatumVypozicania()}"></td>
-                <td th:text="${produkt.getDatumVratenia()}"></td>
+                <td th:text="${produkt.produkt.getNazov()}"></td>
+                <td th:text="${produkt.produkt.getTypTechniky()}"></td>
             </tr>
             </tbody>
         </table>
