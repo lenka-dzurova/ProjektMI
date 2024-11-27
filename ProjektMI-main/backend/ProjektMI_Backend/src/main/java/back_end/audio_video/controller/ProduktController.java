@@ -127,7 +127,6 @@ public class ProduktController {
     }
     @PostMapping("/vyhladavanie")
     public List<Produkt> searchProducts(@RequestBody VyhladavanieProduktuRequest request) {
-        System.out.println(request.getNazov());
         return produktService.vratVsetkyProduktyPodlaVyhladavania(request);
     }
 }
