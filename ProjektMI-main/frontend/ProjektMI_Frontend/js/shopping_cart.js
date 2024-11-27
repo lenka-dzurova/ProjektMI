@@ -54,15 +54,48 @@ function removeFromCart(id) {
     window.location.reload();
 }
 
+
+// TODO toto je spravna potom odkomentuj // TODO upravit aby to ziskavalo datum z objednavky nie z produktu
+// document.getElementById('checkout-btn').addEventListener('click', (event) => {
+//     event.preventDefault();
+//
+//     const objednavkaData = {
+//         pouzivatelId: pouzivatelId,
+//         objednavkaProduktyDTO: cart.map(product => ({
+//             produktId: product.id,
+//             datumVypozicania: product.startDate,
+//             datumVratenia: product.endDate
+//         }))
+//     }
+//
+//     console.log(objednavkaData)
+//
+//     axios.post('http://localhost:8080/objednavka/vytvor', objednavkaData, {
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         withCredentials: true
+//     }).then(response => {
+//         if (response.status === 201) {
+//             localStorage.clear();
+//             window.location.reload();
+//         }
+//     })
+// })
+
+
+//TODO potom odstran to som spravil aby sa upravilo to hore podla tohto
 document.getElementById('checkout-btn').addEventListener('click', (event) => {
     event.preventDefault();
 
     const objednavkaData = {
         pouzivatelId: pouzivatelId,
+        datumVypozicania: "01.12.2024", // TODO ZISKAT DATUM OD POUZIVATELA
+        datumVratenia: "05.12.2024",    // TODO ZISKAT DATUM OD POUZIVATELA
         objednavkaProduktyDTO: cart.map(product => ({
             produktId: product.id,
-            datumVypozicania: product.startDate,
-            datumVratenia: product.endDate
+            datumVypozicania: product.startDate, // TODO POTOM ODSTRAN UZ SA NEMUSI POSIELAT
+            datumVratenia: product.endDate  // TODO POTOM ODSTRAN UZ SA NEMUSI POSIELAT
         }))
     }
 
@@ -80,6 +113,7 @@ document.getElementById('checkout-btn').addEventListener('click', (event) => {
         }
     })
 })
+
 
 
 // Načítanie košíka pri načítaní stránky

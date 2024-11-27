@@ -135,7 +135,7 @@ public class ObjednavkaController {
 
             pdfGeneratorService.generatePDF(objednavky, response);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Problem " + e);
         }
     }
 }
