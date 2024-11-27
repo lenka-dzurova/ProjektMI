@@ -68,8 +68,8 @@
     <p>Mrzí nás to, ale Vaša objednávka s ID <strong><span th:text="${idObjednavky}"></span></strong> bola zamietnutá a nebude schválená na vypožičanie.</p>
     <p>Ak máte otázky alebo potrebujete ďalšie informácie, neváhajte nás kontaktovať.</p>
 
-    <p><b>Dátum vypožičania:</b> <span th:text="${datumVypozicania}"></span></p>
-    <p><b>Dátum vrátenia:</b> <span th:text="${datumVratenia}"></span></p>
+    <p><b>Dátum vypožičania:</b> <span th:text="${#temporals.format(datumVypozicania, 'd. M. yyyy')}"></span></p>
+    <p><b>Dátum vrátenia:</b> <span th:text="${#temporals.format(datumVratenia, 'd. M. yyyy')}"></span></p>
 
     <h3>Zoznam produktov:</h3>
     <table>
@@ -81,8 +81,8 @@
       </thead>
       <tbody>
       <tr th:each="produkt : ${obsahObjednavky}">
-        <td th:text="${produkt.produkt.getNazov()}"></td>
-        <td th:text="${produkt.produkt.getTypTechniky()}"></td>
+        <td th:text="${produkt.produkt.nazov}"></td>
+        <td th:text="${produkt.produkt.typTechniky}"></td>
       </tr>
       </tbody>
     </table>

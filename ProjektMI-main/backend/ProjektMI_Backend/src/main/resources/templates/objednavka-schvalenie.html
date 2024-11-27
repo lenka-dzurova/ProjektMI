@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -82,8 +82,8 @@
     <div class="content">
         <p><b>Prišla nová objednávka s ID: </b><span th:text="${idObjednavka}"></span></p>
         <p><b>Objednávateľ: </b><span th:text="${menoObjednavatela}"/> <span th:text="${priezviskoObjednavatel}"/></p>
-        <p><b>Dátum vypožičania: </b><span th:text="${datumVytvorenia}"/></p>
-        <p><b>Dátum vrátenia: </b><span th:text="${datumVratenia}"/></p>
+        <p><b>Dátum vypožičania: </b><span th:text="${#temporals.format(datumVratenia, 'd. M. yyyy')}"/></p>
+        <p><b>Dátum vrátenia: </b><span th:text="${#temporals.format(datumVratenia, 'd. M. yyyy')}"/></p>
 
         <p>Prosím, schváľte alebo zamietnite objednávku.</p>
 
@@ -98,9 +98,9 @@
             </thead>
             <tbody>
             <tr th:each="produkt : ${produkty}">
-                <td th:text="${produkt.produkt.getIdProdukt()}"></td>
-                <td th:text="${produkt.produkt.getNazov()}"></td>
-                <td th:text="${produkt.produkt.getTypTechniky()}"></td>
+                <td th:text="${produkt.produkt.idProdukt}"></td>
+                <td th:text="${produkt.produkt.nazov}"></td>
+                <td th:text="${produkt.produkt.typTechniky}"></td>
             </tr>
             </tbody>
         </table>

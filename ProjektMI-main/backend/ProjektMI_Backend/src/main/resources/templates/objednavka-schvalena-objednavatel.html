@@ -72,9 +72,9 @@
     </div>
     <div class="content">
         <h1>Vážený/Vážená <span th:text="${meno}"></span> <span th:text="${priezvisko}"></span>,</h1>
-        <p>Vaša objednávka s ID <span th:text="${idObjednavky}"></span> bola schválená na vypožičanie.</p>
-        <p><b>Dátum vypožičania: </b><span th:text="${datumVytvorenia}"/></p>
-        <p><b>Dátum vrátenia: </b><span th:text="${datumVratenia}"/></p>
+        <p>Vaša objednávka s ID <b th:text="${idObjednavky}"></b> bola schválená na vypožičanie.</p>
+        <p><b>Dátum vypožičania: </b><span th:text="${#temporals.format(datumVytvorenia, 'd. M. yyyy')}"/></p>
+        <p><b>Dátum vrátenia: </b><span th:text="${#temporals.format(datumVratenia, 'd. M. yyyy')}"/></p>
 
         <h3>Zoznam produktov: </h3>
         <table>
@@ -86,8 +86,8 @@
             </thead>
             <tbody>
             <tr th:each="produkt : ${obsahObjednavky}">
-                <td th:text="${produkt.produkt.getNazov()}"></td>
-                <td th:text="${produkt.produkt.getTypTechniky()}"></td>
+                <td th:text="${produkt.produkt.nazov}"></td>
+                <td th:text="${produkt.produkt.typTechniky}"></td>
             </tr>
             </tbody>
         </table>
