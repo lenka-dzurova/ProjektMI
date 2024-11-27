@@ -211,8 +211,9 @@
             <li>
                 <div class="order-info">
                     <p><strong>ID:</strong> <span th:text="${objednavka.idObjednavka}">ID objednávky</span></p>
-                    <p><strong>Dátum:</strong> <span th:text="${#temporals.format(objednavka.datumObjednavky, 'dd-MM-yyyy')}">Dátum objednávky</span></p>
                     <p><strong>Zákazník:</strong> <span th:text="${objednavka.pouzivatel.meno}">Meno</span> <span th:text="${objednavka.pouzivatel.priezvisko}">Priezvisko</span></p>
+                    <p><strong>Dátum vypožičania:</strong> <span th:text="${#temporals.format(objednavka.datumVypozicania, 'dd-MM-yyyy')}">Dátum objednávky</span></p>
+                    <p><b>Dátum vrátenia: </b><span th:text="${objednavka.datumVratenia}"/></p>
                 </div>
                 <p><strong>Produkty:</strong></p>
                 <ul class="product-list">
@@ -220,8 +221,6 @@
                         <li>
                             <div class="product-info">
                                 <p><strong>Názov produktu:</strong> <span th:text="${produkt.produkt.nazov}">Názov produktu</span></p>
-                                <p><strong>Dátum vypožičania:</strong> <span th:text="${#temporals.format(produkt.datumVypozicania, 'dd-MM-yyyy')}">Dátum vypožičania</span></p>
-                                <p><strong>Dátum vrátenia:</strong> <span th:text="${#temporals.format(produkt.datumVratenia, 'dd-MM-yyyy')}">Dátum vrátenia</span></p>
                             </div>
                         </li>
                     </th:block>

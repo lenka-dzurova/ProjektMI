@@ -104,7 +104,7 @@ public class EmailService {
         context.setVariable("priezvisko", priezviko);
         context.setVariable("idObjednavky", id);
         context.setVariable("obsahObjednavky", obsahObjednavky);
-        context.setVariable("dautmVytvorenia", objednavka.getDatumVypozicania());
+        context.setVariable("datumVytvorenia", objednavka.getDatumVypozicania());
         context.setVariable("datumVratenia", objednavka.getDatumVratenia());
 
         String htmlContent = templateEngine.process("objednavka-schvalena-objednavatel", context);

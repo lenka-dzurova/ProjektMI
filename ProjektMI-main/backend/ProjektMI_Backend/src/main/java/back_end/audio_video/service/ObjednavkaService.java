@@ -3,7 +3,6 @@ package back_end.audio_video.service;
 
 import back_end.audio_video.component.ObjednavkaMapper;
 import back_end.audio_video.details.StavObjednavky;
-import back_end.audio_video.dto.ObjednavkaDTO;
 import back_end.audio_video.dto.ObjednavkaProduktDTO;
 import back_end.audio_video.entity.Objednavka;
 import back_end.audio_video.entity.ObjednavkaProdukt;
@@ -13,7 +12,6 @@ import back_end.audio_video.repository.ObjednavkaProduktRepository;
 import back_end.audio_video.repository.ObjednavkaRepository;
 import back_end.audio_video.repository.PouzivatelRepository;
 import back_end.audio_video.repository.ProduktRepository;
-import back_end.audio_video.request.AktualizaciaDatumVrateniaRequest;
 import back_end.audio_video.request.AktualizaciaObjednavkyRequest;
 import back_end.audio_video.request.VytvorObjednavkaRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +45,14 @@ public class ObjednavkaService {
         if (pouzivatel.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pouzivatel sa nenasiel");
         } else {
+
+            System.out.println(request.getDatumVratenia());
+
             Objednavka objednavka = new Objednavka();
             objednavka.setPouzivatel(pouzivatel.get());
             objednavka.setStavObjednavky(StavObjednavky.CAKAJUCA);
             objednavka.setDatumVypozicania(request.getDatumVypozicania());
             objednavka.setDatumVratenia(request.getDatumVratenia());
-
-
-//            System.err.println(objednavka.getDatumVypozicania());
-//            System.err.println(objednavka.getDatumVratenia());
 
             objednavkaRepository.save(objednavka);
 

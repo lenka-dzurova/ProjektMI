@@ -45,10 +45,13 @@ public class ObjednavkaController {
 
     @GetMapping("/schvalit/{id}")
     public ResponseEntity<?> schvalit(@PathVariable UUID id) {
+        System.err.println("VOLA SA");
+
         try {
             objednavkaService.schvalitObjednavku(id);
             Context context = new Context();
             context.setVariable("idObjednavka", id);
+            System.out.println("SOM TU");
             String htmlContent = templateEngine.process("objednavka-schvalena-admin", context);
             return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(htmlContent);
         } catch (ObjednavkaNotFoundException e) {

@@ -106,7 +106,6 @@ public class ProduktController {
         String id = aktualizujProduktRequest.getIdProdukt();
         String json = aktualizujProduktRequest.getProduktJSON();
 
-        System.out.println(json);
 
         MultipartFile obrazok = aktualizujProduktRequest.getObrazok();
         try {
@@ -129,6 +128,6 @@ public class ProduktController {
     @PostMapping("/vyhladavanie")
     public List<Produkt> searchProducts(@RequestBody VyhladavanieProduktuRequest request) {
         System.out.println(request.getNazov());
-        return produktService.vratVsetkyProduktyPodlaVyhladavania(request); // Vyhľadáva produkty obsahujúce zadaný text
+        return produktService.vratVsetkyProduktyPodlaVyhladavania(request);
     }
 }

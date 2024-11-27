@@ -54,9 +54,20 @@ public class JwtUtil {
     }
 
     public Claims extractAllClaims(String token) {
-        try {
+    // Toto je stara verzia
+        /*try {
             return Jwts.parser()
                     .setSigningKey(this.secretKey)
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e) {
+            throw new RuntimeException("Nedokazem rozparsovat TOKEN: " + e.getMessage());
+        }*/
+
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
