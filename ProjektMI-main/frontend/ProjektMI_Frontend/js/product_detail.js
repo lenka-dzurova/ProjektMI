@@ -251,7 +251,7 @@ function vratDatumyObjednavok(idProdukt) {
 
 function vratDatumyZKosika(idProdukt) {
     cart.forEach(item => {
-        if (item.id === idProdukt) {
+        if (item.id == idProdukt) {
             const startDateBooking = new Date(item.startDate.split('. ').reverse().join('-'));
             const endDateBooking = new Date(item.endDate.split('. ').reverse().join('-'));
 
