@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,10 +15,10 @@ import java.util.UUID;
 public class VytvorObjednavkaRequest {
     private UUID pouzivatelId;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d. M. yyyy")
     private LocalDate datumVypozicania;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d. M. yyyy")
     private LocalDate datumVratenia;
 
     private List<ObjednavkaProduktDTO> objednavkaProduktyDTO;

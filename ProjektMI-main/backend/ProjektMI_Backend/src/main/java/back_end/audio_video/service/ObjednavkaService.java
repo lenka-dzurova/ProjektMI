@@ -108,7 +108,8 @@ public class ObjednavkaService {
     }
 
     public List<ObjednavkaProdukt> getObjednavkyPodlaProduktId(String id) {
-        return objednavkaProduktRepository.findObjednavkaProduktByProduktIdProduktAndObjednavka_StavObjednavky(id, StavObjednavky.valueOf(StavObjednavky.SCHVALENA.toString()));
+        List<StavObjednavky> stavy = List.of(StavObjednavky.CAKAJUCA, StavObjednavky.SCHVALENA,StavObjednavky.POZICANE);
+        return objednavkaProduktRepository.findObjednavkaProduktByProduktIdProduktAndObjednavka_StavObjednavkyIn(id, stavy);
     }
 
 

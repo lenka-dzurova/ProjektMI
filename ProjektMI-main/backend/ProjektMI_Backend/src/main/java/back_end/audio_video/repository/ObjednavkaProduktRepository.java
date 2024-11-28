@@ -11,6 +11,6 @@ import java.util.UUID;
 
 @Repository
 public interface ObjednavkaProduktRepository extends JpaRepository<ObjednavkaProdukt, UUID> {
-    List<ObjednavkaProdukt> findObjednavkaProduktByProduktIdProduktAndObjednavka_StavObjednavky(String id, StavObjednavky stavObjednavky);
+    List<ObjednavkaProdukt> findObjednavkaProduktByProduktIdProduktAndObjednavka_StavObjednavkyIn(String id, List<StavObjednavky> stavy);
     List<ObjednavkaProdukt> findObjednavkaProduktByObjednavka_IdObjednavka(UUID id);
 }

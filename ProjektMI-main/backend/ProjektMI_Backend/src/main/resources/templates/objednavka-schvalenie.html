@@ -82,7 +82,7 @@
     <div class="content">
         <p><b>Prišla nová objednávka s ID: </b><span th:text="${idObjednavka}"></span></p>
         <p><b>Objednávateľ: </b><span th:text="${menoObjednavatela}"/> <span th:text="${priezviskoObjednavatel}"/></p>
-        <p><b>Dátum vypožičania: </b><span th:text="${#temporals.format(datumVratenia, 'd. M. yyyy')}"/></p>
+        <p><b>Dátum vypožičania: </b><span th:text="${#temporals.format(datumVytvorenia, 'd. M. yyyy')}"/></p>
         <p><b>Dátum vrátenia: </b><span th:text="${#temporals.format(datumVratenia, 'd. M. yyyy')}"/></p>
 
         <p>Prosím, schváľte alebo zamietnite objednávku.</p>

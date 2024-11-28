@@ -90,12 +90,10 @@ document.getElementById('checkout-btn').addEventListener('click', (event) => {
 
     const objednavkaData = {
         pouzivatelId: pouzivatelId,
-        datumVypozicania: "01.12.2024", // TODO ZISKAT DATUM OD POUZIVATELA
-        datumVratenia: "05.12.2024",    // TODO ZISKAT DATUM OD POUZIVATELA
+        datumVypozicania: cart[0].startDate,
+        datumVratenia: cart[0].endDate,
         objednavkaProduktyDTO: cart.map(product => ({
-            produktId: product.id,
-            datumVypozicania: product.startDate, // TODO POTOM ODSTRAN UZ SA NEMUSI POSIELAT
-            datumVratenia: product.endDate  // TODO POTOM ODSTRAN UZ SA NEMUSI POSIELAT
+            produktId: product.id
         }))
     }
 
@@ -107,8 +105,10 @@ document.getElementById('checkout-btn').addEventListener('click', (event) => {
         },
         withCredentials: true
     }).then(response => {
-        if (response.status === 201) {
+        console.log(response)
+        if (response.status === 200) {
             localStorage.clear();
+            sessionStorage.setItem('showToastr', 'true');
             window.location.reload();
         }
     })
@@ -120,6 +120,10 @@ document.getElementById('checkout-btn').addEventListener('click', (event) => {
 document.addEventListener('DOMContentLoaded', () => {
     document.body.insertBefore(createHeader(), document.body.firstChild);
     document.body.insertBefore(createFooter(), document.body.lastChild);
+    if (sessionStorage.getItem('showToastr') === 'true') {
+        toastr.info("Objednávka bolo úspešne vytvorená");
+        sessionStorage.removeItem('showToastr'); // Vymažeme informáciu z sessionStorage
+    }
     renderCart();
     updateCartCount();
 });

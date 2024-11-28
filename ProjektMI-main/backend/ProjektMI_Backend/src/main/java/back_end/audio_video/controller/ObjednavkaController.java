@@ -1,11 +1,12 @@
 package back_end.audio_video.controller;
 
 
-import back_end.audio_video.dto.ObjednavkaProduktDTO;
+
 import back_end.audio_video.entity.Objednavka;
 import back_end.audio_video.entity.ObjednavkaProdukt;
 import back_end.audio_video.exception.ObjednavkaNotFoundException;
 import back_end.audio_video.request.*;
+import back_end.audio_video.response.ProduktDatumyResponse;
 import back_end.audio_video.service.ObjednavkaService;
 import back_end.audio_video.service.PDFGeneratorService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,15 +82,24 @@ public class ObjednavkaController {
             return ResponseEntity.noContent().build();
         }
 
-        List<ObjednavkaProduktDTO> zoznamDatumov = objednavky.stream().map(objednavkaProdukt -> {
-            ObjednavkaProduktDTO objednavkaProduktDTO = new ObjednavkaProduktDTO();
-            objednavkaProduktDTO.setId(objednavkaProdukt.getId());
-            objednavkaProduktDTO.setProduktId(objednavkaProdukt.getProdukt().getIdProdukt());
-            return objednavkaProduktDTO;
-        }).toList();
+        List<ProduktDatumyResponse> datumyResponses = new ArrayList<>();
+
+        for (ObjednavkaProdukt objednavkaProdukt : objednavky) {
+            ProduktDatumyResponse produktDatumyResponse = new ProduktDatumyResponse();
+            produktDatumyResponse.setDatumVypozicania(objednavkaProdukt.getObjednavka().getDatumVypozicania());
+            produktDatumyResponse.setDatumVratenia(objednavkaProdukt.getObjednavka().getDatumVratenia());
+            datumyResponses.add(produktDatumyResponse);
+        }
+
+//        List<ObjednavkaProduktDTO> zoznamDatumov = objednavky.stream().map(objednavkaProdukt -> {
+//            ObjednavkaProduktDTO objednavkaProduktDTO = new ObjednavkaProduktDTO();
+//            objednavkaProduktDTO.setId(objednavkaProdukt.getId());
+//            objednavkaProduktDTO.setProduktId(objednavkaProdukt.getProdukt().getIdProdukt());
+//            return objednavkaProduktDTO;
+//        }).toList();
 
 
-        return ResponseEntity.ok(zoznamDatumov);
+        return ResponseEntity.ok(datumyResponses);
     }
 
     @PostMapping("/get-all-by-user-id")

@@ -13,4 +13,7 @@ import java.util.UUID;
 public interface ObjednavkaRepository extends JpaRepository<Objednavka, UUID> {
     Optional<Objednavka> findByIdObjednavka(UUID id);
     List<Objednavka> findAllByPouzivatelIdPouzivatel(UUID userId);
+
+
+
 }

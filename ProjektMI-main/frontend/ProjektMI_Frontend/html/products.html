@@ -1,4 +1,4 @@
-<html>
+<html lang="sk">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,6 +37,10 @@
 						<a class="nav-link" href="../html/users.html" id="usersList">ZOZNAM POUŽÍVATEĽOV</a>
 					</li>
 				</ul>
+				<div class="input-group" style="max-width: 20rem; margin-right: 2rem" >
+					<input type="text" id="searchBar" class="form-control" placeholder="Vyhľadajte produkt" style="max-width: 20rem">
+					<span class="input-group-text"><i class="bi bi-search"></i></span>
+				</div>
 				<!-- User Icon with Dropdown -->
 				<div class="dropdown ">
 					<!-- Pôvodný dropdown pre väčšie obrazovky -->
@@ -77,18 +81,11 @@
 		<section style="margin-top: 4%;">
 			<div class="container">
 				<div class="row">
-					<div class="col-6" >
+					<div class="col-10" >
 						<div class="my-auto">
 							<H1 class="napis">Preskúmajte našu ponuku</H1>
 							<H6 id="section-heading">NAŠE AUDIO TECHNOLÓGIE</H6>
 						</div>
-					</div>
-					<div class="col-4 d-flex justify-content-end align-items-center">
-						<div class="input-group">
-							<input type="text" id="searchBar" class="form-control" placeholder="Vyhľadajte produkt" >
-							<span class="input-group-text"><i class="bi bi-search"></i></span> <!-- Ikona lupy -->
-						</div>
-
 					</div>
 					<div class="col-2 d-flex justify-content-end align-items-center custom-btn-container">
 						<button id="addProductBtn" class="btn btn-primary product-btn" data-bs-toggle="modal" data-bs-target="#productModal">
@@ -100,6 +97,35 @@
 						<button id="deleteSelectedBtn" class="btn btn-danger product-btn">
 							<i class="bi bi-trash custom-icon"></i> <!-- Ikona pre vymazať produkt -->
 						</button>
+						<button class="btn btn-primary product-btn" id="filterBtn" data-bs-toggle="modal" data-bs-target="#dateModal">
+							<i class="bi bi-filter"></i> Vyberte dátum
+						</button>
+					</div>
+					<div class="modal fade" id="dateModal" tabindex="-1" aria-labelledby="dateModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="dateModalLabel">Zadajte dátumy</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zatvoriť"></button>
+								</div>
+								<div class="modal-body">
+									<form>
+										<div class="mb-3">
+											<label for="startDate" class="form-label">Dátum vypožičania</label>
+											<input type="date" class="form-control" id="startDate" placeholder="Vyberte dátum" required>
+										</div>
+										<div class="mb-3">
+											<label for="endDate" class="form-label">Dátum vrátenia</label>
+											<input type="date" class="form-control" id="endDate" placeholder="Vyberte dátum" required>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvoriť</button>
+									<button type="button" class="btn btn-primary" id="saveDates">Uložiť</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">

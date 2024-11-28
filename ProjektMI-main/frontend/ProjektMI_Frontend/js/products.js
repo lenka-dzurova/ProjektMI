@@ -8,6 +8,9 @@ const btnDelete = document.getElementById("deleteSelectedBtn");
 const btnUpdate = document.getElementById("updateProductBtn");
 const btnSave = document.getElementById("saveProductBtn");
 const btnEdit = document.getElementById("editProductBtn");
+const btnDate = document.getElementById("filterBtn")
+const btnSaveDates = document.getElementById("saveDates");
+
 const usersLink = document.getElementById("usersList");
 
 const id = document.getElementById('productId');
@@ -23,6 +26,10 @@ const profilText = document.getElementById('profilLink');
 const logoutMobile = document.getElementById('logoutMobile');
 const orders = document.getElementById("orders");
 const orderMobile = document.getElementById('ordersMobile');
+const startDate = document.getElementById("startDate");
+const endDate = document.getElementById("endDate");
+const modal = new bootstrap.Modal(document.getElementById('dateModal'));
+
 document.addEventListener("DOMContentLoaded", function () {
     if (localStorage.getItem('updateProduct') === 'true') {
         toastr.success('Produkt bol úspešne aktualizovaný');
@@ -37,10 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
             btnDelete.style.display = "inline-block";
             btnUpdate.style.display = "inline-block";
             usersLink.style.display = "inline";
+            btnDate.style.display = "none";
 
         } else {
             usersLink.style.display = "none";
             orders.style.display = 'block';
+            btnDate.style.display = "inline-block";
             if (window.innerWidth <= 990) {
 
                 orderMobile.style.display = 'block'; // Zobraziť na menších obrazovkách
@@ -55,6 +64,31 @@ document.addEventListener("DOMContentLoaded", function () {
         searchBar.addEventListener('input', (event) => {
             liveSearch(rola);
         });
+
+        btnSaveDates.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            const start = new Date(startDate.value);
+            const end = new Date(endDate.value);
+
+            const diffTime = end - start;
+            const diffDays = diffTime / (1000 * 3600 * 24); // 1 deň = 1000 ms * 3600 sekúnd * 24 hodín
+
+            if (diffDays > 10) {
+                toastr.error("Rozdiel medzi dátumami nemôže byť väčší ako 10 dní.");
+                endDate.value = ""; // Vymaže dátum konca
+            } else {
+                if (startDate.value.length !== 0 && endDate.value.length !== 0) {
+                    searchApi(rola,null);
+                    const datumy = [startDate.value, endDate.value];
+                    localStorage.setItem('Datumy',JSON.stringify(datumy))
+                    modal.hide();
+                } else {
+                    toastr.error('Nemáte vybrané dátumy');
+                }
+            }
+
+        } )
 
 
         fetchProducts(rola);
@@ -104,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("logout").addEventListener("click", () => {
         odhlasenie()
     });
-    logoutMobile.addEventListener("click", ()=>{
+    logoutMobile.addEventListener("click", () => {
         odhlasenie();
     });
 
@@ -208,7 +242,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
             }).then(response => {
-                console.log(response.status);
                 if (response.status === 201) {
                     location.reload();
                 }
@@ -225,39 +258,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Načítanie produktov z API
 async function fetchProducts(rolaPouzivatel) {
-        let type = 'AUDIO';
-        if (aktivneVideo) {
-            type = 'VIDEO';
-        }
-        const requestBody = {
-            rolaProduktu: rolaPouzivatel,
-            typTechniky: type
-        }
-
-
-
-        await axios.post(`http://localhost:8080/produkt/get-all-by-rola`, requestBody, {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            withCredentials: true
-        }).then(response => {
-            const products = response.data;
-
-
-            displayProducts(products);
-        }).catch(error => {
-            console.error('Error fetching products:', error);
-            if (error.response) {
-                console.error('Server responded with:', error.response.data);
-            }
-        });
+    let type = 'AUDIO';
+    if (aktivneVideo) {
+        type = 'VIDEO';
     }
+    const requestBody = {
+        rolaProduktu: rolaPouzivatel,
+        typTechniky: type
+    }
+
+
+    await axios.post(`http://localhost:8080/produkt/get-all-by-rola`, requestBody, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        withCredentials: true
+    }).then(response => {
+        const products = response.data;
+
+
+        displayProducts(products);
+    }).catch(error => {
+        console.error('Error fetching products:', error);
+        if (error.response) {
+            console.error('Server responded with:', error.response.data);
+        }
+    });
+}
 
 let section;
 let container;
 let productRow;
-let searchTimeout;
 
 function odhlasenie() {
     axios.post('http://localhost:8080/odhlasenie', null, {withCredentials: true})
@@ -274,13 +305,10 @@ function odhlasenie() {
 
 async function liveSearch(rolaProduct) {
     const query = searchBar.value;
-    let type = 'AUDIO';
-    if (aktivneVideo) {
-        type = 'VIDEO';
 
-    }
+
+
     if (query.trim() === "") {
-        console.log(aktivneVideo);
         if (aktivneVideo) {
             fetchProducts(rolaProduct);
 
@@ -291,39 +319,37 @@ async function liveSearch(rolaProduct) {
     }
 
 
+    searchApi(rolaProduct,query);
 
+}
 
+function searchApi(rolaProduct,query) {
     const requestBody = {
-        rolaProduktu: rolaProduct,
+        rola: rolaProduct,
         nazov: query,
-        typTechniky: type
+        datumVypozicania: startDate.value,
+        datumVratenia: endDate.value
     }
 
-    // Zastavíme predchádzajúce požiadavky a počkáme pred odoslaním novej
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(async () => {
 
-        try {
+    try {
 
-            // Posielame požiadavku na backend s aktuálnym textom v search bar cez axios
-            axios.post('http://localhost:8080/produkt/vyhladavanie',requestBody, {
-                withCredentials: true
-            })
-                .then(response => {
-
-                    if (response.status === 200) {
-                        const products = response.data;
-                        displayProducts(products);
-                    }
-                }).catch(error => {
-                console.error("Chyba pri live search:", error);
-            });
-
-
-        } catch (error) {
+        // Posielame požiadavku na backend s aktuálnym textom v search bar cez axios
+        axios.post('http://localhost:8080/produkt/vyhladavanie', requestBody, {
+            withCredentials: true
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    const products = response.data;
+                    displayProducts(products);
+                }
+            }).catch(error => {
             console.error("Chyba pri live search:", error);
-        }
-    }, 300); // Počkajte 300 ms pred odoslaním požiadavky
+        });
+
+    } catch (error) {
+        console.error("Chyba pri live search:", error);
+    }
 }
 
 function displayProducts(products) {
@@ -340,43 +366,44 @@ function displayProducts(products) {
 
     productRow.innerHTML = '';
 
-    products.forEach(product => {
+    if (products.length !== 0) {
+        products.forEach(product => {
 
-        const col = document.createElement('div');
-        col.className = 'col-md-4 mt-3 product-container';
-        col.innerHTML = `
-            <div class="checkbox-container">
-                <input type="checkbox" class="product-checkbox" value="${product.idProdukt}" style="${rola === 'ADMIN' ? 'display: line;' : 'display: none;'}">
-            </div>
-            <a href="product_detail.html?id=${product.idProdukt}">
-                <div class="big-img">
-                    <img src="data:image/jpeg;base64,${product.obrazok}" class="obrazky" alt="${product.nazov}">
+            const col = document.createElement('div');
+            col.className = 'col-md-4 mt-3 product-container';
+            col.innerHTML = `
+                <div class="checkbox-container">
+                    <input type="checkbox" class="product-checkbox" value="${product.idProdukt}" style="${rola === 'ADMIN' ? 'display: line;' : 'display: none;'}">
                 </div>
-                <H4 class="nadpis">${product.nazov}</H4>
-                <div class="row">
-                    <div class="col-md-12 py-2">
-                        <H5>${product.popis}</H5>
+                <a href="product_detail.html?id=${product.idProdukt}">
+                    <div class="big-img">
+                        <img src="data:image/jpeg;base64,${product.obrazok}" class="obrazky" alt="${product.nazov}">
                     </div>
-                    <div class="col-md-12 status-text-container" id="status-text" style="${rola === 'ADMIN' ? 'display: line;' : 'display: none;'}; text-align: right" >
-                        <H5 id="statusText">${textDesign(product.stavProduktu)}</H5>
+                    <H4 class="nadpis">${product.nazov}</H4>
+                    <div class="row">
+                        <div class="col-md-12 py-2">
+                            <H5>${product.popis}</H5>
+                        </div>
+                        <div class="col-md-12 status-text-container" id="status-text" style="${rola === 'ADMIN' ? 'display: line;' : 'display: none;'}; text-align: right" >
+                            <H5 id="statusText">${textDesign(product.stavProduktu)}</H5>
+                        </div>
                     </div>
-                </div>
-            </a>
-        `;
-        const statusTextElement = col.querySelector('#statusText');
-        if (product.stavProduktu === "FUNKCNE") {
-            statusTextElement.style.color = 'green';
-        } else {
-            statusTextElement.style.color = 'red';
-        }
-        productRow.appendChild(col);
-    });
+                </a>
+            `;
+            const statusTextElement = col.querySelector('#statusText');
+            if (product.stavProduktu === "FUNKCNE") {
+                statusTextElement.style.color = 'green';
+            } else {
+                statusTextElement.style.color = 'red';
+            }
+            productRow.appendChild(col);
+        });
+    }
 }
 
 function textDesign(text) {
     return text === "FUNKCNE" ? 'FUNKČNÉ' : 'NEFUNKČNÉ';
 }
-
 
 
 let vybraneProdukty = [];
@@ -422,14 +449,14 @@ btnDelete.addEventListener('click', () => {
     }
 });
 
-btnUpdate.addEventListener("click",() => {
+btnUpdate.addEventListener("click", () => {
 
     if (vybraneProdukty.length === 1) {
         let idProduct = vybraneProdukty[0];
         const productModal = new bootstrap.Modal(document.getElementById("productModal"));
 
         const requestData = {
-            idProdukt : idProduct
+            idProdukt: idProduct
         }
 
         axios.post(`http://localhost:8080/produkt/get-produkt`, requestData, {withCredentials: true})
@@ -467,7 +494,7 @@ btnUpdate.addEventListener("click",() => {
     }
 });
 
-btnEdit.addEventListener("click",() => {
+btnEdit.addEventListener("click", () => {
     // Získajte ID produktu
     const idProduct = id.value;
 
@@ -500,7 +527,7 @@ btnEdit.addEventListener("click",() => {
     })
         .then(response => {
             if (response.status === 200) {
-                localStorage.setItem("updateProduct",true);
+                localStorage.setItem("updateProduct", true);
                 location.reload();
             }
             // Môžete pridať kód na uzavretie modálneho okna alebo na zobrazenie správy o úspechu
