@@ -12,13 +12,15 @@ public class PouzivatelDetails implements UserDetails {
     private String priezvisko;
     private String email;
     private Rola rola;
+    //private String ulica;
 
-    public PouzivatelDetails(UUID id, String meno, String priezvisko, String email, Rola rola) {
+    public PouzivatelDetails(UUID id, String meno, String priezvisko, String email, Rola rola/*, String ulica*/) {
         this.id = id;
         this.meno = meno;
         this.priezvisko = priezvisko;
         this.email = email;
         this.rola = rola;
+  //     this.ulica = ulica;
     }
 
     @Override
@@ -55,5 +57,7 @@ public class PouzivatelDetails implements UserDetails {
     public Rola getRola() {
         return this.rola;
     }
+
+   // public String getUlica() {  return this.ulica; }
 }
 

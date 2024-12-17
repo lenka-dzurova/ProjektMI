@@ -23,7 +23,7 @@ export function createHeader() {
                                 <img src="../img/ikony/user.png" width="50" alt="user icon" class="user-icon">
                             </li>
                             <div class="dropdown-content">
-                                <a href="#"><i class="fas fa-user"></i> Profil</a>
+                                <a href="user_account.html"><i class="fas fa-user"></i> Profil</a>
                                 <a href="#" id="orders" width: 100%;"><i class="fas fa-box"></i> Objednávky</a>
                                 <a href="#" id="logout"><i class="fas fa-sign-out-alt"></i> Odhlásiť</a>
                             </div>
@@ -34,7 +34,7 @@ export function createHeader() {
                     </div>
                     <div class="mobile-dropdown-menu">
                         <a href="shopping_cart.html" id="cart">KOŠÍK</a>
-                        <a href="#">PROFIL</a>
+                        <a href="user_account.html">PROFIL</a>
                         <a href="#" id="ordersMobile" style="display: none">OBJEDNÁVKA</a>
                         <a href="#" id="logoutMobile">ODHLÁSIŤ</a>
                     </div>

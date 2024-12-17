@@ -171,6 +171,7 @@ public class PouzivatelService {
                 pouzivatel.getPriezvisko(),
                 pouzivatel.getEmail(),
                 pouzivatel.getRola()
+               // pouzivatel.getUlica()
         );
     }
 
@@ -216,6 +217,7 @@ public class PouzivatelService {
             pouzivatelResponse.setMeno(jwtUtil.extractMeno(token));
             pouzivatelResponse.setPriezvisko(jwtUtil.extractPriezvisko(token));
             pouzivatelResponse.setEmail(jwtUtil.extractEmail(token));
+            //pouzivatelResponse.setUlica(jwtUtil.extractUlica(token));
             pouzivatelResponse.setRola(Rola.valueOf(jwtUtil.extractRola(token).toUpperCase()));
 
             return pouzivatelResponse;

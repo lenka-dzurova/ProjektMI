@@ -13,4 +13,5 @@ public class PouzivatelResponse {
     private String priezvisko;
     private String email;
     private Rola rola;
+    //private String ulica;
 }

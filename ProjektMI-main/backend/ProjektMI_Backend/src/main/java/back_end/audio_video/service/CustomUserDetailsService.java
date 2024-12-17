@@ -20,9 +20,11 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Používateľ s emailom " + email + " neexistuje"));
 
         return new PouzivatelDetails(pouzivatel.getIdPouzivatel()
-                ,pouzivatel.getMeno()
-                ,pouzivatel.getPriezvisko()
-                ,pouzivatel.getEmail()
-                ,pouzivatel.getRola());
+                , pouzivatel.getMeno()
+                , pouzivatel.getPriezvisko()
+                , pouzivatel.getEmail()
+                , pouzivatel.getRola()
+              //  , pouzivatel.getUlica()
+        );
     }
 }

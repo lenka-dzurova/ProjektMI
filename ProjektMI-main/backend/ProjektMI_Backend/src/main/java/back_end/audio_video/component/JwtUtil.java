@@ -44,6 +44,10 @@ public class JwtUtil {
         return this.extractClaims(token, claims -> claims.get("email", String.class));
     }
 
+//    public String extractUlica(String token) {
+//        return this.extractClaims(token, claims -> claims.get("ulica", String.class));
+//    }
+
     public Date extractExpiration(String token) {
         return this.extractClaims(token, Claims::getExpiration);
     }
@@ -88,7 +92,7 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(pouzivatelDetails.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                .setExpiration(new Date(System.currentTimeMillis() + 10000 * 60 * 60 * 10))
                 .signWith(this.secretKey)
                 .compact();
     }
