@@ -296,11 +296,20 @@ public class PouzivatelService {
 
     public ResponseEntity<?> getPouzivatel(IdPouzivatelRequest request) {
         Optional<Pouzivatel> pouzivetelOptional = pouzivatelRepository.findByIdPouzivatel(request.getIdPouzivatel());
+        return getUserResponseEntity(pouzivetelOptional);
+    }
 
+    public ResponseEntity<?> getPouzivatel(UUID id) {
+        Optional<Pouzivatel> pouzivetelOptional = pouzivatelRepository.findByIdPouzivatel(id);
+        return getUserResponseEntity(pouzivetelOptional);
+    }
+
+    private ResponseEntity<?> getUserResponseEntity(Optional<Pouzivatel> pouzivetelOptional) {
         if (pouzivetelOptional.isPresent()) {
             Pouzivatel pouzivatel = pouzivetelOptional.get();
 
             PouzivatelOsobneUdajeResponse response = new PouzivatelOsobneUdajeResponse();
+            response.setEmail(pouzivatel.getEmail());
             response.setMeno(pouzivatel.getMeno());
             response.setPriezvisko(pouzivatel.getPriezvisko());
             response.setTelCislo(pouzivatel.getTelCislo());

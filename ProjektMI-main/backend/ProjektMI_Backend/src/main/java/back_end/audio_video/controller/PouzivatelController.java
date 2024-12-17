@@ -149,4 +149,31 @@ public class PouzivatelController {
     private ResponseEntity<?> getPouzivatel(@RequestBody IdPouzivatelRequest request) {
         return pouzivatelService.getPouzivatel(request);
     }
+
+    @GetMapping("/pouzivatel-all-udaje")
+    public ResponseEntity vratPouzivatelUdajeVsetky(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String token = null;
+
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("JWT")) {
+                token = cookie.getValue();
+                break;
+            }
+        }
+
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        PouzivatelResponse pouzivatelResponse = pouzivatelService.getPozivatelZTokena(token);
+
+        if (pouzivatelResponse == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String id =jwtUtil.extractID(token);
+
+        return pouzivatelService.getPouzivatel(UUID.fromString(id));
+    }
 }

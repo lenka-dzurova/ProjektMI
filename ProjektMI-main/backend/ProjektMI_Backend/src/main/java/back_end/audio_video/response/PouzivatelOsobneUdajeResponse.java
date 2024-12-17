@@ -9,6 +9,7 @@ import lombok.Setter;
 public class PouzivatelOsobneUdajeResponse {
     private String meno;
     private String priezvisko;
+    private String email;
     private String telCislo;
     private String ulica;
     private String psc;
