@@ -1,6 +1,7 @@
 package back_end.audio_video.request;
 
 
+import back_end.audio_video.details.StavObjednavky;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,4 +15,5 @@ import java.util.UUID;
 public class AktualizaciaObjednavkyRequest {
     private UUID idObjednavka;
     private LocalDate datumVratenia;
+    private StavObjednavky stavObjednavky;
 }

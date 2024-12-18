@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             color: #333;
-            line-height: 1.6;
+            /*line-height: 1.6;*/
         }
 
         h1 {
@@ -109,7 +109,7 @@
 <div class="container">
     <h1>Zoznam Objednávok</h1>
     <ul class="order-list">
-        <th:block th:each="objednavka : ${objednavky}">
+        <th:block th:each="objednavka : ${objednavka}">
             <li>
                 <div class="order-info">
                     <p><strong>ID:</strong> <span th:text="${objednavka.idObjednavka}">ID objednávky</span></p>

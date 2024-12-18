@@ -173,6 +173,7 @@ function odhlasenie() {
     axios.post('http://localhost:8080/odhlasenie', null, {withCredentials: true})
         .then(res => {
             if (res.status === 200) {
+                localStorage.removeItem("Datumy");
                 window.location.href = "index.html";
                 console.log('Odhlásenie úspešné'); // Odhlásenie úspešné
             }

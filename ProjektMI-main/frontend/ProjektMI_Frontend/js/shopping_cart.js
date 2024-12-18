@@ -55,36 +55,10 @@ function removeFromCart(id) {
 }
 
 
-// TODO toto je spravna potom odkomentuj // TODO upravit aby to ziskavalo datum z objednavky nie z produktu
-// document.getElementById('checkout-btn').addEventListener('click', (event) => {
-//     event.preventDefault();
-//
-//     const objednavkaData = {
-//         pouzivatelId: pouzivatelId,
-//         objednavkaProduktyDTO: cart.map(product => ({
-//             produktId: product.id,
-//             datumVypozicania: product.startDate,
-//             datumVratenia: product.endDate
-//         }))
-//     }
-//
-//     console.log(objednavkaData)
-//
-//     axios.post('http://localhost:8080/objednavka/vytvor', objednavkaData, {
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         withCredentials: true
-//     }).then(response => {
-//         if (response.status === 201) {
-//             localStorage.clear();
-//             window.location.reload();
-//         }
-//     })
-// })
 
 
-//TODO potom odstran to som spravil aby sa upravilo to hore podla tohto
+
+
 document.getElementById('checkout-btn').addEventListener('click', (event) => {
     event.preventDefault();
 

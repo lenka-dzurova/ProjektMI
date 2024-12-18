@@ -35,5 +35,9 @@ public class Objednavka {
     private List<ObjednavkaProdukt> objednavkaProdukty;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "stav_objednavky", length = 15, nullable = false)
     private StavObjednavky stavObjednavky;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss")
+    private LocalDateTime datumVytvorenia;
 }

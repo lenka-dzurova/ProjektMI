@@ -20,9 +20,9 @@ public class PDFGeneratorService {
     private TemplateEngine templateEngine;
 
 
-    public void generatePDF(List<Objednavka> objednavky, HttpServletResponse response) {
+    public void generatePDF(Objednavka objednavka, HttpServletResponse response) {
         Context context = new Context();
-        context.setVariable("objednavky", objednavky);
+        context.setVariable("objednavka", objednavka);
 
 
         String hmtmlContent = templateEngine.process("zoznam-objednavok", context);

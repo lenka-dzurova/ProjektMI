@@ -1,9 +1,9 @@
 import {fetchUser} from "./helpers.js";
 import {createFooter, createHeader} from "./neutralne.js";
 
-let updateDatumy = [];
+
 let orderId;
-let saveButton;
+
 
 
 
@@ -17,6 +17,7 @@ async function fetchUsers(rola) {
     try {
         const response = await axios.post('http://localhost:8080/objednavka/get-products-by-order-id',requestData, {withCredentials: true});
         let products = response.data;
+        console.log(products);
         displayUsers(products, rola);
     } catch (error) {
         console.error('Error fetching users:', error);
@@ -26,10 +27,10 @@ async function fetchUsers(rola) {
     }
 }
 
-function formatDate(dateString) {
-    const [day, month, year] = dateString.split('.').map(part => part.trim());
-    return `${year}-${month}-${day}`;  // Formát pre JavaScript
-}
+// function formatDate(dateString) {
+//     const [day, month, year] = dateString.split('.').map(part => part.trim());
+//     return `${year}-${month}-${day}`;  // Formát pre JavaScript
+// }
 
 function displayUsers(products, rola) {
 
@@ -40,46 +41,25 @@ function displayUsers(products, rola) {
         row.className = 'product-row';
 
         // Format the date for the input field (datumVratenia)
-        const formattedDatumObjednavky = formatDate(product.datumVratenia);
+        // const formattedDatumObjednavky = formatDate(product.datumVratenia);
         row.innerHTML = `
             <td>${product.produkt.idProdukt}</td>
             <td>${product.produkt.nazov}</td>
-            <td>${product.datumVypozicania}</td>
-            <td class="returnDate">
-                <input id="inputDate-${product.id}" type="date" value="${formattedDatumObjednavky}" style="display: ${rola === 'ADMIN' ? 'inline-block' : 'none'};">
-            </td>
+          
         `;
 
         productTab.appendChild(row);
 
-        const inputDate = document.getElementById(`inputDate-${product.id}`);
-        const returnDateTd = inputDate.parentElement; // Get the parent td of the input field
-
         console.info(rola);
 
-        if (rola === "ADMIN") {
 
-            saveButton.style.display = "inline-block";
-            // Listen for changes in the input field and store the data
-            inputDate.addEventListener("change", (event) => {
-                const data = {
-                    idObjednavkaProdukt: product.id,
-                    datumVratenia: event.target.value
-                };
-                updateDatumy.push(data);
-                saveButton.disabled = false;
-            });
-        } else {
-            // For non-admin users, hide the input field and keep the original date
-            returnDateTd.textContent = product.datumVratenia;
-        }
     });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     document.body.insertBefore(createHeader(), document.body.firstChild);
     document.body.insertBefore(createFooter(), document.body.lastChild);
-    saveButton = document.getElementById('ulozit');
+
 
 
     fetchUser().then(response => {
@@ -95,41 +75,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    if (updateDatumy.length === 0) {
-        saveButton.disabled = true;
-
-    }
-
-    saveButton.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        const requestData = {
-            idObjednavka: orderId,
-            produkty: updateDatumy
-        }
-
-        if (updateDatumy.length > 0) {
-            const isConfirmed = confirm("Ste si istý, že chcete uložiť zmeny?");
-
-            if (isConfirmed) {
-                axios.post('http://localhost:8080/objednavka/update-date', requestData, {withCredentials: true}).then(response => {
-                    if (response.status === 200) {
-                        updateDatumy = [];
-                        toastr.success("Zmeny boli úspešne uložené.");
-
-                    }
-                }).catch(error => {
-                    console.error("Chyba pri ukladaní zmien:", error);
-                    toastr.error("Nastala chyba pri ukladaní zmien. Skúste to znova.");
-                });
-            } else {
-                sessionStorage.setItem('showToastr', 'true');
-                window.location.reload();
 
 
-            }
-        }
-    });
+
 });
 
 

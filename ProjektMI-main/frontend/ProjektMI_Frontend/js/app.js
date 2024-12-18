@@ -45,9 +45,15 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('mesto-register').value = "";
     });
 
-    document.getElementById("dataConsent").addEventListener("change", function () {
-        document.getElementById("registrationButton").disabled = !this.checked;
-    });
+    // document.getElementById("dataConsent").addEventListener("change", function () {
+    //     document.getElementById("registrationButton").disabled = !this.checked;
+    // });
+    // document.getElementById("dataConsent2").addEventListener("change", function () {
+    //     document.getElementById("registrationButton").disabled = !this.checked;
+    // });
+
+    document.getElementById("dataConsent").addEventListener("change", toggleButtonState);
+    document.getElementById("dataConsent2").addEventListener("change", toggleButtonState);
 
 
     document.getElementById("registrationButton").addEventListener("click", function () {
@@ -251,5 +257,11 @@ function back() {
 
 
 
+function toggleButtonState() {
+    const consent1 = document.getElementById("dataConsent").checked;
+    const consent2 = document.getElementById("dataConsent2").checked;
+
+    document.getElementById("registrationButton").disabled = !(consent1 && consent2);
+}
 
 

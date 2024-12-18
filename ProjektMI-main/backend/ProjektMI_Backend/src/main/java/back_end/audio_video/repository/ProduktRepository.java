@@ -18,12 +18,17 @@ public interface ProduktRepository extends JpaRepository<Produkt, String> {
     boolean existsByIdProdukt(String id);
     Optional<Produkt> getProduktByIdProdukt(String id);
     int deleteProduktsByIdProduktIn(List<String> ids);
+    List<Produkt> findAllByRolaProduktuAndStavProduktu(Rola rola, StavProduktu stavProduktu);
+    List<Produkt> findAllByStavProduktu(StavProduktu stavProduktu);
     List<Produkt> findAllByTypTechniky(Technika typTechniky);
     List<Produkt> findAllByRolaProduktuAndStavProduktuAndTypTechniky(Rola rola, StavProduktu stavProduktu, Technika typTechniky);
     List<Produkt> findAllByStavProduktuAndTypTechniky(StavProduktu stavProduktu, Technika typTechniky);
     List<Produkt> findAllByNazovContainingIgnoreCase(String nazov);
+    List<Produkt> findAllByNazovContainingIgnoreCaseAndTypTechniky(String nazov, Technika typTechniky);
     List<Produkt> findAllByRolaProduktuAndStavProduktuAndNazovContainingIgnoreCase(Rola rolaProduktu, StavProduktu stavProduktu, String nazov);
+    List<Produkt> findAllByRolaProduktuAndStavProduktuAndNazovContainingIgnoreCaseAndTypTechniky(Rola rolaProduktu, StavProduktu stavProduktu, String nazov, Technika typTechniky);
     List<Produkt> findAllByStavProduktuAndNazovContainingIgnoreCase(StavProduktu stavProduktu, String nazov);
+    List<Produkt> findAllByStavProduktuAndNazovContainingIgnoreCaseAndTypTechniky(StavProduktu stavProduktu, String nazov, Technika typTechniky);
 
 
     @Query("""
@@ -95,6 +100,86 @@ public interface ProduktRepository extends JpaRepository<Produkt, String> {
             @Param("zaciatok") LocalDate zaciatok,
             @Param("koniec") LocalDate koniec,
             @Param("nazov") String nazov,
+            @Param("stavProduktu") StavProduktu stavProduktu);
+
+
+    @Query("""
+    SELECT DISTINCT p FROM Produkt p
+    WHERE (
+        p NOT IN (
+            SELECT op.produkt FROM ObjednavkaProdukt op
+            JOIN op.objednavka o
+            WHERE o.datumVypozicania <= :koniec AND o.datumVratenia >= :zaciatok
+        )
+    )
+    AND LOWER(p.nazov) LIKE LOWER(CONCAT('%', :nazov, '%'))
+    AND p.stavProduktu = :stavProduktu
+    AND p.typTechniky = :typTechniky
+    """)
+    List<Produkt> findProduktyByVolneDatumNazovTypAndFilters(
+            @Param("zaciatok") LocalDate zaciatok,
+            @Param("koniec") LocalDate koniec,
+            @Param("nazov") String nazov,
+            @Param("typTechniky") Technika typTechniky,
+            @Param("stavProduktu") StavProduktu stavProduktu);
+
+
+
+    @Query("""
+    SELECT DISTINCT p FROM Produkt p
+    WHERE (
+        p NOT IN (
+            SELECT op.produkt FROM ObjednavkaProdukt op
+            JOIN op.objednavka o
+            WHERE o.datumVypozicania <= :koniec AND o.datumVratenia >= :zaciatok
+        )
+    )
+    AND LOWER(p.nazov) LIKE LOWER(CONCAT('%', :nazov, '%'))
+    AND p.rolaProduktu = :rolaProduktu
+    AND p.stavProduktu = :stavProduktu
+    AND p.typTechniky = :typTechniky
+    """)
+    List<Produkt> findProduktyByVolneDatumNazovTypAndFiltersByRola(
+            @Param("zaciatok") LocalDate zaciatok,
+            @Param("koniec") LocalDate koniec,
+            @Param("nazov") String nazov,
+            @Param("typTechniky") Technika typTechniky,
+            @Param("rolaProduktu") Rola rolaProduktu,
+            @Param("stavProduktu") StavProduktu stavProduktu);
+
+    @Query("""
+    SELECT p FROM Produkt p
+    WHERE p NOT IN (
+        SELECT DISTINCT op.produkt FROM ObjednavkaProdukt op
+        JOIN op.objednavka o
+        WHERE o.datumVypozicania <= :koniec AND o.datumVratenia >= :zaciatok
+    )
+    AND p.stavProduktu = :stavProduktu
+    AND p.typTechniky = :typTechniky
+    """)
+    List<Produkt> findVolneProduktyByTypTechniky(
+            @Param("zaciatok") LocalDate zaciatok,
+            @Param("koniec") LocalDate koniec,
+            @Param("typTechniky") Technika typTechniky,
+            @Param("stavProduktu") StavProduktu stavProduktu);
+
+
+    @Query("""
+    SELECT p FROM Produkt p
+    WHERE p NOT IN (
+        SELECT DISTINCT op.produkt FROM ObjednavkaProdukt op
+        JOIN op.objednavka o
+        WHERE o.datumVypozicania <= :koniec AND o.datumVratenia >= :zaciatok
+    )
+    AND p.rolaProduktu = :rolaProduktu
+    AND p.stavProduktu = :stavProduktu
+    AND p.typTechniky = :typTechniky
+    """)
+    List<Produkt> findVolneProduktyByTypTechnikyAndRola(
+            @Param("zaciatok") LocalDate zaciatok,
+            @Param("koniec") LocalDate koniec,
+            @Param("typTechniky") Technika typTechniky,
+            @Param("rolaProduktu") Rola rolaProduktu,
             @Param("stavProduktu") StavProduktu stavProduktu);
 
 }

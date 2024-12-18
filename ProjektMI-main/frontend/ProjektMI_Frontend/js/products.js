@@ -1,8 +1,10 @@
 import {fetchUser} from "./helpers.js";
 
 let rola = '';
-let aktivneAudio = true;
+let aktivneAudio = false;
 let aktivneVideo = false;
+let type = null;
+
 const btnAdd = document.getElementById("addProductBtn");
 const btnDelete = document.getElementById("deleteSelectedBtn");
 const btnUpdate = document.getElementById("updateProductBtn");
@@ -16,7 +18,7 @@ const usersLink = document.getElementById("usersList");
 const id = document.getElementById('productId');
 const name = document.getElementById('productName');
 const info = document.getElementById('productInfo');
-const type = document.getElementById('productType');
+const typeProduct = document.getElementById('productType');
 const image = document.getElementById('productImage');
 const imagePreview = document.getElementById('imagePreview');
 const status = document.getElementById('productStatus');
@@ -28,9 +30,14 @@ const orders = document.getElementById("orders");
 const orderMobile = document.getElementById('ordersMobile');
 const startDate = document.getElementById("startDate");
 const endDate = document.getElementById("endDate");
+const cancelDate = document.getElementById("cancelDate")
 const modal = new bootstrap.Modal(document.getElementById('dateModal'));
 
+let dateStartLs;
+let dateEndLs;
+let datumyLocal;
 document.addEventListener("DOMContentLoaded", function () {
+
     if (localStorage.getItem('updateProduct') === 'true') {
         toastr.success('Produkt bol úspešne aktualizovaný');
         localStorage.removeItem('updateProduct');
@@ -61,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
         }
 
+
         searchBar.addEventListener('input', (event) => {
             liveSearch(rola);
         });
@@ -79,6 +87,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 endDate.value = ""; // Vymaže dátum konca
             } else {
                 if (startDate.value.length !== 0 && endDate.value.length !== 0) {
+                    dateStartLs = startDate.value;
+                    dateEndLs = endDate.value;
                     searchApi(rola,null);
                     const datumy = [startDate.value, endDate.value];
                     localStorage.setItem('Datumy',JSON.stringify(datumy))
@@ -90,8 +100,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } )
 
+        datumyLocal = localStorage.getItem('Datumy');
+        if (datumyLocal !== null) {
+            const [dateStart, dateEnd] = JSON.parse(datumyLocal);
+            dateStartLs = dateStart;
+            dateEndLs = dateEnd;
+            startDate.value = dateStart; // Nastaví dátum do inputu 'startDate'
+            endDate.value = dateEnd;
+        }
 
-        fetchProducts(rola);
+        cancelDate.addEventListener("click", ()=>{
+
+            if(localStorage.getItem("Datumy") !== null) {
+                localStorage.removeItem("Datumy");
+                window.location.reload();
+            } else {
+                startDate.value = "";
+                endDate.value = "";
+            }
+
+
+
+        })
+
+
+
+
+
+        // fetchProducts(rola);
+        if (localStorage.getItem('Datumy') !== null) {
+            searchApi(rola,null);
+        } else {
+            fetchProducts(rola);
+        }
+
     });
 
 
@@ -99,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
         id.value = "";
         name.value = "";
         info.value = "";
-        type.value = "";
+        typeProduct.value = "";
         image.value = "";
         imagePreview.src = "";
         status.value = "";
@@ -113,10 +155,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Keď kliknete na "AUDIO TECHNOLÓGIE"
     const heading = document.getElementById("section-heading");
+    heading.textContent = 'NAŠE TECHNOLÓGIE';
     document.getElementById('audioLink').addEventListener('click', function (e) {
         e.preventDefault(); // Zamedzíme default akcii odkazu
         document.getElementById('audioSection').style.display = 'block'; // Zobrazíme audio sekciu
         document.getElementById('videoSection').style.display = 'none';// Skryjeme video sekciu
+        document.getElementById('allSection').style.display = 'none';
         heading.textContent = 'NAŠE AUDIO TECHNOLÓGIE';
         aktivneAudio = true;
         aktivneVideo = false;
@@ -128,6 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         document.getElementById('videoSection').style.display = 'block'; // Zobrazíme video sekciu
         document.getElementById('audioSection').style.display = 'none';  // Skryjeme audio sekciu
+        document.getElementById('allSection').style.display = 'none';
         heading.textContent = 'NAŠE VIDEO TECHNOLÓGIE';
         aktivneVideo = true;
         aktivneAudio = false;
@@ -200,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
             isValid = false;
         }
 
-        if (!type) {
+        if (!typeProduct) {
             document.getElementById('productType-error').textContent = 'Typ produktu je povinný';
             document.getElementById('productType').classList.add('invalid');
             isValid = false;
@@ -231,7 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append('nazov', name.value);
             formData.append('popis', info.value);
             formData.append('obrazok', image.files[0]);
-            formData.append('typTechniky', type.value);
+            formData.append('typTechniky', typeProduct.value);
             formData.append('stavProduktu', status.value);
             formData.append('rolaProduktu', productRola.value);
 
@@ -256,11 +301,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
 // Načítanie produktov z API
 async function fetchProducts(rolaPouzivatel) {
-    let type = 'AUDIO';
+
     if (aktivneVideo) {
         type = 'VIDEO';
+    } else if(aktivneAudio) {
+        type = 'AUDIO';
     }
     const requestBody = {
         rolaProduktu: rolaPouzivatel,
@@ -275,8 +323,6 @@ async function fetchProducts(rolaPouzivatel) {
         withCredentials: true
     }).then(response => {
         const products = response.data;
-
-
         displayProducts(products);
     }).catch(error => {
         console.error('Error fetching products:', error);
@@ -294,6 +340,7 @@ function odhlasenie() {
     axios.post('http://localhost:8080/odhlasenie', null, {withCredentials: true})
         .then(res => {
             if (res.status === 200) {
+                localStorage.removeItem("Datumy");
                 window.location.href = "index.html";
                 console.log('Odhlásenie úspešné'); // Odhlásenie úspešné
             }
@@ -324,11 +371,17 @@ async function liveSearch(rolaProduct) {
 }
 
 function searchApi(rolaProduct,query) {
+
+
+
+
+
     const requestBody = {
         rola: rolaProduct,
         nazov: query,
-        datumVypozicania: startDate.value,
-        datumVratenia: endDate.value
+        datumVypozicania: dateStartLs,
+        datumVratenia: dateEndLs,
+        typTechniky: type
     }
 
 
@@ -354,14 +407,19 @@ function searchApi(rolaProduct,query) {
 
 function displayProducts(products) {
 
+
     if (aktivneVideo) {
         section = document.getElementById('videoSection');
         container = section.querySelector('.container');
         productRow = container.querySelector('#videoProductsRow');
-    } else {
+    } else if (aktivneAudio) {
         section = document.getElementById('audioSection');
         container = section.querySelector('.container');
         productRow = container.querySelector('#audioProductsRow');
+    } else {
+        section = document.getElementById('allSection');
+        container = section.querySelector('.container');
+        productRow = container.querySelector('#allProductsRow');
     }
 
     productRow.innerHTML = '';
@@ -466,7 +524,7 @@ btnUpdate.addEventListener("click", () => {
                 id.value = product.idProdukt;
                 name.value = product.nazov;
                 info.value = product.popis;
-                type.value = product.typTechniky;
+                typeProduct.value = product.typTechniky;
                 status.value = product.stavProduktu;
                 productRola.value = product.rolaProduktu;
 
@@ -502,7 +560,7 @@ btnEdit.addEventListener("click", () => {
     const updatedProduct = {
         nazov: name.value,
         popis: info.value,
-        typTechniky: type.value,
+        typTechniky: typeProduct.value,
         stavProduktu: status.value,
         rolaProduktu: productRola.value
     };

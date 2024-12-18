@@ -75,6 +75,8 @@ public class ProduktController {
         }
     }
 
+
+
     @PostMapping("/get-all-by-rola")
     public List<Produkt> getAllProducts(@RequestBody RolaRequest request) {
         return produktService.vratVsetkyProdukty(request);
@@ -90,7 +92,7 @@ public class ProduktController {
     @DeleteMapping("/delete-produkty")
     public ResponseEntity<?> deleteProdukts(@RequestBody List<String> produktIDs) {
         try {
-            int pocetOdstranenych = produktService.odstraProduktyPodlaID(produktIDs);
+            int pocetOdstranenych = produktService.odstranProduktyPodlaID(produktIDs);
 
             if (pocetOdstranenych == 0) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Žiadny produkt nebol nájdený na vymazanie.");

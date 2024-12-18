@@ -121,7 +121,7 @@
 									</form>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvoriť</button>
+									<button type="button" class="btn btn-secondary" id="cancelDate">Zrušiť</button>
 									<button type="button" class="btn btn-primary" id="saveDates">Uložiť</button>
 								</div>
 							</div>
@@ -200,6 +200,13 @@
 				</div>
 			</div>
 		</section>
+		<section id="allSection" style="min-height: 50vh;">
+			<div class="container py-5">
+				<div class="row" id="allProductsRow">
+					<!-- Produkty budú načítané sem -->
+				</div>
+			</div>
+		</section>
 
 		<section id="videoSection" style="display: none; min-height: 50vh;">
 			<div class="container py-5">
@@ -208,7 +215,7 @@
 				</div>
 			</div>
 		</section>
-		<section id="audioSection" style="min-height: 50vh;">
+		<section id="audioSection" style="display: none; min-height: 50vh;">
 			<div class="container py-5">
 				<div class="row" id="audioProductsRow">
 					<!-- Produkty budú načítané sem -->

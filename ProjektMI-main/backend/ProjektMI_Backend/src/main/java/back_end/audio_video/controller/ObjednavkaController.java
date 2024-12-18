@@ -91,12 +91,6 @@ public class ObjednavkaController {
             datumyResponses.add(produktDatumyResponse);
         }
 
-//        List<ObjednavkaProduktDTO> zoznamDatumov = objednavky.stream().map(objednavkaProdukt -> {
-//            ObjednavkaProduktDTO objednavkaProduktDTO = new ObjednavkaProduktDTO();
-//            objednavkaProduktDTO.setId(objednavkaProdukt.getId());
-//            objednavkaProduktDTO.setProduktId(objednavkaProdukt.getProdukt().getIdProdukt());
-//            return objednavkaProduktDTO;
-//        }).toList();
 
 
         return ResponseEntity.ok(datumyResponses);
@@ -112,20 +106,20 @@ public class ObjednavkaController {
         return objednavkaService.getProductsByOrderId(objednavkaProduktRequest.getIdObjednavka());
     }
 
-    @PostMapping("/update-date")
-    public ResponseEntity<?> updateProduktOreders(@RequestBody AktualizaciaObjednavkyRequest request) {
+    @PostMapping("/update-objednavka")
+    public ResponseEntity<?> updateProduktOreders(@RequestBody List<AktualizaciaObjednavkyRequest> request) {
         return objednavkaService.upravObjednavku(request);
     }
 
     @PostMapping("/generate")
-    public void downloadPDF(HttpServletResponse response) {
+    public void downloadPDF(HttpServletResponse response, @RequestBody IdObjednavkyRequest request) {
         try {
             response.setContentType("application/pdf");
             response.setHeader("Content-Disposition", "attachment; filename=products.pdf");
 
-            List<Objednavka> objednavky = objednavkaService.zoznamObjednavok();
+            Objednavka objednavka = objednavkaService.zoznamObjednavok(request);
 
-            pdfGeneratorService.generatePDF(objednavky, response);
+            pdfGeneratorService.generatePDF(objednavka, response);
         } catch (Exception e) {
             throw new RuntimeException("Problem " + e);
         }

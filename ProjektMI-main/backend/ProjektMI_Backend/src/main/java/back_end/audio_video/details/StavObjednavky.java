@@ -4,6 +4,6 @@ public enum StavObjednavky {
     CAKAJUCA,
     SCHVALENA,
     ZAMIETNUTA,
-    POZICANE,
-    VRATENE
+    POZICANA,
+    VRATENA
 }

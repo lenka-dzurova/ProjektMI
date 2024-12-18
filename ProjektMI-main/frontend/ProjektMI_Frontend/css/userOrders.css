@@ -29,7 +29,92 @@ html, body{
     transition: background-color 0.3s;
 }
 
-#orderTable .order-row:hover td {
-    background-color: #cfcece; /* Light color to indicate it's clickable */
+
+
+input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center;
+}
+
+select {
+    width: 100%;
+    height: 100%;
+    border: none;
+    text-align: center;
+}
+
+/* Button Styling */
+.btn-save {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #ffffff;
+    background-color: #2b3a64;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-save:hover {
+    background-color: #1e2a4d;
+}
+
+.btn-container {
+    text-align: right; /* Zarovná tlačidlo doprava */
+    margin-top: 1rem; /* Vytvorí medzeru nad tlačidlom */
+}
+
+.custom-select.zamietnuta {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    padding-right: 0.5em;
+}
+
+
+.tr-zamietnuta {
+    background-color: #fd0000; /* Červená farba */
+    color: white; /* Prípadne, ak chcete biely text pre kontrast */
+}
+
+#orderTable .tr-zamietnuta .zamietnuta-span {
+    background-color: transparent; /* Transparentné pozadie pre span */
+    color: white; /* Biely text pre kontrast */
+}
+
+#orderTable .tr-zamietnuta:hover td {
+    background-color: #a80202; /* Červená farba */
+    color: white; /* Biely text */
+}
+
+/* Ostatné riadky bez triedy .tr-zamietnuta */
+#orderTable .order-row:hover:not(.tr-zamietnuta) td {
+    background-color: #cfcece; /* Šedá farba */
+}
+
+#orderTable .order-row:hover:not(.tr-zamietnuta) span {
+    background-color: transparent; /* Šedá farba */
+}
+
+#orderTable .order-row:hover:not(.tr-zamietnuta) input {
+    background-color: transparent; /* Šedá farba */
+}
+
+#orderTable .order-row:hover:not(.tr-zamietnuta) a {
+    background-color: transparent; /* Šedá farba */
+}
+
+/* Špecifické pre span v zamietnutom riadku */
+#orderTable .tr-zamietnuta:hover .zamietnuta-span {
+    background-color: transparent; /* Transparentné pozadie pre span */
+    color: white; /* Biely text pre kontrast */
+}
+
+.hidden {
+    display: none; /* Skryje ikonu */
 }
 

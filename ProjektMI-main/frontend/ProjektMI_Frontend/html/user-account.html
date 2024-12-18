@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/user-account.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/neutralne.css">
+</head>
+<body>
+
+    <section class="form-container">
+        <h2>Zmena údajov konta</h2>
+        <form action="/update_user_data" method="POST">
+
+            <div class="form-grid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefónne číslo:</label>
+                            <input type="tel" id="phone" name="tel_cislo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="first-name">Meno:</label>
+                            <input type="text" id="first-name" name="meno" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Priezvisko:</label>
+                            <input type="text" id="last-name" name="priezvisko" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="city">Mesto:</label>
+                            <input type="text" id="city" name="mesto" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="street">Ulica:</label>
+                            <input ty   pe="text" id="street" name="ulica" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="postal-code">PSČ:</label>
+                            <input type="text" id="postal-code" name="psc" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="save" type="button">Uložiť zmeny</button>
+        </form>
+    </section>
+
+
+</body>
+<script src="../js/neutralne.js" type="module"></script>
+<script src="../js/user-account.js" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</html>

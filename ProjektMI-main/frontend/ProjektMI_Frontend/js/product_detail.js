@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector('h6').textContent = product.popis;
             document.getElementById("title").textContent = product.nazov;
             vratDatumyObjednavok(productId);
-            vratDatumyZKosika(productId);
+
 
         })
         .catch(error => console.error('Error fetching product details:', error));
@@ -40,11 +40,14 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener('popstate', () => {
         updateCartCount();
     })
-    const datumy = JSON.parse(localStorage.getItem('Datumy'));
-    const dateStart = new Date(datumy[0]);
-    const dateEnd = new Date(datumy[1]);
-    startDateElement.textContent = dateStart.toLocaleDateString('sk-SK');
-    endDateElement.textContent = dateEnd.toLocaleDateString('sk-SK');
+
+    const datumy = JSON.parse(localStorage.getItem('Datumy')) || [];
+    if (datumy.length === 2) {
+        const dateStart = new Date(datumy[0]);
+        const dateEnd = new Date(datumy[1]);
+        startDateElement.textContent = dateStart.toLocaleDateString('sk-SK');
+        endDateElement.textContent = dateEnd.toLocaleDateString('sk-SK');
+    }
 
     updateCartCount();
 })
@@ -147,16 +150,12 @@ generateCalendar();
 let isProductInCart = false;
 document.getElementById('objednat').addEventListener('click', function () {
 
-    if (startDateElement.textContent != null && endDateElement.textContent != null) {
-        // let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        // Pridáme nový produkt s dátumami do košíka
-        if (cart.length === 0) {
-            console.log('Košík je prázdny');
-        } else {
-            console.log('Košík obsahuje produkty');
-        }
+
+    if (startDateElement.textContent != null && endDateElement.textContent != null && startDateElement.textContent !== "" && endDateElement.textContent !== "") {
+
         if (cart.length === 0) {
             updateCart();
+
             sessionStorage.setItem('showToastr', 'true');
             window.location.reload();
         } else {
@@ -172,6 +171,7 @@ document.getElementById('objednat').addEventListener('click', function () {
                     toastr.error('Tento produkt sa už nachádza v košíku.');
                 } else {
                     updateCart();
+                    // localStorage.removeItem('Datumy');
                     sessionStorage.setItem('showToastr', 'true');
                     window.location.reload();
                 }
@@ -187,7 +187,7 @@ document.getElementById('objednat').addEventListener('click', function () {
 
 
     } else {
-        toastr.error("Nevybrali ste dátumy, kedy chcete rezevovať techniku")
+        toastr.error("Nevybrali ste dátumy, kedy chcete rezevovať techniku. Musíte sa vrátiť na produkty a vybrať dátumy")
     }
 
 });
@@ -249,25 +249,7 @@ function vratDatumyObjednavok(idProdukt) {
 
 }
 
-function vratDatumyZKosika(idProdukt) {
-    cart.forEach(item => {
-        if (item.id == idProdukt) {
-            const startDateBooking = new Date(item.startDate.split('. ').reverse().join('-'));
-            const endDateBooking = new Date(item.endDate.split('. ').reverse().join('-'));
-
-            let currentDate = new Date(startDateBooking);
-            endDateBooking.setDate(endDateBooking.getDate() + 1);
-            while (currentDate < endDateBooking) {
-                shoppingCardDates.push(currentDate.toISOString().split("T")[0]);
-                currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
-            }
-        }
-    });
-}
 
 
 
-// window.onfocus = function() {
-//     // Ak je stránka vrátená do popredia, obnov stránku
-//     window.location.reload();
-// };
+

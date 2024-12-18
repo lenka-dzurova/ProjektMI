@@ -13,12 +13,15 @@ import back_end.audio_video.repository.ObjednavkaRepository;
 import back_end.audio_video.repository.PouzivatelRepository;
 import back_end.audio_video.repository.ProduktRepository;
 import back_end.audio_video.request.AktualizaciaObjednavkyRequest;
+import back_end.audio_video.request.IdObjednavkyRequest;
 import back_end.audio_video.request.VytvorObjednavkaRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,14 +48,12 @@ public class ObjednavkaService {
         if (pouzivatel.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pouzivatel sa nenasiel");
         } else {
-
-            System.out.println(request.getDatumVratenia());
-
             Objednavka objednavka = new Objednavka();
             objednavka.setPouzivatel(pouzivatel.get());
             objednavka.setStavObjednavky(StavObjednavky.CAKAJUCA);
             objednavka.setDatumVypozicania(request.getDatumVypozicania());
             objednavka.setDatumVratenia(request.getDatumVratenia());
+            objednavka.setDatumVytvorenia(LocalDateTime.now());
 
             objednavkaRepository.save(objednavka);
 
@@ -108,37 +109,46 @@ public class ObjednavkaService {
     }
 
     public List<ObjednavkaProdukt> getObjednavkyPodlaProduktId(String id) {
-        List<StavObjednavky> stavy = List.of(StavObjednavky.CAKAJUCA, StavObjednavky.SCHVALENA,StavObjednavky.POZICANE);
+        List<StavObjednavky> stavy = List.of(StavObjednavky.CAKAJUCA, StavObjednavky.SCHVALENA, StavObjednavky.POZICANA);
         return objednavkaProduktRepository.findObjednavkaProduktByProduktIdProduktAndObjednavka_StavObjednavkyIn(id, stavy);
     }
 
 
     public List<Objednavka> getOrdersByUserId(UUID userId) {
-        return objednavkaRepository.findAllByPouzivatelIdPouzivatel(userId);
+        return objednavkaRepository.findAllByPouzivatelIdPouzivatelOrderByDatumVytvoreniaDesc(userId);
     }
 
     public List<ObjednavkaProdukt> getProductsByOrderId(UUID orderId) {
         return objednavkaProduktRepository.findObjednavkaProduktByObjednavka_IdObjednavka(orderId);
     }
 
-    public ResponseEntity<?> upravObjednavku(AktualizaciaObjednavkyRequest request) {
-        Optional<Objednavka> objednavkaOptional = objednavkaRepository.findByIdObjednavka(request.getIdObjednavka());
+    public ResponseEntity<?> upravObjednavku(List<AktualizaciaObjednavkyRequest> request) {
+        for (AktualizaciaObjednavkyRequest aktualizaciaObjednavkyRequest : request) {
+            Optional<Objednavka> objednavkaOptional = objednavkaRepository.findByIdObjednavka(aktualizaciaObjednavkyRequest.getIdObjednavka());
 
-        if (objednavkaOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Objednavka nebola najdena");
+            if (objednavkaOptional.isPresent()) {
+                Objednavka objednavka = objednavkaOptional.get();
+
+
+                if (aktualizaciaObjednavkyRequest.getDatumVratenia() != null) {
+                    objednavka.setDatumVratenia(aktualizaciaObjednavkyRequest.getDatumVratenia());
+                }
+
+                if (aktualizaciaObjednavkyRequest.getStavObjednavky() != null) {
+                    objednavka.setStavObjednavky(aktualizaciaObjednavkyRequest.getStavObjednavky());
+                }
+                objednavkaRepository.save(objednavka);
+            }
         }
 
-        Objednavka objednavka = objednavkaOptional.get();
-        objednavka.setDatumVratenia(request.getDatumVratenia());
 
-        objednavkaRepository.save(objednavka);
-
-        return ResponseEntity.ok().body("Produkty objednávky boli úspešne aktualizované");
+        return ResponseEntity.ok().build();
     }
 
 
-    //TODO POTOM AK TAK ODSTRAN ALE AK BUDE FUNGOVAT VRAT ZOZNAM PRE KONKRETNY DEN
-    public List<Objednavka> zoznamObjednavok() {
-        return objednavkaRepository.findAll();
+
+    public Objednavka zoznamObjednavok(IdObjednavkyRequest request) {
+        Optional<Objednavka> objednavkaOptional = objednavkaRepository.findByIdObjednavka(request.getIdObjednavka());
+        return objednavkaOptional.orElse(null);
     }
 }
